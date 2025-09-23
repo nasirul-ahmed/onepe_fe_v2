@@ -1,0 +1,352 @@
+/* styles/globals.css */
+@import "tailwindcss";
+
+/* Base theme variables */
+@theme {
+  /* === Base / Neutral colors === */
+  --color-background: #ffffff; /* App/page background */
+  --color-on-background: #121212; /* Default text/icons on background */
+
+  --color-surface: #f8fafc; /* Cards, sections, modals */
+  --color-on-surface: #0f172a; /* Text/icons on surface */
+
+  --color-border: #e2e8f0; /* Borders, dividers, outlines */
+  --color-muted: #f1f5f9; /* Muted backgrounds (inputs, subtle UI) */
+
+  /* === Brand / Accent === */
+  --color-primary: #3b82f6; /* Primary brand color (buttons, links) */
+  --color-on-primary: #ffffff; /* Text/icons on primary */
+
+  --color-secondary: #64748b; /* Secondary actions, chips, labels */
+  --color-on-secondary: #ffffff; /* Text/icons on secondary */
+
+  --color-tertiary: #8b5cf6; /* Accent/tertiary color (badges, highlights) */
+  --color-on-tertiary: #ffffff; /* Text/icons on tertiary */
+
+  /* === Status (Feedback colors) === */
+  --color-success: #22c55e; /* Success states (alerts, badges, positive buttons) */
+  --color-on-success: #ffffff; /* Text/icons on success */
+
+  --color-warning: #f59e0b; /* Warning states (alerts, banners, caution messages) */
+  --color-on-warning: #ffffff; /* Text/icons on warning */
+
+  --color-error: #ef4444; /* Error states (errors, destructive actions) */
+  --color-on-error: #ffffff; /* Text/icons on error */
+
+  /* Spacing scale */
+  --spacing-1: 0.125rem; /* 2px */
+  --spacing-2: 0.25rem; /* 4px */
+  --spacing-3: 0.5rem; /* 8px */
+  --spacing-4: 0.75rem; /* 12px */
+  --spacing-5: 1rem; /* 16px */
+  --spacing-6: 1.25rem; /* 20px */
+  --spacing-8: 1.5rem; /* 24px */
+  --spacing-10: 2rem; /* 32px */
+  --spacing-12: 2.5rem; /* 40px */
+  --spacing-16: 3rem; /* 48px */
+
+  /* Border radius */
+  --radius-sm: 0.125rem;
+  --radius: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+
+  /* Font families */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+    "Liberation Mono", Menlo, monospace;
+}
+
+.dark {
+  /* === Base / Neutral colors === */
+  --color-background: #121212; /* Dark mode background */
+  --color-on-background: #f1f5f9; /* Default text/icons on dark background */
+
+  --color-surface: #1e293b; /* Dark mode cards, sections, modals */
+  --color-on-surface: #e2e8f0; /* Text/icons on surface (dark mode) */
+
+  --color-border: #334155; /* Borders/dividers in dark mode */
+  --color-muted: #1e293b; /* Muted surfaces in dark mode */
+
+  /* === Brand / Accent === */
+  --color-primary: #60a5fa; /* Lighter blue for dark mode */
+  --color-on-primary: #0f172a; /* Text/icons on primary (dark mode) */
+
+  --color-secondary: #94a3b8; /* Secondary in dark mode */
+  --color-on-secondary: #0f172a; /* Text/icons on secondary (dark mode) */
+
+  --color-tertiary: #a855f7; /* Purple accent in dark mode */
+  --color-on-tertiary: #0f172a; /* Text/icons on tertiary (dark mode) */
+
+  /* === Status (Feedback colors) === */
+  --color-success: #4ade80; /* Success in dark mode */
+  --color-on-success: #0f172a; /* Text/icons on success (dark mode) */
+
+  --color-warning: #fbbf24; /* Warning in dark mode */
+  --color-on-warning: #0f172a; /* Text/icons on warning (dark mode) */
+
+  --color-error: #f87171; /* Error in dark mode */
+  --color-on-error: #0f172a; /* Text/icons on error (dark mode) */
+}
+
+/* Global body styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom utilities */
+@utility container {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+
+  @media (min-width: 640px) {
+    max-width: 640px;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 768px;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 1024px;
+  }
+
+  @media (min-width: 1280px) {
+    max-width: 1280px;
+  }
+
+  @media (min-width: 1536px) {
+    max-width: 1536px;
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility focus-ring {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Component classes */
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    padding: var(--spacing-2) var(--spacing-4);
+
+    &:hover {
+      background-color: var(--color-muted);
+    }
+
+    &:focus {
+      @apply focus-ring;
+    }
+
+    &.btn-primary {
+      background-color: var(--color-accent);
+      color: var(--color-accent-foreground);
+      border-color: var(--color-accent);
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--color-accent) 90%, black);
+      }
+    }
+
+    &.btn-destructive {
+      background-color: var(--color-destructive);
+      color: white;
+      border-color: var(--color-destructive);
+
+      &:hover {
+        background-color: color-mix(
+          in srgb,
+          var(--color-destructive) 90%,
+          black
+        );
+      }
+    }
+  }
+
+  .card {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-6);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  }
+
+  .input {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--spacing-2) var(--spacing-3);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: var(--color-accent);
+      @apply focus-ring;
+    }
+
+    &::placeholder {
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+/* Animation utilities */
+@utility fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Dark mode specific styles */
+@media (prefers-color-scheme: dark) {
+  .dark\:invert {
+    filter: invert(1);
+  }
+}
+
+/* Print styles */
+@media print {
+  .print\:hidden {
+    display: none !important;
+  }
+
+  .print\:block {
+    display: block !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari, Edge */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Mobile-first responsive utilities */
+.safe-area-inset-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-inset-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Improved mobile scrolling */
+.mobile-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+  .container {
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
+  }
+
+  .text-responsive {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+  }
+
+  .p-responsive {
+    padding: clamp(var(--spacing-3), 3vw, var(--spacing-6));
+  }
+
+  .gap-responsive {
+    gap: clamp(var(--spacing-2), 2vw, var(--spacing-4));
+  }
+}
+
+/* Ensure full viewport on mobile */
+@supports (height: 100dvh) {
+  .h-screen {
+    height: 100dvh;
+  }
+}
+
+/* Better touch targets */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent text selection on buttons */
+button, .btn {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* iOS safe area support */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .footer-safe {
+    padding-bottom: calc(var(--spacing-4) + env(safe-area-inset-bottom));
+  }
+
+  .header-safe {
+    padding-top: calc(var(--spacing-4) + env(safe-area-inset-top));
+  }
+}

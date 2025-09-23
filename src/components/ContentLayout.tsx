@@ -5,18 +5,22 @@ import { useAppStore } from "@/store/app-store";
 
 interface IContentLayoutInputProps {
   children: ReactNode;
+  className?: string;
 }
 
-const ContentLayout = ({ children }: IContentLayoutInputProps) => {
+const ContentLayout = ({ children, className = "" }: IContentLayoutInputProps) => {
   const { isLoading } = useAppStore();
+  
   return (
-    <div className="h-full w-full overflow-scroll">
+    <main className={`h-full w-full overflow-auto bg-background ${className}`}>
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="flex-1 overflow-auto px-6 py-6">{children}</div>
+        <div className="flex-1 overflow-auto px-4 py-4 pb-20 max-w-md mx-auto">
+          {children}
+        </div>
       )}
-    </div>
+    </main>
   );
 };
 

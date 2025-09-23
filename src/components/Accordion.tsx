@@ -19,9 +19,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   className = "",
 }) => {
   return (
-    <div
-      className={`border-b border-gray-200 dark:border-gray-700 ${className}`}
-    >
+    <div className={`border-b border border-border ${className}`}>
       <button
         className="flex items-center justify-between w-full py-4 text-left font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
         onClick={onToggle}

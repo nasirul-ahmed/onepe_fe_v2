@@ -1,67 +1,127 @@
 "use client";
 
-import { Home, User } from "lucide-react";
+import { Home, User, CreditCard, History } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { ActiveTab, useAppStore } from "@/store/app-store";
+import { useDevice } from "@/hooks/useDevice";
+import { ROUTE_PATHS } from "@/config/routes";
 
 const navItems = [
-  { id: ActiveTab.homepage, label: "Home", icon: <Home size={24} /> },
-  { id: ActiveTab.profile, label: "Profile", icon: <User size={24} /> },
+  {
+    id: ROUTE_PATHS.HOME,
+    label: "Home",
+    icon: Home,
+  },
+  {
+    id: ROUTE_PATHS.TRANSACTIONS,
+    label: "History",
+    icon: History,
+  },
+  {
+    id: ROUTE_PATHS.SERVICES,
+    label: "Services",
+    icon: CreditCard,
+  },
+  {
+    id: ROUTE_PATHS.PROFILE,
+    label: "Profile",
+    icon: User,
+  },
 ];
 
 const Footer = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const setActiveTab = useAppStore((s) => s.setActiveTab);
+  const device = useDevice();
 
-  const handleClick = (id: ActiveTab) => {
-    setActiveTab(id);
-    router.push(id);
+  const handleClick = (route: string) => {
+    router.push(route);
   };
 
+  const isIOS = (d: typeof device) => d.os === "iOS" && d.isMobile;
+
+  // Hide footer on splash page
+  if (pathname === "/") {
+    return null;
+  }
+
+  console.log({ device, isIOS: isIOS(device) });
+
   return (
-    <nav className="fixed bottom-0 left-0 right-0 p-2">
-      <div className="flex justify-around relative">
+    <motion.nav
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      className="bg-surface/90 backdrop-blur-lg border-t border-border fixed bottom-0 left-0 right-0"
+    >
+      <div className="flex justify-around px-2 py-2">
         {navItems.map((item) => {
           const isActive = pathname === item.id;
+          const IconComponent = item.icon;
+
           return (
-            <button
+            <motion.button
               key={item.id}
               onClick={() => handleClick(item.id)}
-              className="relative flex flex-col items-center p-2 transition-colors"
+              whileTap={{ scale: 0.95 }}
+              className="relative flex flex-col items-center justify-center px-3 py-2 min-w-0 flex-1"
             >
+              {/* Active indicator */}
+              {isActive && (
+                <motion.div
+                  layoutId="activeIndicator"
+                  className="absolute inset-0 bg-primary/10 rounded-xl"
+                  initial={false}
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+
+              {/* Icon */}
               <motion.div
                 animate={{
-                  scale: isActive ? 1.2 : 1,
-                  color: isActive ? "#3b82f6" : "#6b7280",
+                  scale: isActive ? 1.1 : 1,
+                  y: isActive ? -2 : 0,
                 }}
                 transition={{ duration: 0.2 }}
+                className="relative z-10"
               >
-                {item.icon}
+                <IconComponent
+                  size={20}
+                  className={`transition-colors duration-200 ${
+                    isActive ? "text-primary" : "text-secondary"
+                  }`}
+                />
               </motion.div>
-              <span
-                className={`text-xs mt-1 font-semibold ${
-                  isActive
-                    ? "text-blue-500"
-                    : "text-gray-600 dark:text-gray-300"
+
+              {/* Label */}
+              <motion.span
+                animate={{
+                  fontSize: isActive ? "0.75rem" : "0.7rem",
+                  fontWeight: isActive ? 600 : 500,
+                }}
+                transition={{ duration: 0.2 }}
+                className={`mt-1 relative z-10 leading-none transition-colors duration-200 ${
+                  isActive ? "text-primary" : "text-secondary"
                 }`}
               >
                 {item.label}
-              </span>
+              </motion.span>
 
+              {/* Active dot */}
               {isActive && (
                 <motion.div
-                  layoutId="activeTab"
-                  className="absolute bottom-0 w-8 h-1 bg-blue-500 rounded-full"
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="absolute -top-1 w-1 h-1 bg-primary rounded-full"
                 />
               )}
-            </button>
+            </motion.button>
           );
         })}
       </div>
-    </nav>
+
+      {/* Safe area padding for iOS */}
+      {isIOS(device) && <div className="h-2 bg-surface/90" />}
+    </motion.nav>
   );
 };
 

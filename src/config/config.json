@@ -1,4 +1,23 @@
 {
-    "quickAddAmounts": [100, 500, 1000, 5000],
-    "miscText": {}
+  "quickAddAmounts": [100, 500, 1000, 5000],
+  "miscText": {},
+  "availableServices": [
+    {
+      "icon": "📱",
+      "name": "Mobile Recharge",
+      "isPopular": true,
+      "discount": "5%"
+    },
+    { "icon": "📺", "name": "DTH Recharge", "discount": "3%" },
+    { "icon": "💡", "name": "Electricity Bill" },
+    { "icon": "💧", "name": "Water Bill" },
+    { "icon": "🛢️", "name": "Gas Bill", "isPopular": true },
+    { "icon": "🏠", "name": "Rent" },
+    { "icon": "🚗", "name": "FasTag", "discount": "Free" },
+    { "icon": "🛡️", "name": "Insurance" },
+    { "icon": "💳", "name": "Credit Card", "isPopular": true },
+    { "icon": "💸", "name": "Loan EMI" },
+    { "icon": "🎓", "name": "Education" },
+    { "icon": "📋", "name": "See all" }
+  ]
 }

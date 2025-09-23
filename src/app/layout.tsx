@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import "@/globals.css";
 import PageTransition from "@/components/PageTransition";
 import AuthProvider from "@/components/providers/AuthProvider";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ServiceWorkerRegister />
         <ThemeProvider>
           <AppLayout>
             <PageTransition>

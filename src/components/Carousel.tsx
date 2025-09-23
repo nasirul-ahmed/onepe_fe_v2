@@ -124,7 +124,7 @@ const Carousel: React.FC<CarouselProps> = ({
 
       {/* Dots Indicator */}
       {showDots && itemsCount > 1 && (
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-2">
+        <div className="absolute bottom-[-12px] left-1/2 -translate-x-1/2 flex space-x-[-20px]">
           {items.map((_, index) => (
             <button
               key={index}

@@ -1,4 +1,4 @@
-// components/ui/Card.tsx
+"use client";
 import { HTMLAttributes, forwardRef } from "react";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -21,42 +21,47 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     },
     ref
   ) => {
-    const baseClasses = "rounded-xl transition-all duration-200";
+    /* 🎨 Base (theme tokens) */
+    const baseClasses =
+      "bg-surface text-on-surface border border-border rounded-xl transition-all duration-200";
 
-    const variants = {
-      default: "bg-white dark:bg-gray-800 shadow-sm",
-      elevated: "bg-white dark:bg-gray-800 shadow-lg",
-      outline: "border border-gray-200 dark:border-gray-700 bg-transparent",
-      filled: "bg-gray-50 dark:bg-gray-900",
-      premium: "",
+    /* 📦 Variants */
+    const variants: Record<Exclude<CardProps["variant"], undefined>, string> = {
+      default: "shadow-sm", // simple surface card
+      elevated: "shadow-lg", // more depth
+      outline: "border border-border bg-transparent", // transparent but outlined
+      filled: "bg-muted text-on-surface", // filled surface tone
+      premium: "", // handled below
     };
 
-    const premiumColors = {
-      blue: "bg-gradient-to-br from-blue-500 to-blue-600 text-white",
-      purple: "bg-gradient-to-br from-purple-500 to-purple-600 text-white",
-      teal: "bg-gradient-to-br from-teal-500 to-cyan-600 text-white",
-      gray: "bg-gradient-to-br from-gray-600 to-gray-700 text-white",
-      white: "bg-gradient-to-br from-white to-gray-100 text-gray-900",
+    /* 🌈 Premium Gradient Variants */
+    const premiumColors: Record<NonNullable<CardProps["color"]>, string> = {
+      blue: "bg-card-premium text-white",
+      purple: "bg-card-premium-purple text-white",
+      teal: "bg-card-premium-teal text-white",
+      gray: "bg-gradient-to-br from-gray-600 to-gray-700 text-on-surface",
+      white: "bg-gradient-to-br from-white to-gray-100 text-on-background",
     };
 
-    const paddings = {
+    /* 📏 Padding scale */
+    const paddings: Record<NonNullable<CardProps["padding"]>, string> = {
       none: "p-0",
-      sm: "p-4",
+      sm: "p-3",
       md: "p-6",
       lg: "p-8",
     };
 
+    /* ✨ Hover interaction */
     const hoverEffect = hover ? "hover:shadow-md hover:-translate-y-0.5" : "";
 
+    /* 🏗️ Final class string */
     const classes = [
       baseClasses,
       variant === "premium" ? premiumColors[color] : variants[variant],
       paddings[padding],
       hoverEffect,
       className,
-    ]
-      // .filter(Boolean)
-      .join(" ");
+    ].join(" ");
 
     return (
       <div ref={ref} className={classes} {...props}>
