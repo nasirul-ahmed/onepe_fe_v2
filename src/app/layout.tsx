@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 import AppLayout from "@/components/AppLayout";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import "@/globals.css";
+import "@/styles/globals.css";
 import PageTransition from "@/components/PageTransition";
 import AuthProvider from "@/components/providers/AuthProvider";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
@@ -21,6 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
       <body className={inter.className}>
         <ServiceWorkerRegister />
         <ThemeProvider>

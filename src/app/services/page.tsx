@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import ContentLayout from '@/components/ContentLayout';
 import AvailableServices from '@/components/AvailableServices';
+import styles from '@/styles/pages/services.module.css';
 
 export default function ServicesPage() {
   const allServices = [
@@ -30,20 +31,20 @@ export default function ServicesPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="space-y-6"
+        className={styles.container}
       >
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-on-surface mb-2">All Services</h1>
-          <p className="text-secondary">Pay all your bills in one place</p>
+        <div className={styles.header}>
+          <h1 className={styles.title}>All Services</h1>
+          <p className={styles.subtitle}>Pay all your bills in one place</p>
         </div>
 
-        <div className="bg-gradient-to-r from-green-100 to-green-50 dark:from-green-900/20 dark:to-green-800/10 p-4 rounded-xl border border-green-200 dark:border-green-800/30">
-          <div className="flex items-center justify-between">
+        <div className={styles.specialOffer}>
+          <div className={styles.specialOfferContent}>
             <div>
-              <h3 className="font-semibold text-green-800 dark:text-green-300">🎉 Special Offers</h3>
-              <p className="text-sm text-green-600 dark:text-green-400">Up to 5% cashback on all bill payments</p>
+              <h3 className={styles.specialOfferTitle}>🎉 Special Offers</h3>
+              <p className={styles.specialOfferDescription}>Up to 5% cashback on all bill payments</p>
             </div>
-            <div className="text-2xl">💰</div>
+            <div className={styles.specialOfferIcon}>💰</div>
           </div>
         </div>
 

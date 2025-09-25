@@ -1,6 +1,8 @@
 "use client";
 
 import { forwardRef } from "react";
+import { cn } from "@/lib/utils";
+import styles from "@/styles/components/switch.module.css";
 
 interface SwitchProps {
   checked: boolean;
@@ -16,54 +18,82 @@ const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
     { checked, onChange, disabled = false, size = "md", label, className = "" },
     ref
   ) => {
-    const sizeClasses = {
-      sm: "w-8 h-4",
-      md: "w-12 h-6",
-      lg: "w-16 h-8",
+    const getSizeClass = () => {
+      switch (size) {
+        case "sm": return styles.sizeSm;
+        case "lg": return styles.sizeLg;
+        default: return styles.sizeMd;
+      }
     };
 
-    const dotSizeClasses = {
-      sm: "w-3 h-3",
-      md: "w-4 h-4",
-      lg: "w-6 h-6",
+    const getDotSizeClass = () => {
+      switch (size) {
+        case "sm": return styles.dotSizeSm;
+        case "lg": return styles.dotSizeLg;
+        default: return styles.dotSizeMd;
+      }
     };
 
-    const dotTransform = {
-      sm: checked ? "translate-x-4" : "translate-x-1",
-      md: checked ? "translate-x-6" : "translate-x-2",
-      lg: checked ? "translate-x-8" : "translate-x-2",
+    const getDotPositionClass = () => {
+      if (checked) {
+        switch (size) {
+          case "sm": return styles.dotOnSm;
+          case "lg": return styles.dotOnLg;
+          default: return styles.dotOnMd;
+        }
+      } else {
+        switch (size) {
+          case "sm": return styles.dotOffSm;
+          case "lg": return styles.dotOffLg;
+          default: return styles.dotOffMd;
+        }
+      }
     };
 
-    const baseClasses =
-      "relative inline-flex items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2";
-
-    const classes = [
-      baseClasses,
-      sizeClasses[size],
-      checked ? "bg-blue-500" : "bg-gray-300 dark:bg-gray-600",
-      disabled && "opacity-50 cursor-not-allowed",
-      className,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    const getLabelSizeClass = () => {
+      switch (size) {
+        case "sm": return styles.labelSizeSm;
+        case "lg": return styles.labelSizeLg;
+        default: return styles.labelSizeMd;
+      }
+    };
 
     return (
-      <label className="inline-flex items-center cursor-pointer">
+      <label className={cn(
+        styles.container,
+        disabled && styles.containerDisabled,
+        className
+      )}>
         <button
           ref={ref}
           type="button"
-          className={classes}
+          className={cn(
+            styles.switchBase,
+            getSizeClass(),
+            checked ? styles.switchOn : styles.switchOff,
+            disabled && styles.containerDisabled,
+          )}
           onClick={() => !disabled && onChange(!checked)}
           disabled={disabled}
           role="switch"
           aria-checked={checked}
+          aria-label={label || "Toggle switch"}
         >
           <span
-            className={`${dotSizeClasses[size]} transform ${dotTransform[size]} transition-transform duration-200 inline-block bg-white rounded-full`}
+            className={cn(
+              styles.switchDot,
+              getDotSizeClass(),
+              getDotPositionClass()
+            )}
           />
         </button>
+        
         {label && (
-          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-white">
+          <span className={cn(
+            styles.switchLabel,
+            getLabelSizeClass(),
+            disabled && styles.switchLabelDisabled
+          )}>
             {label}
           </span>
         )}

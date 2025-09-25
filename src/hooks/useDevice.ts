@@ -23,7 +23,7 @@ export const useDevice = () => {
       const result = parser.getResult();
 
       setDevice({
-        isMobile: result.device.type === "mobile",
+        isMobile: result.device.type === "mobile" || result.os.name === "Android" || result.os.name === "iOS",
         isTablet: result.device.type === "tablet",
         isDesktop: !result.device.type,
         os: result.os.name || "",

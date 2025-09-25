@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Bell, CheckCircle, AlertCircle, Info, Gift, CreditCard, Settings2, Trash2 } from "lucide-react";
+import styles from "@/styles/pages/notifications.module.css";
+import { cn } from "@/lib/utils";
 
 interface Notification {
   id: string;
@@ -79,39 +81,38 @@ const NotificationPage = () => {
     const iconProps = { className: "w-5 h-5" };
     switch (type) {
       case "success":
-        return <CheckCircle {...iconProps} className="w-5 h-5 text-green-500" />;
+        return <CheckCircle {...iconProps} />;
       case "warning":
-        return <AlertCircle {...iconProps} className="w-5 h-5 text-orange-500" />;
+        return <AlertCircle {...iconProps} />;
       case "info":
-        return <Info {...iconProps} className="w-5 h-5 text-blue-500" />;
+        return <Info {...iconProps} />;
       case "offer":
-        return <Gift {...iconProps} className="w-5 h-5 text-purple-500" />;
+        return <Gift {...iconProps} />;
       case "payment":
-        return <CreditCard {...iconProps} className="w-5 h-5 text-cyan-500" />;
+        return <CreditCard {...iconProps} />;
       case "system":
-        return <Settings2 {...iconProps} className="w-5 h-5 text-gray-500" />;
+        return <Settings2 {...iconProps} />;
       default:
-        return <Bell {...iconProps} className="w-5 h-5 text-gray-500" />;
+        return <Bell {...iconProps} />;
     }
   };
 
-  const getNotificationBgColor = (type: Notification["type"], isRead: boolean) => {
-    const opacity = isRead ? "5" : "10";
+  const getNotificationIconClass = (type: Notification["type"]) => {
     switch (type) {
       case "success":
-        return `bg-green-50 dark:bg-green-900/${opacity}`;
+        return styles.iconSuccess;
       case "warning":
-        return `bg-orange-50 dark:bg-orange-900/${opacity}`;
+        return styles.iconWarning;
       case "info":
-        return `bg-blue-50 dark:bg-blue-900/${opacity}`;
+        return styles.iconInfo;
       case "offer":
-        return `bg-purple-50 dark:bg-purple-900/${opacity}`;
+        return styles.iconOffer;
       case "payment":
-        return `bg-cyan-50 dark:bg-cyan-900/${opacity}`;
+        return styles.iconPayment;
       case "system":
-        return `bg-gray-50 dark:bg-gray-900/${opacity}`;
+        return styles.iconSystem;
       default:
-        return `bg-muted`;
+        return styles.iconSystem;
     }
   };
 
@@ -142,19 +143,19 @@ const NotificationPage = () => {
   const unreadCount = notifications.filter(n => !n.isRead).length;
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className={styles.notificationsPage}>
       {/* Header */}
-      <div className="bg-surface/80 backdrop-blur-lg border-b border-border sticky top-16 z-40">
+      <div className="bg-surface/80 backdrop-blur-lg border-b border-border sticky z-40">
         <div className="px-4 py-4">
-          <div className="flex items-center justify-between">
+          <div className={styles.header}>
             <div>
-              <h1 className="text-xl font-bold text-on-surface">Notifications</h1>
+              <h1 className={styles.title}>Notifications</h1>
               {unreadCount > 0 && (
                 <p className="text-sm text-secondary">{unreadCount} unread</p>
               )}
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className={styles.headerActions}>
               {unreadCount > 0 && (
                 <motion.button
                   whileTap={{ scale: 0.95 }}
@@ -167,35 +168,27 @@ const NotificationPage = () => {
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 onClick={clearAllNotifications}
-                className="p-2 rounded-full hover:bg-muted transition-colors"
+                className={styles.actionButton}
                 aria-label="Clear all notifications"
               >
-                <Trash2 className="w-4 h-4 text-secondary" />
+                <Trash2 className="w-4 h-4" />
               </motion.button>
             </div>
           </div>
 
           {/* Filter Tabs */}
-          <div className="flex gap-4 mt-4">
+          <div className={styles.filterTabs}>
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setFilter("all")}
-              className={`pb-2 px-1 text-sm font-medium border-b-2 transition-colors ${
-                filter === "all"
-                  ? "border-primary text-primary"
-                  : "border-transparent text-secondary hover:text-on-surface"
-              }`}
+              className={cn(styles.filterTab, filter === "all" && styles.filterTabActive)}
             >
               All ({notifications.length})
             </motion.button>
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setFilter("unread")}
-              className={`pb-2 px-1 text-sm font-medium border-b-2 transition-colors ${
-                filter === "unread"
-                  ? "border-primary text-primary"
-                  : "border-transparent text-secondary hover:text-on-surface"
-              }`}
+              className={cn(styles.filterTab, filter === "unread" && styles.filterTabActive)}
             >
               Unread ({unreadCount})
             </motion.button>
@@ -204,20 +197,20 @@ const NotificationPage = () => {
       </div>
 
       {/* Notifications List */}
-      <div className="px-4 py-2">
+      <div className="px-4 py-2 pb-[100px]">
         {filteredNotifications.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-16"
+            className={styles.emptyState}
           >
-            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-              <Bell className="w-6 h-6 text-secondary" />
+            <div className={styles.emptyStateIcon}>
+              <Bell className="w-16 h-16 mx-auto" />
             </div>
-            <h3 className="text-lg font-semibold text-on-surface mb-2">
+            <h3 className={styles.emptyStateTitle}>
               {filter === "unread" ? "No unread notifications" : "No notifications"}
             </h3>
-            <p className="text-secondary">
+            <p className={styles.emptyStateDescription}>
               {filter === "unread" 
                 ? "You're all caught up!" 
                 : "We'll notify you when something important happens"
@@ -225,7 +218,7 @@ const NotificationPage = () => {
             </p>
           </motion.div>
         ) : (
-          <div className="space-y-2">
+          <div className={styles.notificationsList}>
             {filteredNotifications.map((notification, index) => (
               <motion.div
                 key={notification.id}
@@ -233,50 +226,44 @@ const NotificationPage = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
                 onClick={() => markAsRead(notification.id)}
-                className={`p-4 rounded-xl cursor-pointer transition-all duration-200 hover:scale-[1.01] ${getNotificationBgColor(
-                  notification.type,
-                  notification.isRead
-                )} ${!notification.isRead ? "border-l-4 border-primary" : ""}`}
+                className={cn(
+                  styles.notificationItem,
+                  !notification.isRead && styles.notificationUnread
+                )}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3 flex-1">
-                    <div className="flex-shrink-0 mt-0.5">
-                      {getNotificationIcon(notification.type)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className={`font-semibold text-sm ${
-                          notification.isRead ? "text-secondary" : "text-on-surface"
-                        }`}>
-                          {notification.title}
-                        </h3>
+                <div className={styles.notificationHeader}>
+                  <div className={cn(styles.notificationIcon, getNotificationIconClass(notification.type))}>
+                    {getNotificationIcon(notification.type)}
+                  </div>
+                  <div className={styles.notificationContent}>
+                    <div className={styles.notificationMeta}>
+                      <h3 className={styles.notificationTitle}>
+                        {notification.title}
                         {!notification.isRead && (
-                          <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
+                          <span className="inline-block w-2 h-2 bg-primary rounded-full ml-2" />
                         )}
-                      </div>
-                      <p className={`text-sm mb-2 ${
-                        notification.isRead ? "text-secondary" : "text-on-surface"
-                      }`}>
-                        {notification.message}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-secondary">
-                          {notification.timestamp}
-                        </span>
-                        {notification.actionable && (
-                          <motion.button
-                            whileTap={{ scale: 0.95 }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              // Add action logic here
-                            }}
-                            className="text-xs text-primary font-medium hover:text-primary/80 transition-colors"
-                          >
-                            Take Action
-                          </motion.button>
-                        )}
-                      </div>
+                      </h3>
+                      <span className={styles.notificationTime}>
+                        {notification.timestamp}
+                      </span>
                     </div>
+                    <p className={styles.notificationMessage}>
+                      {notification.message}
+                    </p>
+                    {notification.actionable && (
+                      <div className={styles.notificationActions}>
+                        <motion.button
+                          whileTap={{ scale: 0.95 }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Add action logic here
+                          }}
+                          className={cn(styles.actionButtonSmall, styles.actionButtonPrimary)}
+                        >
+                          Take Action
+                        </motion.button>
+                      </div>
+                    )}
                   </div>
                   <motion.button
                     whileTap={{ scale: 0.9 }}
@@ -284,9 +271,9 @@ const NotificationPage = () => {
                       e.stopPropagation();
                       deleteNotification(notification.id);
                     }}
-                    className="flex-shrink-0 p-1 rounded-full hover:bg-error/10 transition-colors opacity-0 group-hover:opacity-100 ml-2"
+                    className={styles.actionButton}
                   >
-                    <Trash2 className="w-3 h-3 text-secondary hover:text-error" />
+                    <Trash2 className="w-3 h-3" />
                   </motion.button>
                 </div>
               </motion.div>

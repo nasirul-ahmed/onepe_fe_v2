@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import styles from '@/styles/components/transactionHistory.module.css';
+import { cn } from '@/lib/utils';
 
 export interface Transaction {
   id: string;
@@ -97,53 +99,53 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
     )
     .slice(0, limit);
 
-  const getStatusColor = (status: string) => {
+  const getStatusClass = (status: string) => {
     switch (status) {
-      case 'success': return 'text-success';
-      case 'pending': return 'text-warning';
-      case 'failed': return 'text-error';
-      default: return 'text-secondary';
+      case 'success': return styles.statusSuccess;
+      case 'pending': return styles.statusPending;
+      case 'failed': return styles.statusFailed;
+      default: return styles.statusDefault;
     }
   };
 
-  const getStatusBg = (status: string) => {
+  const getStatusBgClass = (status: string) => {
     switch (status) {
-      case 'success': return 'bg-success/10';
-      case 'pending': return 'bg-warning/10';
-      case 'failed': return 'bg-error/10';
-      default: return 'bg-secondary/10';
+      case 'success': return styles.statusBgSuccess;
+      case 'pending': return styles.statusBgPending;
+      case 'failed': return styles.statusBgFailed;
+      default: return styles.statusBgDefault;
     }
   };
 
   return (
-    <div className="bg-surface rounded-2xl p-4 shadow-sm">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-on-surface">
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>
           {isPreview ? 'Recent Transactions' : 'Transaction History'}
         </h2>
         {isPreview && (
-          <button className="text-primary text-sm font-medium">
+          <button className={styles.viewAllButton}>
             View All
           </button>
         )}
       </div>
 
       {!isPreview && (
-        <div className="space-y-4 mb-6">
+        <div className="flex flex-col gap-4">
           {/* Search Bar */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary h-4 w-4" />
+          <div className={styles.searchContainer}>
+            <Search className={styles.searchIcon} />
             <input
               type="text"
               placeholder="Search transactions..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-muted rounded-xl border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+              className={styles.searchInput}
             />
           </div>
 
           {/* Filter Buttons */}
-          <div className="flex gap-2 overflow-x-auto pb-2">
+          <div className={styles.filterContainer}>
             {[
               { key: 'all', label: 'All' },
               { key: 'success', label: 'Success' },
@@ -153,11 +155,12 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
               <button
                 key={filter.key}
                 onClick={() => setSelectedFilter(filter.key)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                  selectedFilter === filter.key
-                    ? 'bg-primary text-on-primary'
-                    : 'bg-muted text-secondary hover:bg-primary/10'
-                }`}
+                className={cn(
+                  styles.filterButton,
+                  selectedFilter === filter.key 
+                    ? styles.filterButtonActive 
+                    : styles.filterButtonInactive
+                )}
               >
                 {filter.label}
               </button>
@@ -167,11 +170,11 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
       )}
 
       {/* Transactions List */}
-      <div className="space-y-3">
+      <div className={styles.transactionsList}>
         {filteredTransactions.length === 0 ? (
-          <div className="text-center py-8">
-            <div className="text-4xl mb-2">📊</div>
-            <p className="text-secondary">No transactions found</p>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyStateIcon}>📊</div>
+            <p className={styles.emptyStateText}>No transactions found</p>
           </div>
         ) : (
           filteredTransactions.map((transaction, index) => (
@@ -180,24 +183,28 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="flex items-center justify-between p-3 bg-background rounded-xl border border-border hover:shadow-md transition-shadow"
+              className={styles.transactionItem}
             >
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center text-xl">
+              <div className={styles.transactionContent}>
+                <div className={styles.transactionIcon}>
                   {transaction.icon}
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-medium text-on-surface">
+                <div className={styles.transactionDetails}>
+                  <h3 className={styles.transactionTitle}>
                     {transaction.title}
                   </h3>
-                  <p className="text-sm text-secondary">
+                  <p className={styles.transactionSubtitle}>
                     {transaction.subtitle}
                   </p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className={`text-xs px-2 py-1 rounded-full ${getStatusBg(transaction.status)} ${getStatusColor(transaction.status)}`}>
+                  <div className={styles.transactionMeta}>
+                    <span className={cn(
+                      styles.statusBadge,
+                      getStatusBgClass(transaction.status),
+                      getStatusClass(transaction.status)
+                    )}>
                       {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
                     </span>
-                    <span className="text-xs text-secondary">
+                    <span className={styles.transactionDate}>
                       {new Date(transaction.date).toLocaleDateString('en-IN', {
                         day: '2-digit',
                         month: 'short'
@@ -206,14 +213,15 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                   </div>
                 </div>
               </div>
-              <div className="text-right">
-                <div className={`font-semibold flex items-center gap-1 ${
-                  transaction.amount > 0 ? 'text-success' : 'text-on-surface'
-                }`}>
+              <div className={styles.transactionAmount}>
+                <div className={cn(
+                  styles.amountValue,
+                  transaction.amount > 0 ? styles.amountPositive : styles.amountNegative
+                )}>
                   {transaction.amount > 0 ? (
-                    <ArrowDownRight className="h-4 w-4" />
+                    <ArrowDownRight className={styles.amountIcon} />
                   ) : (
-                    <ArrowUpRight className="h-4 w-4" />
+                    <ArrowUpRight className={styles.amountIcon} />
                   )}
                   ₹{Math.abs(transaction.amount).toLocaleString('en-IN')}
                 </div>

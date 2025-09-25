@@ -1,8 +1,26 @@
 // tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
   darkMode: "class", // enable dark mode via .dark class
+  safelist: [
+    // Force include gradient classes for service cards
+    "from-slate-50",
+    "via-white", 
+    "to-slate-200",
+    "dark:from-slate-900",
+    "dark:via-slate-800", 
+    "dark:to-slate-700",
+    "bg-gradient-to-br",
+    // Force include common slate colors
+    {
+      pattern: /(from|via|to|dark:from|dark:via|dark:to)-(slate)-(50|100|200|700|800|900)/,
+    },
+  ],
   theme: {
     extend: {
       /* 🎨 Colors (from CSS variables) */

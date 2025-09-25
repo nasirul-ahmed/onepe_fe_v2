@@ -1,0 +1,201 @@
+/* TextField Component Styles */
+
+.textFieldContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.textFieldFullWidth {
+  width: 100%;
+}
+
+.textFieldLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(55 65 81);
+}
+
+:global(.dark) .textFieldLabel {
+  color: rgb(209 213 219);
+}
+
+/* Input Wrapper */
+.inputWrapper {
+  position: relative;
+}
+
+.inputBase {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  transition: all 200ms ease;
+  width: 100%;
+}
+
+.inputBase:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(59 130 246);
+  border-color: transparent;
+}
+
+/* Input Variants */
+.inputDefault {
+  border-color: rgb(209 213 219);
+  background: white;
+  color: rgb(17 24 39);
+}
+
+:global(.dark) .inputDefault {
+  border-color: rgb(75 85 99);
+  background: rgb(31 41 55);
+  color: white;
+}
+
+.inputOutline {
+  border-color: rgb(229 231 235);
+  background: transparent;
+  color: rgb(17 24 39);
+}
+
+:global(.dark) .inputOutline {
+  border-color: rgb(55 65 81);
+  color: white;
+}
+
+.inputFilled {
+  border-color: rgb(229 231 235);
+  background: rgb(249 250 251);
+  color: rgb(17 24 39);
+}
+
+:global(.dark) .inputFilled {
+  border-color: rgb(55 65 81);
+  background: rgb(17 24 39);
+  color: white;
+}
+
+/* Error State */
+.inputError {
+  border-color: rgb(239 68 68) !important;
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 2px rgb(239 68 68) !important;
+}
+
+/* Icon Positioning */
+.inputWithStartIcon {
+  padding-left: 2.5rem;
+}
+
+.inputWithEndIcon {
+  padding-right: 2.5rem;
+}
+
+.startIcon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding-left: 0.75rem;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.endIcon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  padding-right: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Password Toggle Button */
+.passwordToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(156 163 175);
+  padding: 0;
+}
+
+.passwordToggle:hover {
+  color: rgb(107 114 128);
+}
+
+.passwordToggleIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Error Icon */
+.errorIcon {
+  color: rgb(239 68 68);
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Helper/Error Text */
+.helperText {
+  font-size: 0.875rem;
+}
+
+.helperTextNormal {
+  color: rgb(107 114 128);
+}
+
+.helperTextError {
+  color: rgb(220 38 38);
+}
+
+/* Placeholder */
+.inputBase::placeholder {
+  color: rgb(156 163 175);
+}
+
+:global(.dark) .inputBase::placeholder {
+  color: rgb(107 114 128);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .inputBase {
+    padding: 0.625rem 1rem;
+  }
+  
+  .inputWithStartIcon {
+    padding-left: 2.25rem;
+  }
+  
+  .inputWithEndIcon {
+    padding-right: 2.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .inputBase {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .textFieldLabel {
+    font-size: 0.75rem;
+  }
+  
+  .helperText {
+    font-size: 0.75rem;
+  }
+  
+  .startIcon {
+    padding-left: 0.5rem;
+  }
+  
+  .endIcon {
+    padding-right: 0.5rem;
+  }
+}

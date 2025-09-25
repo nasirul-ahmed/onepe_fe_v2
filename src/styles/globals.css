@@ -19,6 +19,17 @@
   --color-tertiary: #8b5cf6;
   --color-on-tertiary: #ffffff;
 
+  /* === Spacing === */
+  --page-spacing: 0.8rem;
+
+  /* === Gradients === */
+  --service-gradient: linear-gradient(
+    to bottom right,
+    rgb(248 250 252),
+    rgb(255 255 255),
+    rgb(226 232 240)
+  );
+
   /* === Status colors === */
   --color-success: #22c55e;
   --color-on-success: #ffffff;
@@ -39,6 +50,14 @@
   --color-primary: #3b82f6;
   --color-secondary: #64748b;
   --color-tertiary: #8b5cf6;
+
+  /* === Dark Gradients === */
+  --service-gradient: linear-gradient(
+    to bottom right,
+    rgb(15 23 42),
+    rgb(30 41 59),
+    rgb(51 65 85)
+  );
 }
 
 /* Base styles */
@@ -49,7 +68,8 @@
 body {
   background-color: var(--color-background);
   color: var(--color-on-background);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -92,14 +112,13 @@ body {
 }
 
 /* Touch optimizations */
-button, .btn {
+button,
+.btn {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  min-height: 44px;
-  min-width: 44px;
 }
 
 /* Smooth scrolling */
@@ -118,4 +137,35 @@ button, .btn {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Common CSS */
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.viewAllButton {
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 700;
+}
+
+.viewAllButton:hover {
+  opacity: 0.8;
+  scale: 1.05;
 }

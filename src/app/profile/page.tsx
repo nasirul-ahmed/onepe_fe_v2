@@ -1,36 +1,39 @@
 "use client";
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Settings, 
-  CreditCard, 
-  Shield, 
-  Bell, 
-  Moon, 
-  Sun, 
-  ChevronRight, 
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Settings,
+  CreditCard,
+  Shield,
+  Bell,
+  Moon,
+  Sun,
+  ChevronRight,
   Edit,
   Phone,
   Mail,
   MapPin,
   Award,
-  Wallet
-} from 'lucide-react';
-import { useTheme } from '@/hooks/useTheme';
-import ContentLayout from '@/components/ContentLayout';
-import Button from '@/components/Button';
+  Wallet,
+} from "lucide-react";
+import { useTheme } from "@/hooks/useTheme";
+import ContentLayout from "@/components/ContentLayout";
+import Button from "@/components/Button";
+import { cn } from "@/lib/utils";
+import styles from "@/styles/pages/profile.module.css";
+import Switch from "@/components/Switch";
 
 export default function ProfilePage() {
   const { theme, toggleTheme } = useTheme();
   const [user] = useState({
-    name: 'Rahul Kumar',
-    email: 'rahul.kumar@email.com',
-    phone: '+91 98765 43210',
-    address: 'Bangalore, Karnataka',
-    joinDate: 'March 2023',
-    kycStatus: 'Verified',
-    walletTier: 'Gold'
+    name: "Rahul Kumar",
+    email: "rahul.kumar@email.com",
+    phone: "+91 98765 43210",
+    address: "Bangalore, Karnataka",
+    joinDate: "March 2023",
+    kycStatus: "Verified",
+    walletTier: "Gold",
   });
 
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -57,11 +60,11 @@ export default function ProfilePage() {
   };
 
   const profileMenuItems = [
-    { icon: Settings, label: 'Account Settings', badge: null },
-    { icon: CreditCard, label: 'Payment Methods', badge: '2' },
-    { icon: Shield, label: 'Security & Privacy', badge: null },
-    { icon: Bell, label: 'Notifications', badge: 'New' },
-    { icon: Award, label: 'Rewards & Offers', badge: '5' },
+    { icon: Settings, label: "Account Settings", badge: null },
+    { icon: CreditCard, label: "Payment Methods", badge: "2" },
+    { icon: Shield, label: "Security & Privacy", badge: null },
+    { icon: Bell, label: "Notifications", badge: "New" },
+    { icon: Award, label: "Rewards & Offers", badge: "5" },
   ];
 
   return (
@@ -70,144 +73,135 @@ export default function ProfilePage() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="space-y-6 pb-6"
+        className={styles.container}
       >
         {/* Profile Header */}
-        <motion.div variants={itemVariants} className="bg-surface rounded-2xl p-6 shadow-sm">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                  {user.name.split(' ').map(n => n[0]).join('')}
+        <motion.div variants={itemVariants} className={styles.profileHeader}>
+          <div className={styles.profileHeaderTop}>
+            <div className={styles.userInfo}>
+              <div className={styles.avatarContainer}>
+                <div className={styles.avatar}>
+                  {user.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-surface flex items-center justify-center">
-                  <Shield className="w-3 h-3 text-white" />
+                <div className={styles.verificationBadge}>
+                  <Shield className={styles.verificationIcon} />
                 </div>
               </div>
-              <div className="flex-1">
-                <h1 className="text-xl font-bold text-on-surface mb-1">{user.name}</h1>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="px-4 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-950 text-xs font-bold rounded-full">
-                    KYC {user.kycStatus}
-                  </span>
-                  <span className="px-4 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-950 text-xs font-bold rounded-full">
+              <div className={styles.userDetails}>
+                <h1 className={styles.userName}>{user.name}</h1>
+                <div className={styles.userBadges}>
+                  <span className={styles.kycBadge}>KYC {user.kycStatus}</span>
+                  <span className={styles.tierBadge}>
                     {user.walletTier} Member
                   </span>
                 </div>
-                <p className="text-sm text-secondary">Member since {user.joinDate}</p>
+                <p className={styles.memberSince}>
+                  Member since {user.joinDate}
+                </p>
               </div>
             </div>
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsEditingProfile(!isEditingProfile)}
-              className="p-2 text-secondary hover:text-on-surface hover:bg-muted rounded-full transition-colors"
+              className={styles.editButton}
             >
-              <Edit className="w-5 h-5" />
+              <Edit className={styles.editIcon} />
             </motion.button>
           </div>
 
           {/* User Details */}
-          <div className="grid grid-cols-1 gap-4">
-            <div className="flex items-center gap-3 p-3 bg-muted rounded-xl">
-              <Mail className="w-5 h-5 text-secondary" />
+          <div className={styles.contactDetails}>
+            <div className={styles.contactItem}>
+              <Mail className={styles.contactIcon} />
               <div>
-                <p className="text-sm font-medium text-on-surface">{user.email}</p>
-                <p className="text-xs text-secondary">Email Address</p>
+                <p className={styles.contactValue}>{user.email}</p>
+                <p className={styles.contactLabel}>Email Address</p>
               </div>
             </div>
-            
-            <div className="flex items-center gap-3 p-3 bg-muted rounded-xl">
-              <Phone className="w-5 h-5 text-secondary" />
+
+            <div className={styles.contactItem}>
+              <Phone className={styles.contactIcon} />
               <div>
-                <p className="text-sm font-medium text-on-surface">{user.phone}</p>
-                <p className="text-xs text-secondary">Mobile Number</p>
+                <p className={styles.contactValue}>{user.phone}</p>
+                <p className={styles.contactLabel}>Mobile Number</p>
               </div>
             </div>
-            
-            <div className="flex items-center gap-3 p-3 bg-muted rounded-xl">
-              <MapPin className="w-5 h-5 text-secondary" />
+
+            <div className={styles.contactItem}>
+              <MapPin className={styles.contactIcon} />
               <div>
-                <p className="text-sm font-medium text-on-surface">{user.address}</p>
-                <p className="text-xs text-secondary">Current Address</p>
+                <p className={styles.contactValue}>{user.address}</p>
+                <p className={styles.contactLabel}>Current Address</p>
               </div>
             </div>
           </div>
         </motion.div>
 
         {/* Quick Stats */}
-        <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white">
-            <div className="flex items-center justify-between mb-2">
-              <Wallet className="w-6 h-6" />
-              <span className="text-xs bg-white/20 px-2 py-1 rounded-full">This Month</span>
+        <motion.div variants={itemVariants} className={styles.quickStats}>
+          <div className={styles.statCard}>
+            <div className={styles.statHeader}>
+              <Wallet className={styles.statIcon} />
+              <span className={styles.statPeriod}>This Month</span>
             </div>
-            <h3 className="text-2xl font-bold mb-1">₹15,240</h3>
-            <p className="text-blue-100 text-sm">Total Spent</p>
+            <h3 className={styles.statValue}>₹15,240</h3>
+            <p className={styles.statLabel}>Total Spent</p>
           </div>
-          
-          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-4 text-white">
-            <div className="flex items-center justify-between mb-2">
-              <Award className="w-6 h-6" />
-              <span className="text-xs bg-white/20 px-2 py-1 rounded-full">Available</span>
+
+          <div className={cn(styles.statCard, styles.statCardGreen)}>
+            <div className={styles.statHeader}>
+              <Award className={styles.statIcon} />
+              <span className={styles.statPeriod}>Available</span>
             </div>
-            <h3 className="text-2xl font-bold mb-1">₹1,250</h3>
-            <p className="text-green-100 text-sm">Cashback Earned</p>
+            <h3 className={styles.statValue}>₹1,250</h3>
+            <p className={styles.statLabel}>Cashback Earned</p>
           </div>
         </motion.div>
 
         {/* Theme Toggle */}
-        <motion.div variants={itemVariants} className="bg-surface rounded-2xl p-4 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              {theme === 'dark' ? (
-                <Moon className="w-6 h-6 text-secondary" />
+        <motion.div variants={itemVariants} className={styles.themeToggle}>
+          <div className={styles.themeToggleContent}>
+            <div className={styles.themeToggleLeft}>
+              {theme === "dark" ? (
+                <Moon className={styles.themeIcon} />
               ) : (
-                <Sun className="w-6 h-6 text-secondary" />
+                <Sun className={styles.themeIcon} />
               )}
               <div>
-                <h3 className="font-semibold text-on-surface">Theme</h3>
-                <p className="text-sm text-secondary">
-                  {theme === 'dark' ? 'Dark mode is on' : 'Light mode is on'}
+                <h3 className={styles.themeTitle}>Theme</h3>
+                <p className={styles.themeDescription}>
+                  {theme === "dark" ? "Dark mode is on" : "Light mode is on"}
                 </p>
               </div>
             </div>
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleTheme}
-              className={`w-12 h-6 rounded-full p-1 transition-colors ${
-                theme === 'dark' ? 'bg-primary' : 'bg-border'
-              }`}
-            >
-              <div
-                className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${
-                  theme === 'dark' ? 'translate-x-6' : 'translate-x-0'
-                }`}
-              />
-            </motion.button>
+            <div className="h-full">
+              <Switch checked={theme === "dark"} onChange={toggleTheme} />
+            </div>
           </div>
         </motion.div>
 
         {/* Menu Items */}
-        <motion.div variants={itemVariants} className="bg-surface rounded-2xl p-4 shadow-sm">
-          <h3 className="font-semibold text-on-surface mb-4">Settings & Preferences</h3>
-          <div className="space-y-1">
+        <motion.div variants={itemVariants} className={styles.menuSection}>
+          <h3 className={styles.menuSectionTitle}>Settings & Preferences</h3>
+          <div className={styles.menuItems}>
             {profileMenuItems.map((item, index) => (
               <motion.button
                 key={index}
                 whileTap={{ scale: 0.98 }}
-                className="w-full flex items-center justify-between p-3 hover:bg-muted rounded-xl transition-colors"
+                className={styles.menuItem}
               >
-                <div className="flex items-center gap-3">
-                  <item.icon className="w-5 h-5 text-secondary" />
-                  <span className="font-medium text-on-surface">{item.label}</span>
+                <div className={styles.menuItemLeft}>
+                  <item.icon className={styles.menuItemIcon} />
+                  <span className={styles.menuItemLabel}>{item.label}</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className={styles.menuItemRight}>
                   {item.badge && (
-                    <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
-                      {item.badge}
-                    </span>
+                    <span className={styles.menuItemBadge}>{item.badge}</span>
                   )}
-                  <ChevronRight className="w-4 h-4 text-secondary" />
+                  <ChevronRight className={styles.menuItemChevron} />
                 </div>
               </motion.button>
             ))}
@@ -215,18 +209,18 @@ export default function ProfilePage() {
         </motion.div>
 
         {/* Action Buttons */}
-        <motion.div variants={itemVariants} className="space-y-3">
-          <Button className="w-full" variant="primary">
+        <motion.div variants={itemVariants} className={styles.actionButtons}>
+          <Button className={styles.upgradeButton} variant="primary">
             Upgrade to Premium
           </Button>
-          
-          <Button className="w-full" variant="outline">
+
+          <Button className={styles.supportButton} variant="outline">
             Help & Support
           </Button>
-          
+
           <motion.button
             whileTap={{ scale: 0.98 }}
-            className="w-full p-3 text-error font-medium rounded-xl border border-error/20 hover:bg-error/5 transition-colors"
+            className={styles.signOutButton}
           >
             Sign Out
           </motion.button>

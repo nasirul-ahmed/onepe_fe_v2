@@ -2,6 +2,7 @@
 import { ReactNode } from "react";
 import Loader from "./Loader";
 import { useAppStore } from "@/store/app-store";
+import styles from "@/styles/components/contentLayout.module.css";
 
 interface IContentLayoutInputProps {
   children: ReactNode;
@@ -12,11 +13,11 @@ const ContentLayout = ({ children, className = "" }: IContentLayoutInputProps) =
   const { isLoading } = useAppStore();
   
   return (
-    <main className={`h-full w-full overflow-auto bg-background ${className}`}>
+    <main className={`${styles.contentLayout} ${className}`}>
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="flex-1 overflow-auto px-4 py-4 pb-20 max-w-md mx-auto">
+        <div className={styles.contentContainer}>
           {children}
         </div>
       )}

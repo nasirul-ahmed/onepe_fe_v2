@@ -8,7 +8,9 @@ import CarouselItem from "@/components/CarouselItem";
 import Carousel from "@/components/Carousel";
 import { motion } from "framer-motion";
 import TransactionHistory from "@/components/TransactionHistory";
-import config  from "@/config/config.json";
+import config from "@/config/config.json";
+import styles from "@/styles/pages/home.module.css";
+import { cn } from "@/lib/utils";
 
 export default function HomePage() {
   const { setLoading } = useAppStore();
@@ -54,7 +56,7 @@ export default function HomePage() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="space-y-6"
+        className={styles.container}
       >
         {/* Promotional Banners */}
         <motion.div variants={itemVariants}>
@@ -64,17 +66,17 @@ export default function HomePage() {
             interval={5000}
             showControls={false}
             showArrows={false}
-            className="rounded-2xl shadow-xl overflow-hidden"
+            className={styles.carouselWrapper}
             itemClassName="h-full"
           >
             <CarouselItem>
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 h-36 flex flex-col items-center justify-center text-white p-4 text-center">
-                <h3 className="text-xl font-bold mb-2">Special Offer! 🎉</h3>
-                <p className="text-sm mb-3">
+              <div className={cn(styles.promoCard, styles.promoCardBlue)}>
+                <h3 className={styles.promoTitle}>Special Offer! 🎉</h3>
+                <p className={styles.promoDescription}>
                   Get 5% cashback on mobile recharge
                 </p>
-                <div className="bg-white/20 px-3 py-1 rounded-full">
-                  <span className="text-xs font-semibold">
+                <div className={styles.promoBadge}>
+                  <span className={styles.promoBadgeText}>
                     Use code: MOBILE5
                   </span>
                 </div>
@@ -82,13 +84,13 @@ export default function HomePage() {
             </CarouselItem>
 
             <CarouselItem>
-              <div className="bg-gradient-to-r from-green-500 to-teal-600 h-36 flex flex-col items-center justify-center text-white p-4 text-center">
-                <h3 className="text-xl font-bold mb-2">
+              <div className={cn(styles.promoCard, styles.promoCardGreen)}>
+                <h3 className={styles.promoTitle}>
                   Bill Payment Bonus! 💰
                 </h3>
-                <p className="text-sm mb-3">Pay 3 bills and get ₹50 cashback</p>
-                <div className="bg-white/20 px-3 py-1 rounded-full">
-                  <span className="text-xs font-semibold">
+                <p className={styles.promoDescription}>Pay 3 bills and get ₹50 cashback</p>
+                <div className={styles.promoBadge}>
+                  <span className={styles.promoBadgeText}>
                     Limited time offer
                   </span>
                 </div>
@@ -96,11 +98,11 @@ export default function HomePage() {
             </CarouselItem>
 
             <CarouselItem>
-              <div className="bg-gradient-to-r from-orange-500 to-red-600 h-36 flex flex-col items-center justify-center text-white p-4 text-center">
-                <h3 className="text-xl font-bold mb-2">FasTag Recharge! 🚗</h3>
-                <p className="text-sm mb-3">Zero convenience fee on FasTag</p>
-                <div className="bg-white/20 px-3 py-1 rounded-full">
-                  <span className="text-xs font-semibold">
+              <div className={cn(styles.promoCard, styles.promoCardOrange)}>
+                <h3 className={styles.promoTitle}>FasTag Recharge! 🚗</h3>
+                <p className={styles.promoDescription}>Zero convenience fee on FasTag</p>
+                <div className={styles.promoBadge}>
+                  <span className={styles.promoBadgeText}>
                     Save more, travel more
                   </span>
                 </div>
@@ -114,51 +116,6 @@ export default function HomePage() {
           <Wallet />
         </motion.div>
 
-        {/* Quick Actions - Commented out for better space utilization
-        <motion.div
-          variants={itemVariants}
-          className="bg-surface rounded-2xl p-4 shadow-sm"
-        >
-          <h2 className="text-lg font-semibold mb-4 text-on-surface">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-4 gap-4">
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              className="flex flex-col items-center p-3 bg-primary/10 rounded-xl"
-            >
-              <span className="text-2xl mb-1">⚡</span>
-              <span className="text-xs font-medium text-primary">
-                Pay Bills
-              </span>
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              className="flex flex-col items-center p-3 bg-success/10 rounded-xl"
-            >
-              <span className="text-2xl mb-1">📱</span>
-              <span className="text-xs font-medium text-success">Recharge</span>
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              className="flex flex-col items-center p-3 bg-warning/10 rounded-xl"
-            >
-              <span className="text-2xl mb-1">💳</span>
-              <span className="text-xs font-medium text-warning">
-                Add Money
-              </span>
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              className="flex flex-col items-center p-3 bg-tertiary/10 rounded-xl"
-            >
-              <span className="text-2xl mb-1">📊</span>
-              <span className="text-xs font-medium text-tertiary">History</span>
-            </motion.button>
-          </div>
-        </motion.div>
-        */}
-
         {/* Available Services */}
         <motion.div variants={itemVariants}>
           <AvailableServices services={services} />
@@ -166,7 +123,7 @@ export default function HomePage() {
 
         {/* Recent Transactions */}
         <motion.div variants={itemVariants}>
-          <TransactionHistory isPreview={true} />
+          <TransactionHistory isPreview={true} limit={5} />
         </motion.div>
       </motion.div>
     </ContentLayout>

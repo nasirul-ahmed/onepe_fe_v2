@@ -2,6 +2,8 @@
 
 import React, { ReactNode, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import styles from '@/styles/components/accordion.module.css';
+import { cn } from '@/lib/utils';
 
 interface AccordionItemProps {
   title: string;
@@ -19,25 +21,25 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   className = "",
 }) => {
   return (
-    <div className={`border-b border border-border ${className}`}>
+    <div className={cn(styles.accordionItem, className)}>
       <button
-        className="flex items-center justify-between w-full py-4 text-left font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        className={styles.accordionHeader}
         onClick={onToggle}
       >
         <span>{title}</span>
         <ChevronDown
-          className={`w-5 h-5 transition-transform duration-200 ${
-            isOpen ? "transform rotate-180" : ""
-          }`}
+          className={cn(
+            styles.accordionIcon,
+            isOpen && styles.accordionIconRotated
+          )}
         />
       </button>
 
-      <div
-        className={`overflow-hidden transition-all duration-200 ${
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="pb-4">{children}</div>
+      <div className={cn(
+        styles.accordionContent,
+        isOpen ? styles.accordionContentOpen : styles.accordionContentClosed
+      )}>
+        <div className={styles.accordionContentInner}>{children}</div>
       </div>
     </div>
   );

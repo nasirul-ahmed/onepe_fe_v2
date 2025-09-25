@@ -1,0 +1,30 @@
+/* ContentLayout Component Styles */
+
+.contentLayout {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background: var(--color-background);
+}
+
+.contentContainer {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem 1rem 5rem 1rem;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contentContainer {
+    padding: 0.75rem 0.75rem 4rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contentContainer {
+    padding: 0.5rem 0.5rem 3.5rem 0.5rem;
+    max-width: 100%;
+  }
+}

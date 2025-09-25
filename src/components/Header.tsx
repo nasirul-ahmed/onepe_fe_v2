@@ -55,7 +55,7 @@ const Header = () => {
     <motion.nav
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="sticky top-0 z-50 bg-surface/80 backdrop-blur-lg border-b border-border shadow-sm"
+      className="sticky top-0 z-50 bg-surface/80 backdrop-blur-lg shadow-sm"
     >
       <div className="px-4 py-3">
         {/* Main Header Row */}

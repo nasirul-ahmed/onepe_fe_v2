@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, Children, ReactNode } from "react";
 import { ChevronLeft, ChevronRight, Circle, CircleDot } from "lucide-react";
 import { cn } from "@/lib/utils";
+import styles from "@/styles/components/carousel.module.css";
 
 interface CarouselProps {
   children: ReactNode;
@@ -78,7 +79,7 @@ const Carousel: React.FC<CarouselProps> = ({
 
   return (
     <div
-      className={cn("relative w-full overflow-hidden group", className)}
+      className={cn(styles.carousel, "group", className)}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -87,13 +88,13 @@ const Carousel: React.FC<CarouselProps> = ({
     >
       {/* Carousel Items */}
       <div
-        className="flex transition-transform duration-500 ease-out"
+        className={styles.carouselTrack}
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {items.map((item, index) => (
           <div
             key={index}
-            className={cn("w-full flex-shrink-0", itemClassName)}
+            className={cn(styles.carouselItem, itemClassName)}
           >
             {item}
           </div>
@@ -105,7 +106,10 @@ const Carousel: React.FC<CarouselProps> = ({
         <>
           <button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-900 rounded-full p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 backdrop-blur-sm disabled:opacity-0"
+            className={cn(
+              styles.navigationButton,
+              styles.navigationButtonLeft
+            )}
             disabled={!loop && currentIndex === 0}
             aria-label="Previous slide"
           >
@@ -113,7 +117,10 @@ const Carousel: React.FC<CarouselProps> = ({
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-900 rounded-full p-2 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 backdrop-blur-sm disabled:opacity-0"
+            className={cn(
+              styles.navigationButton,
+              styles.navigationButtonRight
+            )}
             disabled={!loop && currentIndex === itemsCount - 1}
             aria-label="Next slide"
           >
@@ -124,20 +131,20 @@ const Carousel: React.FC<CarouselProps> = ({
 
       {/* Dots Indicator */}
       {showDots && itemsCount > 1 && (
-        <div className="absolute bottom-[-12px] left-1/2 -translate-x-1/2 flex space-x-[-20px]">
+        <div className={styles.dotsContainer}>
           {items.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className="p-1 focus:outline-none"
+              className={styles.dotButton}
               aria-label={`Go to slide ${index + 1}`}
             >
               {index === currentIndex ? (
-                <CircleDot size={8} className="text-white fill-current" />
+                <CircleDot size={8} className={cn(styles.dotIcon, styles.dotIconActive)} />
               ) : (
                 <Circle
                   size={8}
-                  className="text-white/60 hover:text-white/80"
+                  className={styles.dotIcon}
                 />
               )}
             </button>
@@ -147,9 +154,12 @@ const Carousel: React.FC<CarouselProps> = ({
 
       {/* Progress Bar */}
       {autoPlay && itemsCount > 1 && (
-        <div className="absolute top-0 left-0 w-full h-1 bg-white/20">
+        <div className={styles.progressContainer}>
           <div
-            className="h-full bg-white/60 transition-all duration-300 ease-linear"
+            className={cn(
+              styles.progressBar,
+              isPaused && styles.progressBarPaused
+            )}
             style={{
               width: isPaused ? "100%" : "0%",
               transitionDuration: isPaused ? "0ms" : `${interval}ms`,

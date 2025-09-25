@@ -2,6 +2,7 @@
 
 import { HTMLAttributes, forwardRef } from "react";
 import { cn } from "@/lib/utils";
+import styles from "@/styles/components/carouselItem.module.css";
 
 interface CarouselItemProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -10,7 +11,7 @@ interface CarouselItemProps extends HTMLAttributes<HTMLDivElement> {
 const CarouselItem = forwardRef<HTMLDivElement, CarouselItemProps>(
   ({ className, children, ...props }, ref) => {
     return (
-      <div ref={ref} className={cn("w-full", className)} {...props}>
+      <div ref={ref} className={cn(styles.carouselItem, className)} {...props}>
         {children}
       </div>
     );

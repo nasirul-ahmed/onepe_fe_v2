@@ -1,0 +1,170 @@
+/* MobileOnly Component Styles */
+
+.mobileOnlyOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(249 250 251);
+  padding: 1rem;
+  z-index: 50;
+}
+
+:global(.dark) .mobileOnlyOverlay {
+  background: rgb(17 24 39);
+}
+
+.mobileOnlyContainer {
+  text-align: center;
+  max-width: 28rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+:global(.dark) .mobileOnlyContainer {
+  background: rgb(31 41 55);
+}
+
+/* Mobile Device Illustration */
+.deviceIllustration {
+  position: relative;
+  margin: 0 auto;
+  width: 8rem;
+  height: 14rem;
+  margin-bottom: 1.5rem;
+}
+
+.deviceFrame {
+  position: absolute;
+  inset: 0;
+  background: rgb(229 231 235);
+  border-radius: 1.5rem;
+  border: 4px solid rgb(209 213 219);
+}
+
+:global(.dark) .deviceFrame {
+  background: rgb(55 65 81);
+  border-color: rgb(75 85 99);
+}
+
+.deviceNotch {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5rem;
+  height: 0.25rem;
+  background: rgb(156 163 175);
+  border-radius: 50px;
+}
+
+.deviceScreen {
+  position: absolute;
+  top: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.deviceAppIcon {
+  width: 4rem;
+  height: 4rem;
+  background: rgb(59 130 246);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.deviceAppIconSvg {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+
+.deviceHomeButton {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3rem;
+  height: 3rem;
+  background: rgb(209 213 219);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:global(.dark) .deviceHomeButton {
+  background: rgb(75 85 99);
+}
+
+.deviceHomeIndicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Content */
+.mobileOnlyTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgb(17 24 39);
+  margin-bottom: 0.75rem;
+}
+
+:global(.dark) .mobileOnlyTitle {
+  color: white;
+}
+
+.mobileOnlyDescription {
+  color: rgb(75 85 99);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+:global(.dark) .mobileOnlyDescription {
+  color: rgb(156 163 175);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .mobileOnlyContainer {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .deviceIllustration {
+    width: 6rem;
+    height: 11rem;
+    margin-bottom: 1rem;
+  }
+  
+  .deviceAppIcon {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .deviceAppIconSvg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .deviceHomeButton {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .mobileOnlyTitle {
+    font-size: 1.125rem;
+  }
+  
+  .mobileOnlyDescription {
+    font-size: 0.875rem;
+  }
+}

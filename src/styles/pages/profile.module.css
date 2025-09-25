@@ -1,0 +1,436 @@
+/* Profile Page Styles */
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+/* Profile Header */
+.profileHeader {
+  background-color: rgb(var(--color-surface));
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.profileHeaderTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatarContainer {
+  position: relative;
+}
+
+.avatar {
+  width: 5rem;
+  height: 5rem;
+  background: linear-gradient(
+    to bottom right,
+    rgb(59 130 246),
+    rgb(147 51 234)
+  );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+.verificationBadge {
+  position: absolute;
+  bottom: -0.25rem;
+  right: -0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: rgb(34 197 94);
+  border-radius: 50%;
+  border: 2px solid rgb(var(--color-surface));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.verificationIcon {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: white;
+}
+
+.userDetails {
+  flex: 1 1 0%;
+}
+
+.userName {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  color: rgb(var(--color-on-surface));
+  margin-bottom: 0.25rem;
+}
+
+.userBadges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.kycBadge {
+  padding: 0.25rem 1rem;
+  background-color: rgb(220 252 231);
+  color: rgb(21 128 61);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  border-radius: 9999px;
+}
+
+:global(.dark) .kycBadge {
+  background-color: rgb(20 83 45 / 0.3);
+  color: rgb(185, 209, 203);
+}
+
+.tierBadge {
+  padding: 0.25rem 1rem;
+  background-color: rgb(254 249 195);
+  color: rgb(161 98 7);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+  border-radius: 9999px;
+}
+
+:global(.dark) .tierBadge {
+  background-color: rgb(120 113 108 / 0.3);
+  color: rgb(226, 215, 184);
+}
+
+.memberSince {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: rgb(var(--color-secondary));
+}
+
+.editButton {
+  padding: 0.5rem;
+  color: rgb(var(--color-secondary));
+  border-radius: 50%;
+  transition-property: color, background-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.editButton:hover {
+  color: rgb(var(--color-on-surface));
+  background-color: rgb(var(--color-muted));
+}
+
+.editIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Contact Details */
+.contactDetails {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background-color: rgb(var(--color-muted));
+  border-radius: 0.75rem;
+}
+
+.contactIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(var(--color-secondary));
+}
+
+.contactValue {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: rgb(var(--color-on-surface));
+}
+
+.contactLabel {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgb(var(--color-secondary));
+}
+
+/* Quick Stats */
+.quickStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.statCard {
+  background: linear-gradient(to bottom right, rgb(59 130 246), rgb(37 99 235));
+  border-radius: 1rem;
+  padding: 1rem;
+  color: white;
+}
+
+.statCardGreen {
+  background: linear-gradient(to bottom right, rgb(34 197 94), rgb(22 163 74));
+}
+
+.statHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.statIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.statPeriod {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  background-color: rgb(255 255 255 / 0.2);
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+}
+
+.statValue {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.statCard .statLabel {
+  color: rgb(191 219 254);
+}
+
+.statCardGreen .statLabel {
+  color: rgb(187 247 208);
+}
+
+/* Theme Toggle */
+.themeToggle {
+  border: 1px solid var(--color-on-surface);
+  background-color: rgb(var(--color-surface));
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.themeToggleContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.themeToggleLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.themeIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: rgb(var(--color-secondary));
+}
+
+.themeTitle {
+  font-weight: 600;
+  color: rgb(var(--color-on-surface));
+}
+
+.themeDescription {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: rgb(var(--color-secondary));
+}
+
+.themeSwitch {
+  width: 3rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  padding: 0.25rem;
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  border: none;
+  cursor: pointer;
+}
+
+.themeSwitchActive {
+  background-color: rgb(var(--color-primary));
+}
+
+.themeSwitchInactive {
+  background-color: rgb(var(--color-border));
+}
+
+.themeSwitch {
+  width: 2.5rem;
+  height: 1.25rem;
+  background-color: #374151;
+  border-radius: 9999px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.darkThemeSwitch {
+  background-color: #e5e7eb;
+}
+
+.themeSwitchDotActive {
+  transform: translateX(1.5rem);
+}
+
+.themeSwitchDotInactive {
+  transform: translateX(0rem);
+}
+
+/* Menu Section */
+.menuSection {
+  background-color: rgb(var(--color-surface));
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.menuSectionTitle {
+  font-weight: 600;
+  color: rgb(var(--color-on-surface));
+  margin-bottom: 1rem;
+}
+
+.menuItems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.menuItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background-color: rgb(var(--color-muted));
+}
+
+.menuItemLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.menuItemIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgb(var(--color-secondary));
+}
+
+.menuItemLabel {
+  font-weight: 500;
+  color: rgb(var(--color-on-surface));
+}
+
+.menuItemRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menuItemBadge {
+  padding: 0.25rem 0.5rem;
+  background-color: rgb(var(--color-primary) / 0.1);
+  color: rgb(var(--color-primary));
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  border-radius: 9999px;
+}
+
+.menuItemChevron {
+  width: 1rem;
+  height: 1rem;
+  color: rgb(var(--color-secondary));
+}
+
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.upgradeButton {
+  width: 100%;
+}
+
+.supportButton {
+  width: 100%;
+}
+
+.signOutButton {
+  width: 100%;
+  padding: 0.75rem;
+  color: rgb(var(--color-error));
+  font-weight: 500;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(var(--color-error) / 0.2);
+  background: transparent;
+  cursor: pointer;
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.signOutButton:hover {
+  background-color: rgb(var(--color-error) / 0.05);
+}

@@ -1,0 +1,302 @@
+/* TransactionHistory Component Styles */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgb(15 23 42);
+  margin-bottom: 0.5rem;
+}
+
+.transactionContainer {
+  background: var(--color-surface);
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.transactionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.transactionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.viewAllButton {
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 700;
+}
+
+/* Search and Filter Section */
+.searchFilterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.searchContainer {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-secondary);
+  width: 1rem;
+  height: 1rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  background: var(--color-muted);
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  color: var(--color-on-surface);
+}
+
+.searchInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  border-color: var(--color-primary);
+}
+
+.searchInput::placeholder {
+  color: var(--color-secondary);
+}
+
+/* Filter Buttons */
+.filterContainer {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.filterButton {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 200ms ease;
+  border: none;
+  cursor: pointer;
+}
+
+.filterButtonActive {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.filterButtonInactive {
+  background: var(--color-muted);
+  color: var(--color-secondary);
+}
+
+.filterButtonInactive:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* Transactions List */
+.transactionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.transactionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background: var(--color-background);
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  transition: box-shadow 200ms ease;
+}
+
+.transactionItem:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.transactionContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.transactionIcon {
+  width: 3rem;
+  height: 3rem;
+  background: var(--color-muted);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.transactionDetails {
+  flex: 1;
+}
+
+.transactionName {
+  font-weight: 500;
+  color: var(--color-on-surface);
+  margin: 0;
+}
+
+.transactionSubtitle {
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+.transactionMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.statusBadge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 50px;
+  font-weight: 500;
+}
+
+.statusSuccess {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--color-success);
+}
+
+.statusPending {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--color-warning);
+}
+
+.statusFailed {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
+}
+
+.transactionDate {
+  font-size: 0.75rem;
+  color: var(--color-secondary);
+}
+
+/* Transaction Amount */
+.transactionAmount {
+  text-align: right;
+}
+
+.amountContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 600;
+}
+
+.amountPositive {
+  color: var(--color-success);
+}
+
+.amountNegative {
+  color: var(--color-on-surface);
+}
+
+.amountIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+}
+
+.emptyStateIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.emptyStateText {
+  color: var(--color-secondary);
+}
+
+/* Dark Mode Support */
+:global(.dark) .transactionContainer {
+  background: var(--color-surface);
+}
+
+:global(.dark) .searchInput {
+  background: var(--color-muted);
+  color: var(--color-on-surface);
+}
+
+:global(.dark) .transactionItem {
+  background: var(--color-background);
+  border-color: var(--color-border);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .transactionContainer {
+    padding: 0.75rem;
+  }
+
+  .transactionIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .transactionContent {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .transactionItem {
+    padding: 0.5rem;
+  }
+
+  .transactionName {
+    font-size: 0.875rem;
+  }
+
+  .transactionSubtitle {
+    font-size: 0.75rem;
+  }
+
+  .filterContainer {
+    gap: 0.375rem;
+  }
+
+  .filterButton {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}
