@@ -41,7 +41,9 @@
 
 /* Dark theme variables */
 .dark {
-  --color-background: #0f172a;
+  /* --color-background: #0f172a; */
+  --color-background: #161616;
+  /* --color-background: #121212; */
   --color-on-background: #f1f5f9;
   --color-surface: #1e293b;
   --color-on-surface: #e2e8f0;
@@ -168,4 +170,20 @@ button,
 .viewAllButton:hover {
   opacity: 0.8;
   scale: 1.05;
+}
+
+/* Disable text selection for entire app */
+* {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+/* Optional: Allow text selection in input fields and textareas */
+input,
+textarea,
+[contenteditable] {
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }

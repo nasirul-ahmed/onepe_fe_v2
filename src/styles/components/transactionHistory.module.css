@@ -10,7 +10,7 @@
 .title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: rgb(15 23 42);
+  color: var(--color-on-surface);
   margin-bottom: 0.5rem;
 }
 

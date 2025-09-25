@@ -76,7 +76,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.searchPage}>
       {/* Search Input Header */}
       <div className={styles.searchHeader}>
         <div className={styles.searchHeaderContent}>

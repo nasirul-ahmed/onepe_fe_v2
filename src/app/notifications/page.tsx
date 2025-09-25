@@ -2,7 +2,16 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Bell, CheckCircle, AlertCircle, Info, Gift, CreditCard, Settings2, Trash2 } from "lucide-react";
+import {
+  Bell,
+  CheckCircle,
+  AlertCircle,
+  Info,
+  Gift,
+  CreditCard,
+  Settings2,
+  Trash2,
+} from "lucide-react";
 import styles from "@/styles/pages/notifications.module.css";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +30,8 @@ const mockNotifications: Notification[] = [
     id: "1",
     type: "success",
     title: "Payment Successful",
-    message: "Your electricity bill payment of ₹2,450 has been processed successfully.",
+    message:
+      "Your electricity bill payment of ₹2,450 has been processed successfully.",
     timestamp: "2 minutes ago",
     isRead: false,
     actionable: true,
@@ -30,7 +40,8 @@ const mockNotifications: Notification[] = [
     id: "2",
     type: "offer",
     title: "Cashback Offer",
-    message: "Get 10% cashback on your next mobile recharge. Valid till tomorrow!",
+    message:
+      "Get 10% cashback on your next mobile recharge. Valid till tomorrow!",
     timestamp: "1 hour ago",
     isRead: false,
     actionable: true,
@@ -39,7 +50,8 @@ const mockNotifications: Notification[] = [
     id: "3",
     type: "warning",
     title: "Bill Due Reminder",
-    message: "Your DTH recharge is due in 2 days. Recharge now to avoid disconnection.",
+    message:
+      "Your DTH recharge is due in 2 days. Recharge now to avoid disconnection.",
     timestamp: "3 hours ago",
     isRead: true,
     actionable: true,
@@ -48,7 +60,8 @@ const mockNotifications: Notification[] = [
     id: "4",
     type: "info",
     title: "New Feature Available",
-    message: "You can now set auto-pay for all your recurring bills. Try it now!",
+    message:
+      "You can now set auto-pay for all your recurring bills. Try it now!",
     timestamp: "1 day ago",
     isRead: true,
     actionable: false,
@@ -57,7 +70,8 @@ const mockNotifications: Notification[] = [
     id: "5",
     type: "payment",
     title: "Wallet Recharged",
-    message: "₹5,000 has been added to your OnePe wallet from HDFC Bank ***1234.",
+    message:
+      "₹5,000 has been added to your OnePe wallet from HDFC Bank ***1234.",
     timestamp: "2 days ago",
     isRead: true,
     actionable: false,
@@ -66,7 +80,8 @@ const mockNotifications: Notification[] = [
     id: "6",
     type: "system",
     title: "Scheduled Maintenance",
-    message: "Our services will be temporarily unavailable on Sunday 2-4 AM for maintenance.",
+    message:
+      "Our services will be temporarily unavailable on Sunday 2-4 AM for maintenance.",
     timestamp: "3 days ago",
     isRead: true,
     actionable: false,
@@ -117,87 +132,77 @@ const NotificationPage = () => {
   };
 
   const markAsRead = (id: string) => {
-    setNotifications(prev =>
-      prev.map(notif =>
+    setNotifications((prev) =>
+      prev.map((notif) =>
         notif.id === id ? { ...notif, isRead: true } : notif
       )
     );
   };
 
   const deleteNotification = (id: string) => {
-    setNotifications(prev => prev.filter(notif => notif.id !== id));
+    setNotifications((prev) => prev.filter((notif) => notif.id !== id));
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => prev.map(notif => ({ ...notif, isRead: true })));
+    setNotifications((prev) =>
+      prev.map((notif) => ({ ...notif, isRead: true }))
+    );
   };
 
   const clearAllNotifications = () => {
     setNotifications([]);
   };
 
-  const filteredNotifications = filter === "unread" 
-    ? notifications.filter(n => !n.isRead)
-    : notifications;
+  const filteredNotifications =
+    filter === "unread"
+      ? notifications.filter((n) => !n.isRead)
+      : notifications;
 
-  const unreadCount = notifications.filter(n => !n.isRead).length;
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   return (
     <div className={styles.notificationsPage}>
-      {/* Header */}
-      <div className="bg-surface/80 backdrop-blur-lg border-b border-border sticky z-40">
-        <div className="px-4 py-4">
-          <div className={styles.header}>
-            <div>
-              <h1 className={styles.title}>Notifications</h1>
-              {unreadCount > 0 && (
-                <p className="text-sm text-secondary">{unreadCount} unread</p>
-              )}
-            </div>
-            
-            <div className={styles.headerActions}>
-              {unreadCount > 0 && (
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={markAllAsRead}
-                  className="text-sm text-primary font-medium hover:text-primary/80 transition-colors"
-                >
-                  Mark all read
-                </motion.button>
-              )}
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                onClick={clearAllNotifications}
-                className={styles.actionButton}
-                aria-label="Clear all notifications"
-              >
-                <Trash2 className="w-4 h-4" />
-              </motion.button>
-            </div>
-          </div>
-
+      {/* Sticky Header */}
+      <div className={styles.stickyHeader}>
+        <div className={styles.header}>
           {/* Filter Tabs */}
           <div className={styles.filterTabs}>
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setFilter("all")}
-              className={cn(styles.filterTab, filter === "all" && styles.filterTabActive)}
+              className={cn(
+                styles.filterTab,
+                filter === "all" && styles.filterTabActive
+              )}
             >
               All ({notifications.length})
             </motion.button>
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setFilter("unread")}
-              className={cn(styles.filterTab, filter === "unread" && styles.filterTabActive)}
+              className={cn(
+                styles.filterTab,
+                filter === "unread" && styles.filterTabActive
+              )}
             >
               Unread ({unreadCount})
             </motion.button>
           </div>
+
+          {unreadCount > 0 && (
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={markAllAsRead}
+              className={styles.markAllButton}
+            >
+              Mark all read
+            </motion.button>
+          )}
         </div>
       </div>
 
       {/* Notifications List */}
-      <div className="px-4 py-2 pb-[100px]">
+      <div className={styles.content}>
         {filteredNotifications.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -208,13 +213,14 @@ const NotificationPage = () => {
               <Bell className="w-16 h-16 mx-auto" />
             </div>
             <h3 className={styles.emptyStateTitle}>
-              {filter === "unread" ? "No unread notifications" : "No notifications"}
+              {filter === "unread"
+                ? "No unread notifications"
+                : "No notifications"}
             </h3>
             <p className={styles.emptyStateDescription}>
-              {filter === "unread" 
-                ? "You're all caught up!" 
-                : "We'll notify you when something important happens"
-              }
+              {filter === "unread"
+                ? "You're all caught up!"
+                : "We'll notify you when something important happens"}
             </p>
           </motion.div>
         ) : (
@@ -232,7 +238,12 @@ const NotificationPage = () => {
                 )}
               >
                 <div className={styles.notificationHeader}>
-                  <div className={cn(styles.notificationIcon, getNotificationIconClass(notification.type))}>
+                  <div
+                    className={cn(
+                      styles.notificationIcon,
+                      getNotificationIconClass(notification.type)
+                    )}
+                  >
                     {getNotificationIcon(notification.type)}
                   </div>
                   <div className={styles.notificationContent}>
@@ -258,7 +269,10 @@ const NotificationPage = () => {
                             e.stopPropagation();
                             // Add action logic here
                           }}
-                          className={cn(styles.actionButtonSmall, styles.actionButtonPrimary)}
+                          className={cn(
+                            styles.actionButtonSmall,
+                            styles.actionButtonPrimary
+                          )}
                         >
                           Take Action
                         </motion.button>

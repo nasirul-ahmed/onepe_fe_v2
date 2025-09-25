@@ -49,7 +49,11 @@ const Wallet = () => {
           className={styles.visibilityButton}
           aria-label={isBalanceVisible ? "Hide balance" : "Show balance"}
         >
-          {isBalanceVisible ? <EyeOff className={styles.visibilityIcon} /> : <Eye className={styles.visibilityIcon} />}
+          {isBalanceVisible ? (
+            <EyeOff className={styles.visibilityIcon} />
+          ) : (
+            <Eye className={styles.visibilityIcon} />
+          )}
         </motion.button>
       </div>
 
@@ -79,7 +83,7 @@ const Wallet = () => {
               onClick={() => handleAddMoney(amount)}
               className={styles.quickAddButton}
             >
-              +₹{amount}
+              <span className="font-semibold text-sm">+₹{amount}</span>
             </motion.button>
           ))}
         </div>
@@ -92,15 +96,19 @@ const Wallet = () => {
           className={cn(styles.actionButton, styles.actionButtonPrimary)}
         >
           <Plus className={styles.actionIcon} />
-          Add Money
+          <span className="font-semibold text-sm">Add Money</span>
         </motion.button>
 
         <motion.button
           whileTap={{ scale: 0.95 }}
-          className={cn(styles.actionButton, styles.actionButtonSecondary)}
+          className={cn(
+            styles.actionButton,
+            styles.actionButtonSecondary,
+            styles.test
+          )}
         >
           <ArrowUpRight className={styles.actionIcon} />
-          History
+          <span className="font-semibold text-sm">History</span>
         </motion.button>
       </div>
     </motion.div>

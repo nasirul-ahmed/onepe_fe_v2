@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Smartphone, Zap, Gift, CheckCircle } from "lucide-react";
 import ContentLayout from "@/components/ContentLayout";
 import Button from "@/components/Button";
+import UserContacts from "@/components/Contacts";
 
 interface Plan {
   amount: number;
@@ -12,7 +13,7 @@ interface Plan {
   data?: string;
   talktime?: string;
   sms?: string;
-  type: 'popular' | 'talktime' | 'data';
+  type: "popular" | "talktime" | "data";
 }
 
 const MobileRechargePage = () => {
@@ -29,30 +30,109 @@ const MobileRechargePage = () => {
   ];
 
   const circles = [
-    "Delhi", "Mumbai", "Karnataka", "Tamil Nadu", "Andhra Pradesh", 
-    "Kerala", "West Bengal", "Maharashtra", "Gujarat", "Rajasthan"
+    "Delhi",
+    "Mumbai",
+    "Karnataka",
+    "Tamil Nadu",
+    "Andhra Pradesh",
+    "Kerala",
+    "West Bengal",
+    "Maharashtra",
+    "Gujarat",
+    "Rajasthan",
   ];
 
   const rechargePlans = {
     popular: [
-      { amount: 199, validity: "28 Days", data: "1.5GB/Day", talktime: "Unlimited", sms: "100/Day", type: "popular" as const },
-      { amount: 299, validity: "28 Days", data: "2GB/Day", talktime: "Unlimited", sms: "100/Day", type: "popular" as const },
-      { amount: 449, validity: "56 Days", data: "2GB/Day", talktime: "Unlimited", sms: "100/Day", type: "popular" as const },
-      { amount: 699, validity: "84 Days", data: "2GB/Day", talktime: "Unlimited", sms: "100/Day", type: "popular" as const },
+      {
+        amount: 199,
+        validity: "28 Days",
+        data: "1.5GB/Day",
+        talktime: "Unlimited",
+        sms: "100/Day",
+        type: "popular" as const,
+      },
+      {
+        amount: 299,
+        validity: "28 Days",
+        data: "2GB/Day",
+        talktime: "Unlimited",
+        sms: "100/Day",
+        type: "popular" as const,
+      },
+      {
+        amount: 449,
+        validity: "56 Days",
+        data: "2GB/Day",
+        talktime: "Unlimited",
+        sms: "100/Day",
+        type: "popular" as const,
+      },
+      {
+        amount: 699,
+        validity: "84 Days",
+        data: "2GB/Day",
+        talktime: "Unlimited",
+        sms: "100/Day",
+        type: "popular" as const,
+      },
     ],
     fullTalktime: [
-      { amount: 49, validity: "28 Days", data: "100MB", talktime: "₹38.35", sms: "20", type: "talktime" as const },
-      { amount: 99, validity: "28 Days", data: "200MB", talktime: "₹76.70", sms: "30", type: "talktime" as const },
-      { amount: 179, validity: "28 Days", data: "1GB", talktime: "₹151.20", sms: "50", type: "talktime" as const },
+      {
+        amount: 49,
+        validity: "28 Days",
+        data: "100MB",
+        talktime: "₹38.35",
+        sms: "20",
+        type: "talktime" as const,
+      },
+      {
+        amount: 99,
+        validity: "28 Days",
+        data: "200MB",
+        talktime: "₹76.70",
+        sms: "30",
+        type: "talktime" as const,
+      },
+      {
+        amount: 179,
+        validity: "28 Days",
+        data: "1GB",
+        talktime: "₹151.20",
+        sms: "50",
+        type: "talktime" as const,
+      },
     ],
     data: [
-      { amount: 19, validity: "1 Day", data: "1GB", talktime: "-", sms: "-", type: "data" as const },
-      { amount: 48, validity: "3 Days", data: "3GB", talktime: "-", sms: "-", type: "data" as const },
-      { amount: 98, validity: "7 Days", data: "12GB", talktime: "-", sms: "-", type: "data" as const },
-    ]
+      {
+        amount: 19,
+        validity: "1 Day",
+        data: "1GB",
+        talktime: "-",
+        sms: "-",
+        type: "data" as const,
+      },
+      {
+        amount: 48,
+        validity: "3 Days",
+        data: "3GB",
+        talktime: "-",
+        sms: "-",
+        type: "data" as const,
+      },
+      {
+        amount: 98,
+        validity: "7 Days",
+        data: "12GB",
+        talktime: "-",
+        sms: "-",
+        type: "data" as const,
+      },
+    ],
   };
 
-  const [activeTab, setActiveTab] = useState<keyof typeof rechargePlans>("popular");
+  const [activeTab, setActiveTab] =
+    useState<keyof typeof rechargePlans>("popular");
 
   const handleMobileNumberChange = (value: string) => {
     // Only allow numbers and limit to 10 digits
@@ -64,9 +144,17 @@ const MobileRechargePage = () => {
     if (number.length >= 4) {
       // Simple operator detection based on number patterns
       const prefix = number.substring(0, 4);
-      if (["7000", "7001", "7002", "8800", "8801"].some(p => prefix.startsWith(p))) {
+      if (
+        ["7000", "7001", "7002", "8800", "8801"].some((p) =>
+          prefix.startsWith(p)
+        )
+      ) {
         setOperator("jio");
-      } else if (["9840", "9841", "9842", "7418", "7419"].some(p => prefix.startsWith(p))) {
+      } else if (
+        ["9840", "9841", "9842", "7418", "7419"].some((p) =>
+          prefix.startsWith(p)
+        )
+      ) {
         setOperator("airtel");
       } else {
         setOperator("vi"); // Default
@@ -77,7 +165,9 @@ const MobileRechargePage = () => {
   const handleProceedToRecharge = () => {
     if (selectedPlan) {
       // Here you would integrate with payment gateway
-      alert(`Proceeding with ₹${selectedPlan.amount} recharge for ${mobileNumber}`);
+      alert(
+        `Proceeding with ₹${selectedPlan.amount} recharge for ${mobileNumber}`
+      );
     }
   };
 
@@ -97,8 +187,12 @@ const MobileRechargePage = () => {
           <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <Smartphone className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-on-surface mb-2">Mobile Recharge</h1>
-          <p className="text-secondary">Instant recharge with exclusive offers</p>
+          <h1 className="text-2xl font-bold text-on-surface mb-2">
+            Mobile Recharge
+          </h1>
+          <p className="text-secondary">
+            Instant recharge with exclusive offers
+          </p>
         </div>
 
         {/* Offers Banner */}
@@ -110,8 +204,12 @@ const MobileRechargePage = () => {
           <div className="flex items-center gap-3">
             <Gift className="w-6 h-6 text-orange-600 dark:text-orange-400" />
             <div>
-              <h3 className="font-semibold text-orange-800 dark:text-orange-300">🎉 Cashback Offers</h3>
-              <p className="text-sm text-orange-600 dark:text-orange-400">Get up to 5% cashback on recharges above ₹200</p>
+              <h3 className="font-semibold text-orange-800 dark:text-orange-300">
+                🎉 Cashback Offers
+              </h3>
+              <p className="text-sm text-orange-600 dark:text-orange-400">
+                Get up to 5% cashback on recharges above ₹200
+              </p>
             </div>
           </div>
         </motion.div>
@@ -148,7 +246,9 @@ const MobileRechargePage = () => {
             {/* Operator Selection */}
             {mobileNumber.length >= 4 && (
               <div>
-                <label className="text-sm font-medium text-secondary mb-2 block">Select Operator</label>
+                <label className="text-sm font-medium text-secondary mb-2 block">
+                  Select Operator
+                </label>
                 <div className="grid grid-cols-4 gap-2">
                   {operators.map((op) => (
                     <motion.button
@@ -172,7 +272,9 @@ const MobileRechargePage = () => {
             {/* Circle Selection */}
             {operator && (
               <div>
-                <label className="text-sm font-medium text-secondary mb-2 block">Select Circle</label>
+                <label className="text-sm font-medium text-secondary mb-2 block">
+                  Select Circle
+                </label>
                 <select
                   value={circle}
                   onChange={(e) => setCircle(e.target.value)}
@@ -180,12 +282,18 @@ const MobileRechargePage = () => {
                 >
                   <option value="">Choose your circle</option>
                   {circles.map((c) => (
-                    <option key={c} value={c}>{c}</option>
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
                   ))}
                 </select>
               </div>
             )}
           </div>
+        </motion.div>
+
+        <motion.div>
+          <UserContacts />
         </motion.div>
 
         {/* Recharge Plans */}
@@ -197,22 +305,27 @@ const MobileRechargePage = () => {
             className="bg-surface rounded-xl shadow-sm overflow-hidden"
           >
             <div className="p-4 border-b border-border">
-              <h3 className="font-semibold text-on-surface mb-3">Choose Recharge Plan</h3>
-              
+              <h3 className="font-semibold text-on-surface mb-3">
+                Choose Recharge Plan
+              </h3>
+
               {/* Plan Tabs */}
               <div className="flex gap-2 mb-4">
                 {Object.keys(rechargePlans).map((tab) => (
                   <motion.button
                     key={tab}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => setActiveTab(tab as keyof typeof rechargePlans)}
+                    onClick={() =>
+                      setActiveTab(tab as keyof typeof rechargePlans)
+                    }
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       activeTab === tab
                         ? "bg-primary text-white"
                         : "bg-muted text-secondary hover:text-on-surface"
                     }`}
                   >
-                    {tab.charAt(0).toUpperCase() + tab.slice(1).replace(/([A-Z])/g, ' $1')}
+                    {tab.charAt(0).toUpperCase() +
+                      tab.slice(1).replace(/([A-Z])/g, " $1")}
                   </motion.button>
                 ))}
               </div>
@@ -241,7 +354,7 @@ const MobileRechargePage = () => {
                           {badge}
                         </div>
                       )}
-                      
+
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-2">
                           <span className="text-xl font-bold text-on-surface">
@@ -255,20 +368,26 @@ const MobileRechargePage = () => {
                           {plan.validity}
                         </span>
                       </div>
-                      
+
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
                           <span className="text-secondary">Data: </span>
-                          <span className="font-medium text-on-surface">{plan.data}</span>
+                          <span className="font-medium text-on-surface">
+                            {plan.data}
+                          </span>
                         </div>
                         <div>
                           <span className="text-secondary">Talk: </span>
-                          <span className="font-medium text-on-surface">{plan.talktime}</span>
+                          <span className="font-medium text-on-surface">
+                            {plan.talktime}
+                          </span>
                         </div>
                         {plan.sms !== "-" && (
                           <div className="col-span-2">
                             <span className="text-secondary">SMS: </span>
-                            <span className="font-medium text-on-surface">{plan.sms}</span>
+                            <span className="font-medium text-on-surface">
+                              {plan.sms}
+                            </span>
                           </div>
                         )}
                       </div>

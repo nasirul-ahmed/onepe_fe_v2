@@ -1,13 +1,23 @@
 /* Notifications Page Styles */
 
 .notificationsPage {
-  /* padding: 1rem; */
+  overflow: hidden;
   min-height: 100vh;
-  background: rgb(249 250 251);
+  background-color: var(--color-background);
+  position: relative;
+  overflow-y: auto;
+  height: calc(100vh - 8rem);
 }
 
-:global(.dark) .notificationsPage {
-  background: rgb(15 23 42);
+/* Sticky Header */
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: rgba(var(--color-surface) / 0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.5rem 0.5rem 0 0.5rem;
 }
 
 /* Header */
@@ -15,17 +25,32 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  max-width: 100%;
+  margin-bottom: 0.6rem;
+}
+
+/* Content */
+.content {
+  position: relative;
+  overflow-y: scroll;
+  padding: 1rem;
+  padding-bottom: 16rem; /* Space for footer */
+}
+
+/* Header */
+.header {
+  height: 1.2rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: rgb(15 23 42);
-}
-
-:global(.dark) .title {
-  color: rgb(248 250 252);
+  color: var(--color-on-surface);
 }
 
 .headerActions {
@@ -38,79 +63,73 @@
   padding: 0.5rem;
   border-radius: 0.5rem;
   background: transparent;
-  border: 1px solid rgb(226 232 240);
-  color: rgb(100 116 139);
+  border: 1px solid var(--color-border);
+  color: var(--color-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .actionButton:hover {
-  background: rgb(248 250 252);
-  color: rgb(51 65 85);
-}
-
-:global(.dark) .actionButton {
-  border-color: rgb(51 65 85);
-  color: rgb(148 163 184);
-}
-
-:global(.dark) .actionButton:hover {
-  background: rgb(30 41 59);
-  color: rgb(203 213 225);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
 }
 
 /* Filter Tabs */
 .filterTabs {
   display: flex;
-  background: white;
+  background-color: var(--color-surface);
   border-radius: 0.75rem;
-  padding: 0.25rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid rgb(226 232 240);
-}
-
-:global(.dark) .filterTabs {
-  background: rgb(30 41 59);
-  border-color: rgb(51 65 85);
+  border: 1px solid var(--color-border);
+  flex: 1;
+  width: calc(100% - 2);
 }
 
 .filterTab {
+  height: 1.8rem;
   flex: 1;
-  padding: 0.75rem 1rem;
   text-align: center;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: rgb(100 116 139);
+  color: var(--color-accent);
   border: none;
   background: transparent;
 }
 
-:global(.dark) .filterTab {
-  color: rgb(148 163 184);
-}
-
 .filterTab:hover {
-  color: rgb(51 65 85);
-  background: rgb(248 250 252);
-}
-
-:global(.dark) .filterTab:hover {
-  color: rgb(203 213 225);
-  background: rgb(51 65 85);
+  color: var(--color-on-surfae);
+  background-color: var(--color-muted);
 }
 
 .filterTabActive {
-  background: rgb(59 130 246);
+  background-color: var(--color-primary);
   color: white;
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 
 .filterTabActive:hover {
-  background: rgb(37 99 235);
+  background-color: var(--color-primary);
   color: white;
+}
+
+/* Mark All Button */
+.markAllButton {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.markAllButton:hover {
+  background-color: (var(--color-primar) / 0.1);
 }
 
 /* Notification List */
@@ -121,29 +140,22 @@
 }
 
 .notificationItem {
-  background: white;
+  background-color: var(--color-surface);
   border-radius: 0.75rem;
   padding: 1rem;
-  border: 1px solid rgb(226 232 240);
+  border: 1px solid var(--color-border);
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .notificationItem:hover {
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-}
-
-:global(.dark) .notificationItem {
-  background: rgb(30 41 59);
-  border-color: rgb(51 65 85);
+  transform: translateY(-1px);
 }
 
 .notificationUnread {
-  border-left: 4px solid rgb(59 130 246);
-}
-
-:global(.dark) .notificationUnread {
-  border-left-color: rgb(96 165 250);
+  border-left: 4px solid var(--color-primary);
+  background-color: (var(--color-primar) / 0.02);
 }
 
 .notificationHeader {
@@ -165,63 +177,33 @@
 }
 
 .iconSuccess {
-  background: rgb(220 252 231);
-  color: rgb(34 197 94);
-}
-
-:global(.dark) .iconSuccess {
-  background: rgb(20 83 45);
-  color: rgb(74 222 128);
+  background-color: (var(--color-succes) / 0.1);
+  color: var(--color-success);
 }
 
 .iconWarning {
-  background: rgb(254 243 199);
-  color: rgb(245 158 11);
-}
-
-:global(.dark) .iconWarning {
-  background: rgb(120 53 15);
-  color: rgb(251 191 36);
+  background-color: (var(--color-warnin) / 0.1);
+  color: var(--color-warning);
 }
 
 .iconInfo {
-  background: rgb(219 234 254);
-  color: rgb(59 130 246);
-}
-
-:global(.dark) .iconInfo {
-  background: rgb(30 58 138);
-  color: rgb(147 197 253);
+  background-color: (var(--color-primar) / 0.1);
+  color: var(--color-primary);
 }
 
 .iconOffer {
-  background: rgb(254 215 215);
-  color: rgb(239 68 68);
+  background-color: (var(--color-erro) / 0.1);
+  color: var(--color-error);
 }
 
-:global(.dark) .iconOffer {
-  background: rgb(127 29 29);
-  color: rgb(248 113 113);
-}
-
-.iconPayment {
-  background: rgb(243 232 255);
-  color: rgb(147 51 234);
-}
-
-:global(.dark) .iconPayment {
-  background: rgb(88 28 135);
-  color: rgb(196 181 253);
+.iconPromotion {
+  background-color: var(--color-accent);
+  color: white;
 }
 
 .iconSystem {
-  background: rgb(241 245 249);
-  color: rgb(100 116 139);
-}
-
-:global(.dark) .iconSystem {
-  background: rgb(51 65 85);
-  color: rgb(148 163 184);
+  background-color: var(--color-muted);
+  color: var(--color-secondary);
 }
 
 .notificationContent {
@@ -237,35 +219,25 @@
 
 .notificationTitle {
   font-weight: 600;
-  color: rgb(15 23 42);
+  color: var(--color-on-surface);
   font-size: 0.875rem;
   line-height: 1.25;
-}
-
-:global(.dark) .notificationTitle {
-  color: rgb(248 250 252);
+  display: flex;
+  align-items: center;
 }
 
 .notificationTime {
   font-size: 0.75rem;
-  color: rgb(100 116 139);
+  color: var(--color-secondary);
   flex-shrink: 0;
   margin-left: 0.5rem;
 }
 
-:global(.dark) .notificationTime {
-  color: rgb(148 163 184);
-}
-
 .notificationMessage {
   font-size: 0.875rem;
-  color: rgb(51 65 85);
+  color: var(--color-secondary);
   line-height: 1.4;
   margin-bottom: 0.75rem;
-}
-
-:global(.dark) .notificationMessage {
-  color: rgb(203 213 225);
 }
 
 .notificationActions {
@@ -284,46 +256,31 @@
 }
 
 .actionButtonPrimary {
-  background: rgb(59 130 246);
-  border-color: rgb(59 130 246);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   color: white;
 }
 
 .actionButtonPrimary:hover {
-  background: rgb(37 99 235);
-  border-color: rgb(37 99 235);
+  opacity: 0.9;
 }
 
 .actionButtonSecondary {
   background: transparent;
-  border-color: rgb(226 232 240);
-  color: rgb(100 116 139);
+  border-color: var(--color-border);
+  color: var(--color-secondary);
 }
 
 .actionButtonSecondary:hover {
-  background: rgb(248 250 252);
-  color: rgb(51 65 85);
-}
-
-:global(.dark) .actionButtonSecondary {
-  border-color: rgb(51 65 85);
-  color: rgb(148 163 184);
-}
-
-:global(.dark) .actionButtonSecondary:hover {
-  background: rgb(30 41 59);
-  color: rgb(203 213 225);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
 }
 
 /* Empty State */
 .emptyState {
   text-align: center;
   padding: 4rem 1rem;
-  color: rgb(100 116 139);
-}
-
-:global(.dark) .emptyState {
-  color: rgb(148 163 184);
+  color: var(--color-secondary);
 }
 
 .emptyStateIcon {
@@ -344,32 +301,24 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {  
-  .header {
-    margin-bottom: 1rem;
-  }
-  
+@media (max-width: 768px) {
   .title {
     font-size: 1.25rem;
   }
-  
-  .filterTabs {
-    margin-bottom: 1rem;
-  }
-  
+
   .filterTab {
     padding: 0.5rem 0.75rem;
     font-size: 0.8125rem;
   }
-  
+
   .notificationItem {
     padding: 0.75rem;
   }
-  
+
   .notificationHeader {
     gap: 0.5rem;
   }
-  
+
   .notificationIcon {
     width: 1.75rem;
     height: 1.75rem;
