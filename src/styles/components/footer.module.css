@@ -10,14 +10,14 @@
   right: 0;
   z-index: 50;
 
-  mask-image: linear-gradient(to top, black 75%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to top, black 75%, transparent 100%);
+  mask-image: linear-gradient(to top, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 80%, transparent 100%);
 }
 
 .container {
   display: flex;
   justify-content: space-around;
-  padding: 0.5rem;
+  padding: 0.6rem;
 }
 
 .navButton {

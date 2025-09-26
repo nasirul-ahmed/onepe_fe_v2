@@ -1,6 +1,6 @@
 /* SplashScreen Component Styles */
 
-.splashScreen {
+.splashContainer {
   position: fixed;
   inset: 0;
   z-index: 50;
@@ -19,7 +19,7 @@
   opacity: 0.1;
 }
 
-.backgroundParticle {
+.backgroundDot {
   position: absolute;
   width: 0.5rem;
   height: 0.5rem;
@@ -38,39 +38,27 @@
 }
 
 /* Logo Section */
-.logoSection {
+.logoContainer {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.logoContainer {
+.logoWrapper {
   position: relative;
 }
 
 /* Outer Ring Animation */
-.outerRing {
+.logoOuterRing {
   width: 8rem;
   height: 8rem;
   border-radius: 50%;
   border: 4px solid rgba(255, 255, 255, 0.3);
 }
 
-.outerRingAnimated {
-  animation: rotate 8s linear infinite;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Inner Circle */
-.innerCircle {
+.logoInnerCircle {
   position: absolute;
   inset: 1rem;
   background: white;
@@ -91,7 +79,7 @@
 }
 
 /* Pulse Effect */
-.pulseEffect {
+.logoPulse {
   position: absolute;
   inset: 0;
   border-radius: 50%;
@@ -144,7 +132,7 @@
 }
 
 /* Loading Section */
-.loadingSection {
+.loadingContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -196,10 +184,6 @@
   text-transform: uppercase;
 }
 
-.loadingTextAnimated {
-  animation: fadeInOut 1.5s infinite;
-}
-
 @keyframes fadeInOut {
   0%, 100% {
     opacity: 0.5;
@@ -223,28 +207,14 @@
   transform-origin: left;
 }
 
-.progressBarAnimated {
-  animation: progressFill 1.5s ease;
-  animation-delay: 2.5s;
-}
-
-@keyframes progressFill {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
-  .outerRing {
+  .logoOuterRing {
     width: 6rem;
     height: 6rem;
   }
   
-  .innerCircle {
+  .logoInnerCircle {
     inset: 0.75rem;
   }
   
@@ -267,12 +237,12 @@
     gap: 1.5rem;
   }
   
-  .outerRing {
+  .logoOuterRing {
     width: 5rem;
     height: 5rem;
   }
   
-  .innerCircle {
+  .logoInnerCircle {
     inset: 0.5rem;
   }
   
@@ -288,7 +258,7 @@
     font-size: 1rem;
   }
   
-  .loadingSection {
+  .loadingContainer {
     margin-top: 2rem;
   }
   

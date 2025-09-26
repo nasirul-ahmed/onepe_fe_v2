@@ -90,7 +90,7 @@ const mockNotifications: Notification[] = [
 
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState(mockNotifications);
-  const [filter, setFilter] = useState<"all" | "unread">("all");
+  const [filter, setFilter] = useState<"all" | "payment">("all");
 
   const getNotificationIcon = (type: Notification["type"]) => {
     const iconProps = { className: "w-5 h-5" };
@@ -154,11 +154,11 @@ const NotificationPage = () => {
   };
 
   const filteredNotifications =
-    filter === "unread"
-      ? notifications.filter((n) => !n.isRead)
+    filter === "payment"
+      ? notifications.filter((n) => n.type === "payment")
       : notifications;
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const paymentCount = notifications.filter((n) => n.type === "payment").length;
 
   return (
     <div className={styles.notificationsPage}>
@@ -179,17 +179,17 @@ const NotificationPage = () => {
             </motion.button>
             <motion.button
               whileTap={{ scale: 0.95 }}
-              onClick={() => setFilter("unread")}
+              onClick={() => setFilter("payment")}
               className={cn(
                 styles.filterTab,
-                filter === "unread" && styles.filterTabActive
+                filter === "payment" && styles.filterTabActive
               )}
             >
-              Unread ({unreadCount})
+              Payment ({paymentCount})
             </motion.button>
           </div>
 
-          {unreadCount > 0 && (
+          {paymentCount > 0 && (
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={markAllAsRead}
@@ -213,12 +213,12 @@ const NotificationPage = () => {
               <Bell className="w-16 h-16 mx-auto" />
             </div>
             <h3 className={styles.emptyStateTitle}>
-              {filter === "unread"
-                ? "No unread notifications"
+              {filter === "payment"
+                ? "No payment notifications"
                 : "No notifications"}
             </h3>
             <p className={styles.emptyStateDescription}>
-              {filter === "unread"
+              {filter === "payment"
                 ? "You're all caught up!"
                 : "We'll notify you when something important happens"}
             </p>

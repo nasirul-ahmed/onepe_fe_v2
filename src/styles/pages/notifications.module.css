@@ -1,18 +1,16 @@
 /* Notifications Page Styles */
 
 .notificationsPage {
-  overflow: hidden;
-  min-height: 100vh;
+  min-height: 80vh;
   background-color: var(--color-background);
   position: relative;
-  overflow-y: auto;
-  height: calc(100vh - 8rem);
 }
 
 /* Sticky Header */
 .stickyHeader {
-  position: sticky;
-  top: 0;
+  width: 100%;
+  position: fixed;
+  top: 3.6rem;
   z-index: 40;
   background-color: rgba(var(--color-surface) / 0.8);
   backdrop-filter: blur(16px);
@@ -28,14 +26,17 @@
   gap: 1rem;
   max-width: 100%;
   margin-bottom: 0.6rem;
+  padding: 1rem 0 .5rem 0;
 }
 
 /* Content */
 .content {
-  position: relative;
-  overflow-y: scroll;
+  flex: 1;
+  /* position: relative; */
+  overflow-y: auto;
   padding: 1rem;
-  padding-bottom: 16rem; /* Space for footer */
+  padding-bottom: 16rem;
+  padding-top: 4rem;
 }
 
 /* Header */
@@ -307,7 +308,6 @@
   }
 
   .filterTab {
-    padding: 0.5rem 0.75rem;
     font-size: 0.8125rem;
   }
 

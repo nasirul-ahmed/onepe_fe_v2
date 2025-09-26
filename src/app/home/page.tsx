@@ -59,18 +59,25 @@ export default function HomePage() {
         className={styles.container}
       >
         {/* Promotional Banners */}
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} className="w-full">
           <Carousel
             autoPlay
             loop={true}
             interval={5000}
             showControls={false}
             showArrows={false}
-            className={styles.carouselWrapper}
+            showDots={false}
+            className={cn(styles.carouselWrapper, "rounded-2xl")}
             itemClassName="h-full"
           >
             <CarouselItem>
-              <div className={cn(styles.promoCard, styles.promoCardBlue)}>
+              <div
+                className={cn(
+                  styles.promoCard,
+                  styles.promoCardBlue,
+                  "rounded-2xl ml-1 mr-1"
+                )}
+              >
                 <h3 className={styles.promoTitle}>Special Offer! 🎉</h3>
                 <p className={styles.promoDescription}>
                   Get 5% cashback on mobile recharge
@@ -84,11 +91,17 @@ export default function HomePage() {
             </CarouselItem>
 
             <CarouselItem>
-              <div className={cn(styles.promoCard, styles.promoCardGreen)}>
-                <h3 className={styles.promoTitle}>
-                  Bill Payment Bonus! 💰
-                </h3>
-                <p className={styles.promoDescription}>Pay 3 bills and get ₹50 cashback</p>
+              <div
+                className={cn(
+                  styles.promoCard,
+                  styles.promoCardGreen,
+                  "rounded-2xl ml-1 mr-1"
+                )}
+              >
+                <h3 className={styles.promoTitle}>Bill Payment Bonus! 💰</h3>
+                <p className={styles.promoDescription}>
+                  Pay 3 bills and get ₹50 cashback
+                </p>
                 <div className={styles.promoBadge}>
                   <span className={styles.promoBadgeText}>
                     Limited time offer
@@ -98,9 +111,17 @@ export default function HomePage() {
             </CarouselItem>
 
             <CarouselItem>
-              <div className={cn(styles.promoCard, styles.promoCardOrange)}>
+              <div
+                className={cn(
+                  styles.promoCard,
+                  styles.promoCardOrange,
+                  "rounded-2xl ml-1"
+                )}
+              >
                 <h3 className={styles.promoTitle}>FasTag Recharge! 🚗</h3>
-                <p className={styles.promoDescription}>Zero convenience fee on FasTag</p>
+                <p className={styles.promoDescription}>
+                  Zero convenience fee on FasTag
+                </p>
                 <div className={styles.promoBadge}>
                   <span className={styles.promoBadgeText}>
                     Save more, travel more

@@ -4,20 +4,40 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  --carousel-gap: 1rem; /* Add gap between carousel items */
+  user-select: none;
+  touch-action: pan-x; /* Only allow horizontal panning for better mobile UX */
+  background: transparent;
 }
 
-.carouselGroup:hover .navigationButton {
+.carousel:active {
+  cursor: grabbing;
+}
+
+.carousel:hover .navigationButton {
   opacity: 1;
 }
 
 .carouselTrack {
   display: flex;
-  transition: transform 500ms ease-out;
+  gap: var(--carousel-gap);
+  transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother, more native feeling */
+  will-change: transform;
+  cursor: grab;
+  height: 100%;
+}
+
+.carouselTrack:active {
+  cursor: grabbing;
 }
 
 .carouselItem {
-  width: 100%;
+  width: 100%; /* Full width for banner style */
   flex-shrink: 0;
+  border-radius: 0.75rem; /* Add border radius to carousel items */
+  box-shadow: none; /* Remove shadows for seamless look */
+  transition: none; /* Remove hover effects for mobile-first experience */
+  height: 100%;
 }
 
 /* Navigation Buttons */
@@ -56,11 +76,15 @@
 /* Dots Indicator */
 .dotsContainer {
   position: absolute;
-  bottom: -12px;
+  bottom: 0.15rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: -20px;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.375rem 0.75rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(8px);
 }
 
 .dotButton {
@@ -75,10 +99,10 @@
 }
 
 .dotIcon {
-  width: 8px;
-  height: 8px;
-  color: rgba(255, 255, 255, 0.6);
-  transition: color 200ms ease;
+  width: 6px;
+  height: 6px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 200ms ease;
 }
 
 .dotIcon:hover {
@@ -88,6 +112,7 @@
 .dotIconActive {
   color: white;
   fill: currentColor;
+  transform: scale(1.2);
 }
 
 /* Progress Bar */
@@ -113,6 +138,10 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .carousel {
+    --carousel-gap: 0; /* No gaps on mobile for native feel */
+  }
+
   .navigationButtonLeft {
     left: 0.5rem;
   }
@@ -123,5 +152,35 @@
 
   .navigationButton {
     padding: 0.375rem;
+    opacity: 0.6; /* More subtle on mobile */
+  }
+
+  .dotsContainer {
+    bottom: 0.3rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .dotIcon {
+    width: 4px;
+    height: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel {
+    --carousel-gap: 0;
+  }
+
+  .carouselItem {
+    border-radius: 0;
+  }
+
+  /* Hide navigation arrows on small mobile */
+  .navigationButton {
+    display: none;
+  }
+
+  .dotsContainer {
+    bottom: 0.375rem;
   }
 }

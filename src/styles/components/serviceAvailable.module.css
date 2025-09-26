@@ -91,11 +91,17 @@
 
 /* Service Icons and Text */
 .serviceIcon {
-  font-size: 2rem;
+  position: absolute;
+  top: 0.9rem;
+  left: calc(50% - 0.7rem);
+  font-size: 1.2rem;
   margin-bottom: 0.25rem;
 }
 
 .serviceName {
+  position: absolute;
+  bottom: 0.7rem;
+  /* left: calc(50% - 0.6rem); */
   font-size: 0.75rem;
   text-align: center;
   font-weight: 500;

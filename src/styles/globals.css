@@ -30,6 +30,9 @@
     rgb(226 232 240)
   );
 
+  /* Customs Gaps */
+  --carousel-gap: 1rem;
+
   /* === Status colors === */
   --color-success: #22c55e;
   --color-on-success: #ffffff;
@@ -75,6 +78,10 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 /* Hide scrollbar for WebKit browsers */
@@ -125,8 +132,8 @@ button,
 
 /* Smooth scrolling */
 .mobile-scroll {
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+  /* -webkit-overflow-scrolling: touch; */
+  /* overscroll-behavior: contain; */
 }
 
 /* Reduced motion support */
@@ -170,13 +177,6 @@ button,
 .viewAllButton:hover {
   opacity: 0.8;
   scale: 1.05;
-}
-
-/* Disable text selection for entire app */
-* {
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
 }
 
 /* Optional: Allow text selection in input fields and textareas */
