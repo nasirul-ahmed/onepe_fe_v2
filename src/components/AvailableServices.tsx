@@ -79,7 +79,7 @@ const AvailableServices = (props: AvailableServicesProps) => {
             whileHover={{ scale: 1.02 }}
             onClick={() => handleServiceClick(service.name)}
           >
-            <Card variant="default" padding="sm" className={styles.serviceCard}>
+            {/* <Card variant="default" padding="sm" className={styles.serviceCard}>
               {service.isPopular && (
                 <div className={styles.popularBadge}>HOT</div>
               )}
@@ -90,7 +90,25 @@ const AvailableServices = (props: AvailableServicesProps) => {
 
               <span className={styles.serviceIcon}>{service.icon}</span>
               <span className={styles.serviceName}>{service.name}</span>
-            </Card>
+            </Card> */}
+            <div className={styles.serviceCardContainer}>
+              <Card
+                variant="default"
+                padding="sm"
+                className={styles.serviceCard}
+              >
+                {service.isPopular && (
+                  <div className={styles.popularBadge}>HOT</div>
+                )}
+
+                {service.discount && (
+                  <div className={styles.discountBadge}>{service.discount}</div>
+                )}
+
+                <span className={styles.serviceIcon}>{service.icon}</span>
+              </Card>
+              <span className={styles.serviceName}>{service.name}</span>
+            </div>
           </motion.div>
         ))}
       </motion.div>
