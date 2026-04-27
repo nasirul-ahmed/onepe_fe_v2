@@ -14,16 +14,16 @@ const navItems = [
     label: "Home",
     icon: Home,
   },
-  {
-    id: ROUTE_PATHS.TRANSACTIONS,
-    label: "History",
-    icon: History,
-  },
-  {
-    id: ROUTE_PATHS.SERVICES,
-    label: "Services",
-    icon: CreditCard,
-  },
+  // {
+  //   id: ROUTE_PATHS.TRANSACTIONS,
+  //   label: "History",
+  //   icon: History,
+  // },
+  // {
+  //   id: ROUTE_PATHS.SERVICES,
+  //   label: "Services",
+  //   icon: CreditCard,
+  // },
   {
     id: ROUTE_PATHS.PROFILE,
     label: "Profile",
@@ -36,7 +36,11 @@ const Footer = () => {
   const pathname = usePathname();
   const device = useDevice();
 
-  const handleClick = (route: string) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    route: string,
+  ) => {
+    e.preventDefault();
     router.push(route);
   };
 
@@ -63,7 +67,7 @@ const Footer = () => {
           return (
             <motion.button
               key={item.id}
-              onClick={() => handleClick(item.id)}
+              onClick={(e) => handleClick(e, item.id)}
               whileTap={{ scale: 0.95 }}
               className={styles.navButton}
             >
@@ -86,15 +90,12 @@ const Footer = () => {
                 transition={{ duration: 0.2 }}
                 className={cn(
                   styles.iconContainer,
-                  isActive && styles.iconContainerActive
+                  isActive && styles.iconContainerActive,
                 )}
               >
                 <IconComponent
                   size={20}
-                  className={cn(
-                    styles.icon,
-                    isActive && styles.iconActive
-                  )}
+                  className={cn(styles.icon, isActive && styles.iconActive)}
                 />
               </motion.div>
 
@@ -105,10 +106,7 @@ const Footer = () => {
                   fontWeight: isActive ? 600 : 500,
                 }}
                 transition={{ duration: 0.2 }}
-                className={cn(
-                  styles.label,
-                  isActive && styles.labelActive
-                )}
+                className={cn(styles.label, isActive && styles.labelActive)}
               >
                 {item.label}
               </motion.span>

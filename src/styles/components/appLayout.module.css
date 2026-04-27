@@ -1,7 +1,23 @@
-/* AppLayout Component Styles */
-
 .appLayout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  display: grid;
+  /* 5rem for header, 1fr for remaining space, 5rem for footer */
+  grid-template-rows: 4rem 1fr 4rem;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.scrollableContent {
+  position: relative;
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.appLayout[data-auth-page="true"] nav {
+  display: none !important;
+}
+
+.appLayout[data-auth-page="true"] .scrollableContent {
+  height: 100vh;
 }

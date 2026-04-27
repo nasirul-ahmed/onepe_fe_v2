@@ -8,19 +8,24 @@ interface IContentLayoutInputProps {
   children: ReactNode;
   className?: string;
 }
-
-const ContentLayout = ({ children, className = "" }: IContentLayoutInputProps) => {
+const ContentLayout = ({
+  children,
+  className = "",
+}: IContentLayoutInputProps) => {
   const { isLoading } = useAppStore();
-  
+
   return (
     <main className={`${styles.contentLayout} ${className}`}>
-      {isLoading ? (
+      {/* <div style={{ display: isLoading ? "flex" : "none", height: "100%" }}>
         <Loader />
-      ) : (
-        <div className={styles.contentContainer}>
-          {children}
-        </div>
-      )}
+      </div> */}
+
+      <div
+        className={styles.contentContainer}
+        style={{ display: isLoading ? "none" : "block" }}
+      >
+        {children}
+      </div>
     </main>
   );
 };

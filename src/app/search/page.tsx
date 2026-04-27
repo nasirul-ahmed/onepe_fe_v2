@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Clock, X, Trash2, TrendingUp } from "lucide-react";
-import styles from '@/styles/pages/search.module.css';
-import { cn } from '@/lib/utils';
+import styles from "@/styles/pages/search.module.css";
+import { cn } from "@/lib/utils";
 
 // Mock data - replace with your actual data structure
 const mockRecentSearches = [
@@ -38,10 +38,6 @@ const SearchPage = () => {
   const handleSearch = (query: string) => {
     if (query.trim()) {
       setIsSearching(true);
-      // Add your search logic here
-      console.log("Searching for:", query);
-      
-      // Simulate API call
       setTimeout(() => {
         setIsSearching(false);
         // Add to recent searches (you'd save this to localStorage or API)
@@ -49,9 +45,9 @@ const SearchPage = () => {
           id: Date.now(),
           query: query.trim(),
           timestamp: "Just now",
-          icon: "🔍"
+          icon: "🔍",
         };
-        setRecentSearches(prev => [newSearch, ...prev.slice(0, 4)]);
+        setRecentSearches((prev) => [newSearch, ...prev.slice(0, 4)]);
       }, 1000);
     }
   };
@@ -68,7 +64,7 @@ const SearchPage = () => {
 
   const handleDeleteRecentSearch = (id: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    setRecentSearches(prev => prev.filter(search => search.id !== id));
+    setRecentSearches((prev) => prev.filter((search) => search.id !== id));
   };
 
   const clearAllRecentSearches = () => {
@@ -91,7 +87,7 @@ const SearchPage = () => {
                 className={styles.searchInput}
               />
               <Search className={styles.searchIcon} />
-              
+
               {searchQuery && (
                 <motion.button
                   initial={{ scale: 0 }}
@@ -144,7 +140,8 @@ const SearchPage = () => {
                 </div>
                 <p className={styles.noResultsTitle}>No results found</p>
                 <p className={styles.noResultsDescription}>
-                  Try searching for services like &ldquo;mobile recharge&rdquo; or &ldquo;electricity bill&rdquo;
+                  Try searching for services like &ldquo;mobile recharge&rdquo;
+                  or &ldquo;electricity bill&rdquo;
                 </p>
               </div>
             </motion.div>
@@ -173,7 +170,7 @@ const SearchPage = () => {
                       Clear All
                     </motion.button>
                   </div>
-                  
+
                   <div className={styles.recentSearches}>
                     {recentSearches.map((search, index) => (
                       <motion.div
@@ -185,15 +182,23 @@ const SearchPage = () => {
                         className={styles.recentSearchItem}
                       >
                         <div className={styles.recentSearchContent}>
-                          <span className={styles.recentSearchIcon}>{search.icon}</span>
+                          <span className={styles.recentSearchIcon}>
+                            {search.icon}
+                          </span>
                           <div>
-                            <p className={styles.recentSearchQuery}>{search.query}</p>
-                            <p className={styles.recentSearchTimestamp}>{search.timestamp}</p>
+                            <p className={styles.recentSearchQuery}>
+                              {search.query}
+                            </p>
+                            <p className={styles.recentSearchTimestamp}>
+                              {search.timestamp}
+                            </p>
                           </div>
                         </div>
                         <motion.button
                           whileTap={{ scale: 0.9 }}
-                          onClick={(e) => handleDeleteRecentSearch(search.id, e)}
+                          onClick={(e) =>
+                            handleDeleteRecentSearch(search.id, e)
+                          }
                           className={styles.deleteRecentButton}
                         >
                           <X className={styles.deleteRecentIcon} />
@@ -210,7 +215,7 @@ const SearchPage = () => {
                   <TrendingUp className={styles.trendingIcon} />
                   Trending Searches
                 </h2>
-                
+
                 <div className={styles.trendingSearches}>
                   {mockTrendingSearches.map((search, index) => (
                     <motion.div
@@ -223,10 +228,14 @@ const SearchPage = () => {
                     >
                       <div className={styles.trendingSearchContent}>
                         <div className={styles.trendingDot} />
-                        <p className={styles.trendingSearchQuery}>{search.query}</p>
+                        <p className={styles.trendingSearchQuery}>
+                          {search.query}
+                        </p>
                       </div>
                       <div className={styles.trendingStats}>
-                        <span className={styles.trendingPercentage}>{search.trend}</span>
+                        <span className={styles.trendingPercentage}>
+                          {search.trend}
+                        </span>
                         <TrendingUp className={styles.trendingArrow} />
                       </div>
                     </motion.div>
@@ -237,7 +246,7 @@ const SearchPage = () => {
               {/* Quick Actions */}
               <div>
                 <h2 className={styles.popularTitle}>Popular Services</h2>
-                
+
                 <div className={styles.popularServices}>
                   {[
                     { name: "Mobile Recharge", icon: "📱", color: "blue" },
@@ -251,10 +260,19 @@ const SearchPage = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.1 }}
                       onClick={() => handleRecentSearchClick(service.name)}
-                      className={cn(styles.popularServiceItem, styles[`popularServiceItem${service.color.charAt(0).toUpperCase() + service.color.slice(1)}`])}
+                      className={cn(
+                        styles.popularServiceItem,
+                        styles[
+                          `popularServiceItem${service.color.charAt(0).toUpperCase() + service.color.slice(1)}`
+                        ],
+                      )}
                     >
-                      <div className={styles.popularServiceIcon}>{service.icon}</div>
-                      <p className={styles.popularServiceName}>{service.name}</p>
+                      <div className={styles.popularServiceIcon}>
+                        {service.icon}
+                      </div>
+                      <p className={styles.popularServiceName}>
+                        {service.name}
+                      </p>
                     </motion.div>
                   ))}
                 </div>

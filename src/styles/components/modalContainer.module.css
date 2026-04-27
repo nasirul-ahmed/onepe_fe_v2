@@ -1,0 +1,9 @@
+.container {
+  background: var(--color-background);
+}
+
+:global(.dark) .container {
+  background: var(--color-background);
+}
+
+/* bg-white dark:bg-gray-900 */

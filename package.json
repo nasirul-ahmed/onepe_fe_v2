@@ -9,10 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@cashfreepayments/cashfree-js": "^1.0.7",
+    "@tanstack/react-query": "^5.99.2",
     "@types/ua-parser-js": "^0.7.39",
     "axios": "^1.12.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.13",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.544.0",
     "next": "15.5.3",
     "next-pwa": "^5.6.0",
@@ -26,6 +29,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -73,8 +73,9 @@
 body {
   background-color: var(--color-background);
   color: var(--color-on-background);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -186,4 +187,42 @@ textarea,
   -webkit-user-select: text;
   -ms-user-select: text;
   user-select: text;
+}
+
+.relative.flex-1 {
+  min-height: 100vh; /* Or however tall your app is */
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+/* MODAL SCROLLBAR */
+/* Thin, subtle scrollbar for modal content */
+.modal-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(0,0,0,0.28) transparent; /* Firefox: thumb then track */
+}
+
+/* WebKit browsers */
+.modal-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.28);
+  border-radius: 9999px;
+  border: 2px solid transparent; /* gives a little breathing room */
+  background-clip: padding-box;
+}
+
+/* Dark mode adjustments */
+.dark .modal-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.18);
+}
+.dark .modal-scrollbar {
+  scrollbar-color: rgba(255,255,255,0.18) transparent;
 }

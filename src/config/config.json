@@ -1,4 +1,6 @@
 {
+  "dontShowNavsOn": ["/login", "/select-language"],
+  "publicRoutes": ["/login", "/", "/home", "/select-language"],
   "quickAddAmounts": [100, 500, 1000, 5000],
   "miscText": {},
   "availableServices": [

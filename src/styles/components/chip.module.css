@@ -1,0 +1,39 @@
+.chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem .8rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 1.2rem;
+  background: white;
+  cursor: pointer;
+  min-width: 80px;
+}
+
+:global(.dark) .chip {
+  background: rgb(197, 197, 197);
+  color: #e5e7eb;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+}
+
+.badge {
+  position: absolute;
+  top: -10px;
+  background: #10b981; /* Green for popular */
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.chip:nth-child(4) .badge {
+  background: #3b82f6; /* Blue for maximum */
+}

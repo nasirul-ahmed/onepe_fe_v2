@@ -1,44 +1,20 @@
 import { create } from "zustand";
-import { getProfile, logoutApi } from "@/services/authService";
-
-interface User {
-  id: string;
-  email: string;
-  phone: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-}
+import Cookies from "js-cookie";
 
 interface AuthState {
-  user: User | null;
-  loading: boolean;
-  initializeAuth: () => Promise<void>;
-  setUser: (user: User | null) => void;
-  logout: () => Promise<void>;
+  // Only session state (not server data)
+  isAuthenticated: boolean;
+  isInitialized: boolean;
+
+  // Actions
+  setAuthenticated: (authenticated: boolean) => void;
+  setInitialized: (initialized: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  loading: true,
+  isAuthenticated: !!Cookies.get("authToken"),
+  isInitialized: false,
 
-  initializeAuth: async () => {
-    try {
-      const profile = await getProfile();
-      set({ user: profile, loading: false });
-    } catch {
-      set({ user: null, loading: false });
-    }
-  },
-
-  setUser: (user) => set({ user }),
-
-  logout: async () => {
-    try {
-      await logoutApi();
-    } catch (err) {
-      console.error("Logout failed:", err);
-    }
-    set({ user: null });
-  },
+  setAuthenticated: (authenticated) => set({ isAuthenticated: authenticated }),
+  setInitialized: (initialized) => set({ isInitialized: initialized }),
 }));

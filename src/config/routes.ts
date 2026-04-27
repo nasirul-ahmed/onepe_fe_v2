@@ -9,23 +9,19 @@ export interface RouteConfig {
   name: string;
   requiresBackButton: boolean;
   isBottomTabRoute: boolean;
-  parentRoute?: string;
+  parentRoute?: string; // fallback only — used when nav stack is empty
   icon?: string;
-  category?: 'service' | 'profile' | 'main' | 'transaction';
+  category?: "service" | "profile" | "main" | "transaction";
 }
 
-/**
- * Main route definitions with navigation metadata
- */
 export const ROUTES: Record<string, RouteConfig> = {
-  // Main bottom tab routes
   HOME: {
     path: "/home",
     name: "Home",
     requiresBackButton: false,
     isBottomTabRoute: true,
     icon: "🏠",
-    category: "main"
+    category: "main",
   },
   SERVICES: {
     path: "/services",
@@ -33,15 +29,16 @@ export const ROUTES: Record<string, RouteConfig> = {
     requiresBackButton: false,
     isBottomTabRoute: true,
     icon: "⚡",
-    category: "main"
+    category: "main",
   },
   TRANSACTIONS: {
     path: "/transactions",
     name: "Transactions",
-    requiresBackButton: false,
-    isBottomTabRoute: true,
+    requiresBackButton: true,
+    isBottomTabRoute: false,
     icon: "💳",
-    category: "main"
+    category: "transaction",
+    parentRoute: "/home", // ← was '/home/wallet' which doesn't exist
   },
   PROFILE: {
     path: "/profile",
@@ -49,28 +46,24 @@ export const ROUTES: Record<string, RouteConfig> = {
     requiresBackButton: false,
     isBottomTabRoute: true,
     icon: "👤",
-    category: "main"
+    category: "main",
   },
-
-  // Navigation routes that require back button
   SEARCH: {
     path: "/search",
     name: "Search",
     requiresBackButton: true,
     isBottomTabRoute: false,
     parentRoute: "/home",
-    category: "main"
+    category: "main",
   },
   NOTIFICATIONS: {
     path: "/notifications",
-    name: "Notifications", 
+    name: "Notifications",
     requiresBackButton: true,
     isBottomTabRoute: false,
     parentRoute: "/home",
-    category: "main"
+    category: "main",
   },
-
-  // Service routes
   MOBILE_RECHARGE: {
     path: "/services/mobile-recharge",
     name: "Mobile Recharge",
@@ -78,7 +71,7 @@ export const ROUTES: Record<string, RouteConfig> = {
     isBottomTabRoute: false,
     parentRoute: "/services",
     icon: "📱",
-    category: "service"
+    category: "service",
   },
   DTH_RECHARGE: {
     path: "/services/dth-recharge",
@@ -87,7 +80,7 @@ export const ROUTES: Record<string, RouteConfig> = {
     isBottomTabRoute: false,
     parentRoute: "/services",
     icon: "📺",
-    category: "service"
+    category: "service",
   },
   ELECTRICITY_BILL: {
     path: "/services/electricity-bill",
@@ -96,7 +89,7 @@ export const ROUTES: Record<string, RouteConfig> = {
     isBottomTabRoute: false,
     parentRoute: "/services",
     icon: "💡",
-    category: "service"
+    category: "service",
   },
   WATER_BILL: {
     path: "/services/water-bill",
@@ -105,7 +98,7 @@ export const ROUTES: Record<string, RouteConfig> = {
     isBottomTabRoute: false,
     parentRoute: "/services",
     icon: "💧",
-    category: "service"
+    category: "service",
   },
   GAS_BOOKING: {
     path: "/services/gas-booking",
@@ -114,17 +107,15 @@ export const ROUTES: Record<string, RouteConfig> = {
     isBottomTabRoute: false,
     parentRoute: "/services",
     icon: "🛢️",
-    category: "service"
+    category: "service",
   },
-
-  // Profile sub-routes
   PROFILE_SETTINGS: {
     path: "/profile/settings",
     name: "Settings",
     requiresBackButton: true,
     isBottomTabRoute: false,
     parentRoute: "/profile",
-    category: "profile"
+    category: "profile",
   },
   PROFILE_HELP: {
     path: "/profile/help",
@@ -132,7 +123,7 @@ export const ROUTES: Record<string, RouteConfig> = {
     requiresBackButton: true,
     isBottomTabRoute: false,
     parentRoute: "/profile",
-    category: "profile"
+    category: "profile",
   },
   PROFILE_PRIVACY: {
     path: "/profile/privacy",
@@ -140,137 +131,93 @@ export const ROUTES: Record<string, RouteConfig> = {
     requiresBackButton: true,
     isBottomTabRoute: false,
     parentRoute: "/profile",
-    category: "profile"
+    category: "profile",
   },
-
-  // Transaction routes
   TRANSACTION_DETAILS: {
     path: "/transactions/details",
     name: "Transaction Details",
     requiresBackButton: true,
     isBottomTabRoute: false,
     parentRoute: "/transactions",
-    category: "transaction"
-  }
+    category: "transaction",
+  },
+  WALLET_TOPUP: {
+    path: "/home/wallet-topup",
+    name: "Wallet Topup",
+    requiresBackButton: true,
+    isBottomTabRoute: false,
+    parentRoute: "/home",
+    category: "service",
+  },
 } as const;
 
-/**
- * Service name to route mapping for dynamic navigation
- */
 export const SERVICE_ROUTES: Record<string, keyof typeof ROUTES> = {
   "Mobile Recharge": "MOBILE_RECHARGE",
-  "DTH Recharge": "DTH_RECHARGE", 
+  "DTH Recharge": "DTH_RECHARGE",
   "Electricity Bill": "ELECTRICITY_BILL",
   "Water Bill": "WATER_BILL",
   "Gas Bill": "GAS_BOOKING",
-  "Gas Booking": "GAS_BOOKING", // Alternative name
-  // Add aliases and variations as needed
+  "Gas Booking": "GAS_BOOKING",
 } as const;
 
-/**
- * Route utility functions
- */
 export class RouteUtils {
-  /**
-   * Check if a route requires back button
-   */
   static requiresBackButton(path: string): boolean {
-    return Object.values(ROUTES).some(
-      route => path.startsWith(route.path) && route.requiresBackButton
-    );
+    const route = this.getRouteByPath(path);
+    return route?.requiresBackButton ?? false;
   }
 
-  /**
-   * Check if a route is a bottom tab route
-   */
   static isBottomTabRoute(path: string): boolean {
-    return Object.values(ROUTES).some(
-      route => path === route.path && route.isBottomTabRoute
-    );
+    const route = this.getRouteByPath(path);
+    return route?.isBottomTabRoute ?? false;
   }
 
   /**
-   * Get route config by path
+   * Fixed — exact match first, then longest prefix match.
+   * Old endsWith() was matching wrong routes.
    */
   static getRouteByPath(path: string): RouteConfig | undefined {
-    return Object.values(ROUTES).find(route => 
-      path.startsWith(route.path)
-    );
+    const cleanPath = path.split("?")[0];
+
+    // 1. Exact match
+    const exact = Object.values(ROUTES).find((r) => r.path === cleanPath);
+    if (exact) return exact;
+
+    // 2. Longest prefix match (handles dynamic segments)
+    return Object.values(ROUTES)
+      .filter((r) => cleanPath.startsWith(r.path))
+      .sort((a, b) => b.path.length - a.path.length)[0];
   }
 
-  /**
-   * Get service route by service name
-   */
   static getServiceRoute(serviceName: string): string {
     const routeKey = SERVICE_ROUTES[serviceName];
     return routeKey ? ROUTES[routeKey].path : "/services";
   }
 
   /**
-   * Get parent route for navigation
+   * Fallback only — real back navigation uses the stack in useBackNavigation.
+   * This is only called when the stack is empty (direct URL / refresh).
    */
   static getParentRoute(path: string): string {
     const route = this.getRouteByPath(path);
-    return route?.parentRoute || "/home";
+    return route?.parentRoute ?? "/home";
   }
 
-  /**
-   * Get all routes of a specific category
-   */
-  static getRoutesByCategory(category: RouteConfig['category']): RouteConfig[] {
-    return Object.values(ROUTES).filter(route => route.category === category);
+  static getRoutesByCategory(category: RouteConfig["category"]): RouteConfig[] {
+    return Object.values(ROUTES).filter((r) => r.category === category);
   }
 
-  /**
-   * Get all routes that require back button
-   */
-  static getBackButtonRoutes(): string[] {
-    return Object.values(ROUTES)
-      .filter(route => route.requiresBackButton)
-      .map(route => route.path);
-  }
-
-  /**
-   * Get route name by path
-   */
   static getRouteName(path: string): string {
-    const route = this.getRouteByPath(path);
-    return route?.name || "Page";
+    const route = this.getRouteByPath(path.split("?")[0]);
+    return route?.name ?? "Page";
   }
 
-  /**
-   * Check if route exists
-   */
   static routeExists(path: string): boolean {
-    return Object.values(ROUTES).some(route => 
-      path.startsWith(route.path)
-    );
+    return !!this.getRouteByPath(path);
   }
 
-  /**
-   * Get breadcrumb trail for a route
-   */
-  static getBreadcrumb(path: string): RouteConfig[] {
-    const breadcrumb: RouteConfig[] = [];
-    let currentPath = path;
-    
-    while (currentPath && currentPath !== "/") {
-      const route = this.getRouteByPath(currentPath);
-      if (route) {
-        breadcrumb.unshift(route);
-        currentPath = route.parentRoute || "";
-      } else {
-        break;
-      }
-    }
-    
-    return breadcrumb;
-  }
+  // getBreadcrumb removed — use navigation stack from useNavigationStore instead
 }
 
-/**
- * Route constants for easy access
- */
 export const ROUTE_PATHS = {
   HOME: ROUTES.HOME.path,
   SERVICES: ROUTES.SERVICES.path,
@@ -287,6 +234,7 @@ export const ROUTE_PATHS = {
   PROFILE_HELP: ROUTES.PROFILE_HELP.path,
   PROFILE_PRIVACY: ROUTES.PROFILE_PRIVACY.path,
   TRANSACTION_DETAILS: ROUTES.TRANSACTION_DETAILS.path,
+  WALLET_TOPUP: ROUTES.WALLET_TOPUP.path, // ← was missing
 } as const;
 
 export default ROUTES;

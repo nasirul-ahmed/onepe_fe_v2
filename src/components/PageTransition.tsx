@@ -11,15 +11,19 @@ export default function PageTransition({
   const pathname = usePathname();
 
   return (
-    <div className="relative flex-1 overflow-hidden">
-      <AnimatePresence mode="wait" initial={false}>
+    // 1. Ensure the parent container is 'relative' to anchor the absolute children
+    <div className="relative h-full w-full">
+      <AnimatePresence mode="popLayout" initial={false}>
         <motion.div
           key={pathname}
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -15 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="h-full w-full"
+          // 2. ABSOLUTE POSITIONING: This is the key to stopping layout shifts.
+          // The container (relative) defines the space, the children (absolute)
+          // animate within it without pushing/pulling the grid.
+          className="absolute inset-0"
         >
           {children}
         </motion.div>

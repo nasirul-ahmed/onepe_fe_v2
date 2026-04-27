@@ -1,121 +1,93 @@
 "use client";
 
-import { InputHTMLAttributes, forwardRef, useState } from "react";
+import { InputHTMLAttributes, forwardRef, useState, ReactNode } from "react";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import styles from "@/styles/components/textField.module.css";
+import styles from "@/styles/components/textField.module.css"
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   helperText?: string;
   fullWidth?: boolean;
-  startIcon?: React.ReactNode;
-  endIcon?: React.ReactNode;
-  variant?: "default" | "outline" | "filled";
+  startAdornment?: ReactNode;
+  endAdornment?: ReactNode;
 }
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
     {
+      name,
       label,
       error,
       helperText,
       fullWidth = false,
-      startIcon,
-      endIcon,
+      startAdornment,
+      endAdornment,
       type = "text",
-      variant = "default",
-      className = "",
+      className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === "password";
 
-    const getVariantClass = () => {
-      switch (variant) {
-        case "outline": return styles.inputOutline;
-        case "filled": return styles.inputFilled;
-        default: return styles.inputDefault;
-      }
-    };
-
     return (
-      <div className={cn(
-        styles.textFieldContainer,
-        fullWidth && styles.textFieldFullWidth
-      )}>
+      <div className={cn(styles.container, fullWidth && styles.fullWidth)}>
         {label && (
-          <label className={styles.textFieldLabel}>
+          <label htmlFor={name} className={styles.label}>
             {label}
           </label>
         )}
 
-        <div className={styles.inputWrapper}>
-          {startIcon && (
-            <div className={styles.startIcon}>
-              {startIcon}
-            </div>
+        <div className={cn(styles.inputWrapper, error && styles.wrapperError)}>
+          {/* Left Adornment */}
+          {startAdornment && (
+            <div className={styles.adornment}>{startAdornment}</div>
           )}
 
           <input
+            id={name}
             ref={ref}
             type={isPassword && showPassword ? "text" : type}
-            className={cn(
-              styles.inputBase,
-              getVariantClass(),
-              error && styles.inputError,
-              (startIcon || isPassword) && styles.inputWithStartIcon,
-              (endIcon || isPassword) && styles.inputWithEndIcon,
-              className
-            )}
+            className={cn(styles.innerInput, className)}
             {...props}
           />
 
-          {isPassword && (
-            <div className={styles.endIcon}>
+          {/* Right Adornment & Password Toggle */}
+          <div className={styles.rightActions}>
+            {isPassword && (
               <button
                 type="button"
-                className={styles.passwordToggle}
                 onClick={() => setShowPassword(!showPassword)}
+                className={styles.passwordBtn}
               >
-                {showPassword ? (
-                  <EyeOff className={styles.passwordToggleIcon} />
-                ) : (
-                  <Eye className={styles.passwordToggleIcon} />
-                )}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
-            </div>
-          )}
+            )}
 
-          {endIcon && !isPassword && (
-            <div className={styles.endIcon}>
-              {endIcon}
-            </div>
-          )}
+            {endAdornment && !isPassword && <div>{endAdornment}</div>}
 
-          {error && (
-            <div className={styles.endIcon}>
-              <AlertCircle className={styles.errorIcon} />
-            </div>
-          )}
+            {error && <AlertCircle size={18} className={styles.errorIcon} />}
+          </div>
         </div>
 
+        {/* Footer Text */}
         {(error || helperText) && (
-          <p className={cn(
-            styles.helperText,
-            error ? styles.helperTextError : styles.helperTextNormal
-          )}>
+          <p
+            className={cn(
+              styles.helper,
+              error ? styles.helperError : styles.helperNormal,
+            )}
+          >
             {error || helperText}
           </p>
         )}
       </div>
     );
-  }
+  },
 );
 
 TextField.displayName = "TextField";
-
 export default TextField;

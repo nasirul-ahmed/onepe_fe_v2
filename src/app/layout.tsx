@@ -1,11 +1,12 @@
 import { Inter } from "next/font/google";
-import type { Metadata } from "next";
 import AppLayout from "@/components/AppLayout";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import "@/styles/globals.css";
 import PageTransition from "@/components/PageTransition";
 import AuthProvider from "@/components/providers/AuthProvider";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import { QueryProvider } from "@/components/providers/QueryProvider";
+import type { Metadata } from "next";
+import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,10 +31,17 @@ export default function RootLayout({
         <ThemeProvider>
           <AppLayout>
             <PageTransition>
-              <AuthProvider>{children}</AuthProvider>
+              <QueryProvider>
+                <AuthProvider>{children}</AuthProvider>
+              </QueryProvider>
             </PageTransition>
           </AppLayout>
         </ThemeProvider>
+
+        {/* <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="lazyOnload"
+        /> */}
       </body>
     </html>
   );
