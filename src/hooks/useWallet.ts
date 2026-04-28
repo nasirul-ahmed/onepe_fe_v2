@@ -92,8 +92,8 @@ export function useWalletTopup(): UseWalletTopupResult {
       // Webhook will credit wallet — just invalidate so balance refetches
       queryClient.invalidateQueries({ queryKey: ["wallet", "balance"] });
       return "success";
-    } catch (err: any) {
-      if (err.message === "Payment cancelled") return "cancelled";
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message === "Payment cancelled") return "cancelled";
       return "failed";
     }
   };

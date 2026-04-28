@@ -6,13 +6,14 @@ import { RouteUtils } from "@/config/routes";
 import Card from "./Card";
 import styles from "@/styles/components/serviceAvailable.module.css";
 import { cn } from "@/lib/utils";
+import { Service } from "@/lib/interfaces/services";
 
-export interface Service {
-  icon: string;
-  name: string;
-  isPopular?: boolean;
-  discount?: string;
-}
+// export interface Service {
+//   icon: string;
+//   name: string;
+//   isPopular?: boolean;
+//   discount?: string;
+// }
 
 interface AvailableServicesProps {
   services: Service[];

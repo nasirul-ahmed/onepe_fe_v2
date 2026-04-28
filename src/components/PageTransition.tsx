@@ -19,11 +19,11 @@ export default function PageTransition({
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -15 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           // 2. ABSOLUTE POSITIONING: This is the key to stopping layout shifts.
           // The container (relative) defines the space, the children (absolute)
           // animate within it without pushing/pulling the grid.
-          className="absolute inset-0"
+          className="absolute inset-0 will-change-transform"
         >
           {children}
         </motion.div>

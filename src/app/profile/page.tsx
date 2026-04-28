@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import { getQueryClient } from "@/lib/getQueryClient";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import ProfileContent from "./ProfileContent";
+import { redirect } from "next/navigation";
+import ROUTES from "@/config/routes";
 
 async function getUser(token: string) {
   const res = await fetch(
@@ -20,7 +22,9 @@ export default async function ProfilePage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("authToken")?.value;
 
-  if (!token) throw new Error("No auth token");
+  if (!token) {
+    redirect(ROUTES.LOGIN.path);
+  }
 
   // Prefetch user data on server
   await queryClient.prefetchQuery({

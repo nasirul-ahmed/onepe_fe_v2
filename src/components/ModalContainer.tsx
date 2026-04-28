@@ -6,6 +6,7 @@ import {
   motion,
   useMotionValue,
   animate,
+  PanInfo,
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 import styles from "@/styles/components/modalContainer.module.css";
@@ -66,7 +67,10 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     return () => document.removeEventListener("keydown", handler);
   }, [isOpen, onClose]);
 
-  const handleDragEnd = (_: any, info: any) => {
+  const handleDragEnd = (
+    event: PointerEvent | MouseEvent | TouchEvent,
+    info: PanInfo,
+  ) => {
     if (info.velocity.y > 400 || info.offset.y > 150) {
       // Animate out then close
       animate(sheetY, window.innerHeight, {

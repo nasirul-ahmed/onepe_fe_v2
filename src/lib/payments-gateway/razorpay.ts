@@ -7,9 +7,12 @@ export const loadRazorpay = (): Promise<boolean> => {
   }
 
   return new Promise((resolve) => {
-    const script = document.createElement('script');
-    script.src   = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.onload  = () => { scriptLoaded = true; resolve(true); };
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => {
+      scriptLoaded = true;
+      resolve(true);
+    };
     script.onerror = () => resolve(false);
     document.body.appendChild(script);
   });
@@ -30,16 +33,16 @@ export const triggerRazorpayPayment = (
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     const rzp = new window.Razorpay({
-      key:      options.key,
-      amount:   options.amount,
+      key: options.key,
+      amount: options.amount,
       currency: options.currency,
       order_id: options.orderId,
-      name:        options.name        ?? 'OnePe',
-      description: options.description ?? 'Wallet top-up',
+      name: options.name ?? "OnePe",
+      description: options.description ?? "Wallet top-up",
       prefill: options.prefill ?? {},
-      handler: () => resolve(),   // payment done — webhook does the real work
+      handler: () => resolve(), // payment done — webhook does the real work
       modal: {
-        ondismiss: () => reject(new Error('Payment cancelled')),
+        ondismiss: () => reject(new Error("Payment cancelled")),
       },
     });
     rzp.open();

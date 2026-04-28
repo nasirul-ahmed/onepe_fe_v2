@@ -149,10 +149,17 @@ export const ROUTES: Record<string, RouteConfig> = {
     parentRoute: "/home",
     category: "service",
   },
+  LOGIN: {
+    path: "/login",
+    name: "Login",
+    requiresBackButton: true,
+    isBottomTabRoute: false,
+    parentRoute: "/",
+  },
 } as const;
 
 export const SERVICE_ROUTES: Record<string, keyof typeof ROUTES> = {
-  "Mobile Recharge": "MOBILE_RECHARGE",
+  "Recharge": "MOBILE_RECHARGE",
   "DTH Recharge": "DTH_RECHARGE",
   "Electricity Bill": "ELECTRICITY_BILL",
   "Water Bill": "WATER_BILL",
@@ -234,7 +241,8 @@ export const ROUTE_PATHS = {
   PROFILE_HELP: ROUTES.PROFILE_HELP.path,
   PROFILE_PRIVACY: ROUTES.PROFILE_PRIVACY.path,
   TRANSACTION_DETAILS: ROUTES.TRANSACTION_DETAILS.path,
-  WALLET_TOPUP: ROUTES.WALLET_TOPUP.path, // ← was missing
+  WALLET_TOPUP: ROUTES.WALLET_TOPUP.path,
+  LOGIN: ROUTES.LOGIN.path,
 } as const;
 
 export default ROUTES;

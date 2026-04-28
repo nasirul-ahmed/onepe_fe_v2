@@ -3,13 +3,14 @@
 .splashContainer {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  height: 100dvh;
+  width: 100vw;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgb(37 99 235), rgb(29 78 216), rgb(126 34 206));
-  overflow: hidden;
 }
 
 /* Animated Background Elements */

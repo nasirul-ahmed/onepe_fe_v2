@@ -2,16 +2,20 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
+import styles from "@/styles/components/splashScreen.module.css";
+import { useNavigation } from "@/hooks/useNavigate";
 import { ROUTE_PATHS } from "@/config/routes";
-import styles from '@/styles/components/splashScreen.module.css';
-import { cn } from '@/lib/utils';
 
-const SplashScreen = () => {
+export default function SplashScreen({
+  onComplete,
+}: {
+  onComplete: () => void;
+}) {
   const [showLogo, setShowLogo] = useState(false);
   const [showTagline, setShowTagline] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
-  const router = useRouter();
+
+  const { replace } = useNavigation();
 
   useEffect(() => {
     const timer1 = setTimeout(() => setShowLogo(true), 500);
@@ -19,8 +23,9 @@ const SplashScreen = () => {
     const timer3 = setTimeout(() => setShowLoader(true), 2500);
 
     const timer4 = setTimeout(() => {
-      router.push(ROUTE_PATHS.HOME);
-    }, 4000);
+      onComplete();
+      // replace(ROUTE_PATHS.HOME);
+    }, 5000);
 
     return () => {
       clearTimeout(timer1);
@@ -28,7 +33,7 @@ const SplashScreen = () => {
       clearTimeout(timer3);
       clearTimeout(timer4);
     };
-  }, [router]);
+  }, [onComplete]);
 
   return (
     <div className={styles.splashContainer}>
@@ -195,6 +200,4 @@ const SplashScreen = () => {
       </div>
     </div>
   );
-};
-
-export default SplashScreen;
+}

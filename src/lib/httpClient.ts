@@ -9,9 +9,11 @@ const httpClient = axios.create({
 });
 
 let isRefreshing = false;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let failedQueue: any[] = [];
 
-const processQueue = (error: any, token: string | null = null) => {
+const processQueue = (error: unknown, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
@@ -92,7 +94,9 @@ httpClient.interceptors.response.use(
         if (typeof window !== "undefined") {
           localStorage.removeItem("accessToken");
 
-          const isPublicPage = config.publicRoutes.includes(window.location.pathname);
+          const isPublicPage = config.publicRoutes.includes(
+            window.location.pathname,
+          );
 
           if (!isPublicPage) {
             window.location.href = "/login";

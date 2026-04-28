@@ -7,7 +7,7 @@ import styles from "@/styles/components/transactionHistory.module.css";
 import { cn } from "@/lib/utils";
 import { useWalletHistory } from "@/hooks/useWallet";
 import { TransactionItem } from "@/types/transaction";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useNavigation } from "@/hooks/useNavigate";
 
 interface TransactionHistoryProps {
@@ -225,7 +225,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
             {/* End of list */}
             {!hasNextPage && filtered.length > 0 && (
               <p className="text-center text-xs text-gray-400 py-4">
-                You've reached the end
+                {`You've reached the end`}
               </p>
             )}
           </>

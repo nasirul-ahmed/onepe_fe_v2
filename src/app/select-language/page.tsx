@@ -3,12 +3,11 @@
 import { motion } from "framer-motion";
 import { Languages, Sparkles } from "lucide-react";
 import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
 import styles from "@/styles/pages/select-language.module.css";
 import { useNavigation } from "@/hooks/useNavigate";
 
 export default function SelectLanguage() {
-  const  { navigate, goBack } = useNavigation();
+  const { navigate, goBack } = useNavigation();
 
   return (
     <div className={styles.container}>
@@ -31,8 +30,8 @@ export default function SelectLanguage() {
 
         <h1 className={styles.title}>Language Support</h1>
         <p className={styles.description}>
-          We're teaching OnePe new languages! Soon you'll be able to manage your
-          payments in the language you're most comfortable with.
+          {`We're teaching OnePe new languages! Soon you'll be able to manage your
+          payments in the language you're most comfortable with.`}
         </p>
 
         <div className={styles.badge}>Coming Soon</div>

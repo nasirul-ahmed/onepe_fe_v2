@@ -1,6 +1,6 @@
 "use client";
+
 import { ReactNode } from "react";
-import Loader from "./Loader";
 import { useAppStore } from "@/store/app-store";
 import styles from "@/styles/components/contentLayout.module.css";
 

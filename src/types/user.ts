@@ -8,5 +8,5 @@ export interface User {
   tokenVersion?: number;
   iat?: number;
   exp?: number;
-  extraData?: Record<string, any>;
+  extraData?: Record<string, unknown>;
 }

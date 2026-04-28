@@ -6,13 +6,7 @@ import { useNavigation } from "@/hooks/useNavigate";
 import { RouteUtils } from "@/config/routes";
 import ModalContainer from "./ModalContainer";
 import styles from "@/styles/components/servicesGrid.module.css";
-
-export interface Service {
-  icon: string;
-  name: string;
-  isPopular?: boolean;
-  discount?: string;
-}
+import { Service } from "@/lib/interfaces/services";
 
 interface ServicesGridProps {
   services: Service[];
@@ -54,7 +48,9 @@ export function ServicesGrid({
 
   const handleServiceClick = (name: string) => {
     onCloseModal();
-    navigate(RouteUtils.getServiceRoute(name));
+    const path = RouteUtils.getServiceRoute(name);
+    console.log("service path", path, name);
+    navigate(path);
   };
 
   const preview = services.slice(0, 8);

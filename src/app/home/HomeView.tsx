@@ -1,6 +1,5 @@
 "use client";
 import ContentLayout from "@/components/ContentLayout";
-import AvailableServices, { Service } from "@/components/AvailableServices";
 import React, { useState } from "react";
 import Wallet from "@/components/Wallet";
 import CarouselItem from "@/components/CarouselItem";
@@ -10,6 +9,7 @@ import TransactionHistory from "@/components/TransactionHistory";
 import styles from "@/styles/pages/home.module.css";
 import { cn } from "@/lib/utils";
 import { ServicesGrid } from "@/components/ServicesGrid";
+import { Service } from "@/lib/interfaces/services";
 
 interface HomeViewProps {
   initialServices: Service[];
