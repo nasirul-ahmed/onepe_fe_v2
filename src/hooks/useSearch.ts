@@ -1,10 +1,10 @@
 import { fetchSearch, fetchSuggestions } from "@/services/search.services";
 import { useQuery } from "@tanstack/react-query";
 
-export function useSearch(query: string) {
+export function useSearch<T>(query: string) {
   return useQuery({
     queryKey: ["search", query],
-    queryFn: () => fetchSearch(query),
+    queryFn: () => fetchSearch<T>(query),
     enabled: !!query,
     staleTime: 1000 * 60,
   });

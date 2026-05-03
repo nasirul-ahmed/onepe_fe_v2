@@ -3,7 +3,7 @@ import { BaseBanner } from "./types";
 
 export default function DynamicBanner({ banner }: { banner: BaseBanner }) {
   const key: string = `${banner.component}_v${banner.version}`;
-  const entry = COMPONENT_REGISTRY[key];
+  const entry = COMPONENT_REGISTRY[key as keyof typeof COMPONENT_REGISTRY];
 
   if (!entry) {
     console.error("Unknown component:", banner.component);
@@ -18,10 +18,11 @@ export default function DynamicBanner({ banner }: { banner: BaseBanner }) {
     console.error("Invalid props for", banner.component, parsed.error);
     return null;
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const props: any = parsed.data;
   return (
     <div className="">
-      <Component {...(parsed.data as Record<string, unknown>)} />
+      <Component {...props} />
     </div>
   );
 }

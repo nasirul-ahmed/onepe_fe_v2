@@ -24,7 +24,7 @@ export const useDeepLink = () => {
 
           // Still verify the path exists before navigating
           const validPaths = Object.values(ROUTE_PATHS);
-          if (validPaths.includes(path as any)) {
+          if (validPaths.includes(path)) {
             navigate(`${path}${search}`);
             return;
           }
@@ -53,7 +53,7 @@ export const useDeepLink = () => {
 
         console.log({ validPaths });
 
-        if (validPaths.includes(path as any)) {
+        if (validPaths.includes(path)) {
           navigate(`${path}${search}`);
         } else {
           console.warn(

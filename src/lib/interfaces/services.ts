@@ -32,7 +32,7 @@ export interface AppService {
 
   isActive: boolean;
 
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 
   createdAt?: Date;
   updatedAt?: Date;

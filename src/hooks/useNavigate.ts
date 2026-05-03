@@ -16,7 +16,7 @@ export function useNavigation() {
 
   const goBack = () => {
     const previous = pop();
-    router.push(previous ?? RouteUtils.getParentRoute(pathname));
+    router.push(previous ?? RouteUtils.getParentPath(pathname));
   };
 
   const replace = (to: string) => {

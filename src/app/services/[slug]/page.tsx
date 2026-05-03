@@ -27,9 +27,9 @@ async function fetchServiceBySlug(
 export default async function DynamicServicePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const cookieStore = await cookies();
   const token = cookieStore.get("authToken")?.value;
@@ -44,7 +44,7 @@ export default async function DynamicServicePage({
     notFound();
   }
 
-  const ComponentModule = ServiceModuleFactory(service.type);
+  const ComponentModule = ServiceModuleFactory(service.slug?.split("-")[0]);
 
   return (
     <div className="flex flex-col min-h-screen">

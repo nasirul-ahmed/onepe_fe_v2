@@ -20,7 +20,12 @@ export interface BaseBanner {
   data: BannerData;
 }
 
+// export interface BannerRegistry<T extends z.ZodTypeAny = z.ZodTypeAny> {
+//   component: React.ComponentType<z.infer<T>>;
+//   schema: T;
+// }
+
 export interface BannerRegistry {
-  component: React.ComponentType<any>;
-  schema: z.ZodSchema<unknown>;
+  component: React.ComponentType<Record<string, unknown>>;
+  schema: z.ZodSchema<Record<string, unknown>>;
 }

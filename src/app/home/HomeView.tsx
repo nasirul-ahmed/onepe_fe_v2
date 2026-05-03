@@ -62,8 +62,7 @@ export default function HomeView() {
           >
             {banners.items?.map((banner: BaseBanner) => {
               return (
-                <CarouselItem>
-                  {/* <BannerCard banner={banner} /> */}
+                <CarouselItem key={banner.id}>
                   <DynamicBanner banner={banner} />
                 </CarouselItem>
               );

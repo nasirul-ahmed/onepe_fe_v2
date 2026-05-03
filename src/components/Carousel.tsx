@@ -66,14 +66,14 @@ const Carousel: React.FC<CarouselProps> = ({
     return Math.max(-150, Math.min(150, dragPercentage)); // Limit drag range
   };
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+  const handleTouchStart = useCallback((e: TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     setIsDragging(true);
     setIsPaused(true);
   }, []);
 
   const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
+    (e: TouchEvent) => {
       if (!isDragging || !touchStartX.current) return;
       e.preventDefault(); // This is why we need passive: false
       touchEndX.current = e.touches[0].clientX;
@@ -88,7 +88,7 @@ const Carousel: React.FC<CarouselProps> = ({
 
   // const handleTouchEnd = (e: React.TouchEvent) => {
   const handleTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
+    (e: TouchEvent) => {
       // e?.preventDefault();
       if (!touchStartX.current || !touchEndX.current) {
         setIsDragging(false);
@@ -118,28 +118,28 @@ const Carousel: React.FC<CarouselProps> = ({
     [nextSlide, prevSlide],
   );
 
-  if (itemsCount === 0) return null;
-
   React.useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    container.addEventListener("touchstart", handleTouchStart as any, {
+    container.addEventListener("touchstart", handleTouchStart, {
       passive: false,
     });
-    container.addEventListener("touchmove", handleTouchMove as any, {
+    container.addEventListener("touchmove", handleTouchMove, {
       passive: false,
     });
-    container.addEventListener("touchend", handleTouchEnd as any, {
+    container.addEventListener("touchend", handleTouchEnd, {
       passive: false,
     });
 
     return () => {
-      container.removeEventListener("touchstart", handleTouchStart as any);
-      container.removeEventListener("touchmove", handleTouchMove as any);
-      container.removeEventListener("touchend", handleTouchEnd as any);
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+      container.removeEventListener("touchend", handleTouchEnd);
     };
   }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
+
+  if (itemsCount === 0) return null;
 
   return (
     <div

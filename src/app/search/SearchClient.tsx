@@ -9,8 +9,33 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { useSearch } from "@/hooks/useSearch";
 
 interface SearchClientProps {
-  trendingSearches: any[];
-  popularServices: any[];
+  trendingSearches: Array<{
+    id: number;
+    query: string;
+    trend: string;
+  }>;
+  popularServices: Array<{
+    name: string;
+    icon: string;
+    color: string;
+  }>;
+}
+
+interface SearchItem {
+  id: string;
+  title: string;
+  type: string;
+  keywords: string[];
+  category: string;
+  priority: number;
+  route: string;
+}
+
+interface RecentSearch {
+  id: number;
+  query: string;
+  timestamp: string; // e.g., "Just now" or a ISO string
+  icon: string;
 }
 
 const SearchClient = ({
@@ -18,12 +43,11 @@ const SearchClient = ({
   popularServices,
 }: SearchClientProps) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [recentSearches, setRecentSearches] = useState<any[]>([]);
-  // const [isSearching, setIsSearching] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<RecentSearch[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const debouncedQuery = useDebounce(searchQuery, 300);
-  const { data: results, isLoading } = useSearch(debouncedQuery);
+  const { data: results, isLoading } = useSearch<SearchItem[]>(debouncedQuery);
 
   useEffect(() => {
     const saved = localStorage.getItem("onepe_recent_searches");
@@ -71,10 +95,6 @@ const SearchClient = ({
   const clearAllRecentSearches = () => {
     setRecentSearches([]);
     localStorage.removeItem("onepe_recent_searches");
-  };
-
-  const buildClickableComponent = () => {
-    return <></>;
   };
 
   return (
@@ -144,30 +164,23 @@ const SearchClient = ({
               <h2 className={styles.resultsTitle}>
                 Search Results for &ldquo;{searchQuery}&rdquo;
               </h2>
-              {/* <div className={styles.noResults}>
-                <div className={styles.noResultsIcon}>
-                  <Search className={styles.noResultsIconInner} />
-                </div>
-                <p className={styles.noResultsTitle}>No results found</p>
-                <p className={styles.noResultsDescription}>
-                  Try searching for services like &ldquo;mobile recharge&rdquo;
-                  or &ldquo;electricity bill&rdquo;
-                </p>
-              </div> */}
 
-              {results?.length > 0 ? (
+              {results?.length ? (
                 <div className={styles.resultsList}>
                   {Object.entries(
-                    results.reduce((acc: any, item: any) => {
-                      acc[item.type] = acc[item.type] || [];
-                      acc[item.type].push(item);
-                      return acc;
-                    }, {}),
-                  ).map(([type, items]: any) => (
+                    results?.reduce(
+                      (acc, item) => {
+                        acc[item.type] = acc[item.type] || [];
+                        acc[item.type].push(item);
+                        return acc;
+                      },
+                      {} as Record<string, SearchItem[]>,
+                    ),
+                  ).map(([type, items]) => (
                     <div key={type} className={styles.resultGroup}>
                       <h3 className={styles.groupTitle}>{type}</h3>
 
-                      {items.map((item: any) => (
+                      {items.map((item) => (
                         <div
                           key={item.id}
                           onClick={() => handleRecentSearchClick(item.title)}

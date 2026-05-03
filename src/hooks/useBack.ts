@@ -15,7 +15,7 @@ export function useBack() {
     } else {
       // Stack empty — user landed directly on this URL (bookmark/refresh)
       // Fall back to static parentRoute from route config
-      const parent = RouteUtils.getParentRoute(pathname);
+      const parent = RouteUtils.getParentPath(pathname);
       router.push(parent);
     }
   };

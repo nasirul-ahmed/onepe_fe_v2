@@ -1,10 +1,10 @@
 import httpClient from "@/lib/httpClient";
 
-export async function fetchSearch(q: string) {
+export async function fetchSearch<T>(q: string): Promise<T> {
   const { data } = await httpClient.get(
     `/search?q=${encodeURIComponent(q)}`,
   );
-  return data;
+  return data as T;
 }
 
 export async function fetchSuggestions(q: string) {
