@@ -49,26 +49,30 @@ export default function HomeView() {
         className={styles.container}
       >
         {/* Promotional Banners */}
-        <motion.div variants={itemVariants} className="w-full">
-          <Carousel
-            autoPlay
-            loop={true}
-            interval={5000}
-            showControls={true}
-            showArrows={false}
-            showDots={false}
-            className={cn(styles.carouselWrapper, "rounded-2xl")}
-            itemClassName="h-full"
-          >
-            {banners.items?.map((banner: BaseBanner) => {
-              return (
-                <CarouselItem key={banner.id}>
-                  <DynamicBanner banner={banner} />
-                </CarouselItem>
-              );
-            })}
-          </Carousel>
-        </motion.div>
+        {banners?.items && banners.items.length > 0 && (
+          <motion.div variants={itemVariants} className="w-full">
+            <Carousel
+              autoPlay
+              loop={true}
+              interval={5000}
+              showControls={false}
+              showArrows={false}
+              showDots={false}
+              className={cn(styles.carouselWrapper, "rounded-2xl")}
+              itemClassName="h-full"
+            >
+              {banners?.items?.map(
+                (banner: BaseBanner, index: number) => {
+                  return (
+                    <CarouselItem key={index}>
+                      <DynamicBanner banner={banner} />
+                    </CarouselItem>
+                  );
+                },
+              )}
+            </Carousel>
+          </motion.div>
+        )}
 
         {/* Wallet Section */}
         <motion.div variants={itemVariants}>
