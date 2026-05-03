@@ -146,13 +146,13 @@ const MobileRechargePage = () => {
       const prefix = number.substring(0, 4);
       if (
         ["7000", "7001", "7002", "8800", "8801"].some((p) =>
-          prefix.startsWith(p)
+          prefix.startsWith(p),
         )
       ) {
         setOperator("jio");
       } else if (
         ["9840", "9841", "9842", "7418", "7419"].some((p) =>
-          prefix.startsWith(p)
+          prefix.startsWith(p),
         )
       ) {
         setOperator("airtel");
@@ -166,7 +166,7 @@ const MobileRechargePage = () => {
     if (selectedPlan) {
       // Here you would integrate with payment gateway
       alert(
-        `Proceeding with ₹${selectedPlan.amount} recharge for ${mobileNumber}`
+        `Proceeding with ₹${selectedPlan.amount} recharge for ${mobileNumber}`,
       );
     }
   };

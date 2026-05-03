@@ -24,7 +24,7 @@ export default function SplashScreen({
 
     const timer4 = setTimeout(() => {
       onComplete();
-      // replace(ROUTE_PATHS.HOME);
+      replace(ROUTE_PATHS.HOME);
     }, 5000);
 
     return () => {

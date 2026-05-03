@@ -1,19 +1,22 @@
 /* Search Page Styles */
 
 .searchPage {
-  padding: 1rem;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background-color: rgb(var(--color-background));
 }
 
 /* Search Header */
 .searchHeader {
-  margin-bottom: 1.5rem;
   position: sticky;
   top: 0;
-  z-index: 10;
-  background-color: rgb(var(--color-background));
-  padding-bottom: 1rem;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--color-secondary);
+  border-bottom: 1px solid var(--color-border);
+  padding: 18px 12px 2px 12px;
 }
 
 .searchHeaderContent {
@@ -62,7 +65,7 @@
 .clearButton {
   position: absolute;
   right: 0.75rem;
-  top: 50%;
+  top: 30%;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -85,7 +88,11 @@
 
 /* Content */
 .content {
-  padding-bottom: 6rem; /* Space for footer */
+  flex: 1;
+  margin-top: .5rem;
+  padding: 0 16px 100px 16px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Loading */
@@ -388,22 +395,38 @@
 }
 
 .popularServiceItemBlue {
-  background: linear-gradient(135deg, rgb(59 130 246 / 0.1) 0%, rgb(37 99 235 / 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgb(59 130 246 / 0.1) 0%,
+    rgb(37 99 235 / 0.05) 100%
+  );
   border-color: rgb(59 130 246 / 0.2);
 }
 
 .popularServiceItemYellow {
-  background: linear-gradient(135deg, rgb(245 158 11 / 0.1) 0%, rgb(217 119 6 / 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgb(245 158 11 / 0.1) 0%,
+    rgb(217 119 6 / 0.05) 100%
+  );
   border-color: rgb(245 158 11 / 0.2);
 }
 
 .popularServiceItemPurple {
-  background: linear-gradient(135deg, rgb(147 51 234 / 0.1) 0%, rgb(124 58 237 / 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgb(147 51 234 / 0.1) 0%,
+    rgb(124 58 237 / 0.05) 100%
+  );
   border-color: rgb(147 51 234 / 0.2);
 }
 
 .popularServiceItemRed {
-  background: linear-gradient(135deg, rgb(239 68 68 / 0.1) 0%, rgb(220 38 38 / 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgb(239 68 68 / 0.1) 0%,
+    rgb(220 38 38 / 0.05) 100%
+  );
   border-color: rgb(239 68 68 / 0.2);
 }
 

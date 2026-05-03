@@ -38,19 +38,19 @@ export default function NotificationList({
     const iconProps = { className: "w-5 h-5" };
     switch (type) {
       case "success":
-        return <CheckCircle {...iconProps} />;
+        return <CheckCircle color="var(--color-on-surface)" {...iconProps} />;
       case "warning":
-        return <AlertCircle {...iconProps} />;
+        return <AlertCircle color="var(--color-on-surface)" {...iconProps} />;
       case "info":
-        return <Info {...iconProps} />;
+        return <Info color="var(--color-on-surface)" {...iconProps} />;
       case "offer":
-        return <Gift {...iconProps} />;
+        return <Gift color="var(--color-on-surface)" {...iconProps} />;
       case "payment":
-        return <CreditCard {...iconProps} />;
+        return <CreditCard color="var(--color-on-surface)" {...iconProps} />;
       case "system":
-        return <Settings2 {...iconProps} />;
+        return <Settings2 color="var(--color-on-surface)" {...iconProps} />;
       default:
-        return <Bell {...iconProps} />;
+        return <Bell color="var(--color-on-surface)" {...iconProps} />;
     }
   };
 
@@ -229,7 +229,10 @@ export default function NotificationList({
                     }}
                     className={styles.actionButton}
                   >
-                    <Trash2 className="w-3 h-3" />
+                    <Trash2
+                      color="var(--color-on-surface)"
+                      className="w-3 h-3"
+                    />
                   </motion.button>
                 </div>
               </motion.div>

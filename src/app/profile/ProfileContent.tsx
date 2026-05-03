@@ -16,6 +16,9 @@ import {
   MapPin,
   Award,
   Wallet,
+  Languages,
+  DollarSign,
+  Send,
 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import ContentLayout from "@/components/ContentLayout";
@@ -61,10 +64,12 @@ export default function ProfileContent() {
 
   const profileMenuItems = [
     { icon: Settings, label: "Account Settings", badge: null },
-    { icon: CreditCard, label: "Payment Methods", badge: "2" },
+    { icon: DollarSign, label: "Cashback Earned", badge: "2" },
     { icon: Shield, label: "Security & Privacy", badge: null },
-    { icon: Bell, label: "Notifications", badge: "New" },
+    { icon: Bell, label: "Manage Notifications", badge: "New" },
+    { icon: Languages, label: "Change Language", badge: "New" },
     { icon: Award, label: "Rewards & Offers", badge: "5" },
+    { icon: Send, label: "Refer & Earn" },
   ];
 
   const fullName =
@@ -87,7 +92,10 @@ export default function ProfileContent() {
         className={styles.container}
       >
         {/* Profile Header */}
-        <motion.div variants={itemVariants} className={styles.profileHeader}>
+        <motion.div
+          variants={itemVariants}
+          className={cn(styles.profileHeader, "classicShadow")}
+        >
           <div className={styles.profileHeaderTop}>
             <div className={styles.userInfo}>
               <div className={styles.avatarContainer}>

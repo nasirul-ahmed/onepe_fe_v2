@@ -1,10 +1,12 @@
 /* TransactionHistory Component Styles */
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  position: sticky; /* Sticky is better than fixed inside containers */
+  top: 0;
+  z-index: 10;
+  padding-bottom: 1rem;
+  /* Optional: adds a slight shadow when scrolling */
+  border-bottom: 1px solid var(--color-border);
 }
 
 .title {
@@ -18,7 +20,9 @@
   background: var(--color-surface);
   border-radius: 1rem;
   padding: 1rem;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.1),
+    0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
 .transactionHeader {
@@ -29,7 +33,7 @@
 }
 
 .transactionTitle {
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--color-on-surface);
 }
@@ -61,7 +65,7 @@
   left: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--color-secondary);
+  color: var(--color-on-surafce);
   width: 1rem;
   height: 1rem;
 }
@@ -72,7 +76,7 @@
   background: var(--color-muted);
   border-radius: 0.75rem;
   border: 1px solid var(--color-border);
-  color: var(--color-on-surface);
+  color: var(--color-on-background);
 }
 
 .searchInput:focus {
@@ -82,7 +86,7 @@
 }
 
 .searchInput::placeholder {
-  color: var(--color-secondary);
+  color: var(--color-on-surface);
 }
 
 /* Filter Buttons */
@@ -110,8 +114,8 @@
 }
 
 .filterButtonInactive {
-  background: var(--color-muted);
-  color: var(--color-secondary);
+  background: var(--color-secondary);
+  color: var(--color-on-surface);
 }
 
 .filterButtonInactive:hover {
@@ -120,6 +124,7 @@
 
 /* Transactions List */
 .transactionsList {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -137,7 +142,9 @@
 }
 
 .transactionItem:hover {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .transactionContent {
@@ -244,7 +251,7 @@
 }
 
 .emptyStateText {
-  color: var(--color-secondary);
+  color: var(--color-on-surafce);
 }
 
 /* Dark Mode Support */

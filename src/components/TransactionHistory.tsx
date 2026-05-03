@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { useWalletHistory } from "@/hooks/useWallet";
 import { TransactionItem } from "@/types/transaction";
 import { usePathname } from "next/navigation";
-import { useNavigation } from "@/hooks/useNavigate";
+import SkeletonList from "./SkeletonList";
 
 interface TransactionHistoryProps {
   pageTitle?: string;
@@ -43,7 +43,6 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   showFilters = false,
   pageTitle = "Transaction History",
 }) => {
-  const { navigate } = useNavigation();
   const pathname = usePathname();
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedFilter, setSelectedFilter] = React.useState("all");
@@ -94,26 +93,14 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
     );
   }
 
-  const goToTxnPage = () => navigate("/transactions");
-  const isTransactionPage = pathname !== "/transactions";
+  const isNotTransactionPage = pathname !== "/transactions";
 
   return (
     <div className={styles.container}>
-      {/* Header */}
-      {isTransactionPage && (
-        <div className={styles.header}>
-          <h2 className={styles.title}>{pageTitle}</h2>
-
-          <button className={styles.viewAllButton} onClick={goToTxnPage}>
-            View All
-          </button>
-        </div>
-      )}
-
       {/* Search + Filter — full view only */}
       {(showFilters && showSearchBox) ||
-        (!isTransactionPage && (
-          <div className="flex flex-col gap-4">
+        (!isNotTransactionPage && (
+          <div className={cn(styles.header, "flex flex-col gap-4")}>
             <div className={styles.searchContainer}>
               <Search className={styles.searchIcon} />
               <input
@@ -234,23 +221,5 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
     </div>
   );
 };
-
-// Skeleton loader
-function SkeletonList({ count }: { count: number }) {
-  return (
-    <>
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="flex items-center gap-3 p-3 animate-pulse">
-          <div className="w-10 h-10 rounded-full bg-gray-200" />
-          <div className="flex-1 space-y-2">
-            <div className="h-3 bg-gray-200 rounded w-1/2" />
-            <div className="h-3 bg-gray-200 rounded w-1/3" />
-          </div>
-          <div className="h-3 bg-gray-200 rounded w-16" />
-        </div>
-      ))}
-    </>
-  );
-}
 
 export default TransactionHistory;

@@ -1,41 +1,63 @@
 /* Wallet Component Styles */
 
 .walletContainer {
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     rgb(248 250 252),
-    /* Very light slate-50 */ rgb(241 245 249),
-    /* Light slate-100 */ rgb(226 232 240) /* Medium slate-200 */
-  );
+
+  ); */
   border-radius: 1rem;
   color: var(--color-on-background);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);
   padding: 1rem;
   position: relative;
   overflow: hidden;
 }
 
-:global(.dark) .walletContainer {
+/* :global(.dark) .walletContainer {
   background: linear-gradient(
     135deg,
     rgb(51 65 85),
     rgb(30 41 59),
     rgb(15 23 42)
   );
-}
+} */
 
 /* Subtle pattern overlay */
 .walletOverlay {
   position: absolute;
   inset: 0;
+  /* background: linear-gradient(
+    135deg,
+    rgba(6, 182, 212, 0.05),
+    transparent,
+    rgba(168, 85, 247, 0.05)
+  ); */
+  background: linear-gradient(
+    270deg,
+    rgb(122 123 124 / 40%),
+    rgb(61 61 61 / 10%),
+    rgba(181, 180, 182, 0.59)
+  );
+
+  /* linear-gradient(
+    135deg,
+    rgb(233 234 235 / 91%),
+    rgb(34 32 32 / 5%),
+    rgb(181 180 182 / 67%)
+  ); */
+  border-radius: 1rem;
+}
+
+:global(.dark) .walletOverlay {
   background: linear-gradient(
     135deg,
     rgba(6, 182, 212, 0.05),
     transparent,
     rgba(168, 85, 247, 0.05)
   );
-  border-radius: 1rem;
 }
 
 /* Header Section */
@@ -113,7 +135,7 @@
 .currencySymbol {
   font-size: 1.125rem;
   margin-right: 0.25rem;
-  color: rgb(209 213 219);
+  color: var(--color-on-background);
 }
 
 .balanceAmount {
@@ -150,7 +172,9 @@
   color: var(--color-primary);
   cursor: pointer;
   transition: all 200ms ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 :global(.dark) .quickAddButton {
@@ -200,7 +224,9 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 
   transition: all 200ms ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .actionButtonSecondary:hover {

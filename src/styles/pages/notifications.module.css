@@ -231,14 +231,14 @@
 
 .notificationTime {
   font-size: 0.75rem;
-  color: var(--color-secondary);
+  color: var(--color-on-secondary);
   flex-shrink: 0;
   margin-left: 0.5rem;
 }
 
 .notificationMessage {
   font-size: 0.875rem;
-  color: var(--color-secondary);
+  color: var(--color-on-secondary);
   line-height: 1.4;
   margin-bottom: 0.75rem;
 }

@@ -14,8 +14,8 @@
   /* === Brand / Accent === */
   --color-primary: #3b82f6;
   --color-on-primary: #ffffff;
-  --color-secondary: #64748b;
-  --color-on-secondary: #ffffff;
+  --color-secondary: #dededef2;
+  --color-on-secondary: #9f9e9e;
   --color-tertiary: #8b5cf6;
   --color-on-tertiary: #ffffff;
 
@@ -53,7 +53,7 @@
   --color-border: #334155;
   --color-muted: #1e293b;
   --color-primary: #3b82f6;
-  --color-secondary: #64748b;
+  --color-secondary: #1c1c1c;
   --color-tertiary: #8b5cf6;
 
   /* === Dark Gradients === */
@@ -195,13 +195,11 @@ textarea,
   flex-direction: column;
 }
 
-
-
 /* MODAL SCROLLBAR */
 /* Thin, subtle scrollbar for modal content */
 .modal-scrollbar {
   scrollbar-width: thin; /* Firefox */
-  scrollbar-color: rgba(0,0,0,0.28) transparent; /* Firefox: thumb then track */
+  scrollbar-color: rgba(0, 0, 0, 0.28) transparent; /* Firefox: thumb then track */
 }
 
 /* WebKit browsers */
@@ -213,7 +211,7 @@ textarea,
   background: transparent;
 }
 .modal-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(0,0,0,0.28);
+  background-color: rgba(0, 0, 0, 0.28);
   border-radius: 9999px;
   border: 2px solid transparent; /* gives a little breathing room */
   background-clip: padding-box;
@@ -221,8 +219,21 @@ textarea,
 
 /* Dark mode adjustments */
 .dark .modal-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(255,255,255,0.18);
+  background-color: rgba(255, 255, 255, 0.18);
 }
 .dark .modal-scrollbar {
-  scrollbar-color: rgba(255,255,255,0.18) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.classicShadow {
+  box-shadow:
+    0px 0px 2px rgb(58 58 58 / 89%),
+    0px 0px 0px 0px rgb(0 0 0 / 16%);
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #808080;
+  margin: 1rem 0;
+  width: 100%;
 }

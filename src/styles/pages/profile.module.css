@@ -2,6 +2,7 @@
 
 /* Container */
 .container {
+  margin-top: .5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -16,9 +17,9 @@
   padding-right: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  box-shadow:
+  /* box-shadow:
     0 1px 3px 0 rgb(0 0 0 / 0.1),
-    0 1px 2px -1px rgb(0 0 0 / 0.1);
+    0 1px 2px -1px rgb(0 0 0 / 0.1); */
 }
 
 .profileHeaderTop {
@@ -159,7 +160,13 @@
 .contactDetails {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1rem;
+  /* gap: 1rem; */
+}
+
+.contactDetails div:not(:last-child) {
+  border-bottom: 2px solid var(--color-secondary);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .contactItem {
@@ -168,7 +175,7 @@
   gap: 0.75rem;
   padding: 0.75rem;
   background-color: rgb(var(--color-muted));
-  border-radius: 0.75rem;
+  /* border-radius: 0.75rem; */
 }
 
 .contactIcon {
@@ -252,13 +259,13 @@
 
 /* Theme Toggle */
 .themeToggle {
-  border: 1px solid var(--color-on-surface);
+  /* border: 1px solid var(--color-on-surface); */
   background-color: rgb(var(--color-surface));
   border-radius: 1rem;
   padding: 1rem;
   box-shadow:
-    0 1px 3px 0 rgb(0 0 0 / 0.1),
-    0 1px 2px -1px rgb(0 0 0 / 0.1);
+    0px 0px 2px rgb(58 58 58 / 89%),
+    0px 0px 0px 0px rgb(0 0 0 / 16%);
 }
 
 .themeToggleContent {

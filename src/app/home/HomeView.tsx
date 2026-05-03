@@ -8,15 +8,16 @@ import { motion } from "framer-motion";
 import TransactionHistory from "@/components/TransactionHistory";
 import styles from "@/styles/pages/home.module.css";
 import { cn } from "@/lib/utils";
-import { ServicesGrid } from "@/components/ServicesGrid";
-import { Service } from "@/lib/interfaces/services";
+import ServicesGrid from "@/components/ServicesGrid";
+import { useBanners } from "@/hooks/useBanners";
+import DynamicBanner from "@/components/banners/DynamicBanner";
+import { BaseBanner } from "@/types/banner";
+import SectionHeader from "@/components/SectionHeader";
+import { ROUTE_PATHS } from "@/config/routes";
+import { useNavigation } from "@/hooks/useNavigate";
+import { useAppServices } from "@/hooks/useAppServices";
 
-interface HomeViewProps {
-  initialServices: Service[];
-}
-
-export default function HomeView({ initialServices }: HomeViewProps) {
-  const [isServicesModalOpen, setServicesModalOpen] = useState(false);
+export default function HomeView() {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -33,6 +34,11 @@ export default function HomeView({ initialServices }: HomeViewProps) {
       transition: { duration: 0.5 },
     },
   };
+  const { navigate } = useNavigation();
+  const { data: banners } = useBanners();
+  const [isServicesModalOpen, setServicesModalOpen] = useState(false);
+
+  const { data: initialServices } = useAppServices();
 
   return (
     <ContentLayout>
@@ -48,71 +54,20 @@ export default function HomeView({ initialServices }: HomeViewProps) {
             autoPlay
             loop={true}
             interval={5000}
-            showControls={false}
+            showControls={true}
             showArrows={false}
             showDots={false}
             className={cn(styles.carouselWrapper, "rounded-2xl")}
             itemClassName="h-full"
           >
-            <CarouselItem>
-              <div
-                className={cn(
-                  styles.promoCard,
-                  styles.promoCardBlue,
-                  "rounded-2xl ml-1 mr-1",
-                )}
-              >
-                <h3 className={styles.promoTitle}>Special Offer! 🎉</h3>
-                <p className={styles.promoDescription}>
-                  Get 5% cashback on mobile recharge
-                </p>
-                <div className={styles.promoBadge}>
-                  <span className={styles.promoBadgeText}>
-                    Use code: MOBILE5
-                  </span>
-                </div>
-              </div>
-            </CarouselItem>
-
-            <CarouselItem>
-              <div
-                className={cn(
-                  styles.promoCard,
-                  styles.promoCardGreen,
-                  "rounded-2xl ml-1 mr-1",
-                )}
-              >
-                <h3 className={styles.promoTitle}>Bill Payment Bonus! 💰</h3>
-                <p className={styles.promoDescription}>
-                  Pay 3 bills and get ₹50 cashback
-                </p>
-                <div className={styles.promoBadge}>
-                  <span className={styles.promoBadgeText}>
-                    Limited time offer
-                  </span>
-                </div>
-              </div>
-            </CarouselItem>
-
-            <CarouselItem>
-              <div
-                className={cn(
-                  styles.promoCard,
-                  styles.promoCardOrange,
-                  "rounded-2xl ml-1",
-                )}
-              >
-                <h3 className={styles.promoTitle}>FasTag Recharge! 🚗</h3>
-                <p className={styles.promoDescription}>
-                  Zero convenience fee on FasTag
-                </p>
-                <div className={styles.promoBadge}>
-                  <span className={styles.promoBadgeText}>
-                    Save more, travel more
-                  </span>
-                </div>
-              </div>
-            </CarouselItem>
+            {banners.items?.map((banner: BaseBanner) => {
+              return (
+                <CarouselItem>
+                  {/* <BannerCard banner={banner} /> */}
+                  <DynamicBanner banner={banner} />
+                </CarouselItem>
+              );
+            })}
           </Carousel>
         </motion.div>
 
@@ -123,9 +78,20 @@ export default function HomeView({ initialServices }: HomeViewProps) {
 
         {/* Available Services - Now received as props */}
         <motion.div variants={itemVariants}>
-          {/* <AvailableServices services={initialServices} /> */}
+          <SectionHeader
+            title="Recharge & Services"
+            trailing={
+              <button
+                onClick={() => setServicesModalOpen(true)}
+                className="text-sm text-sky-600 font-medium hover:underline"
+              >
+                See All
+              </button>
+            }
+          />
           <ServicesGrid
-            services={initialServices}
+            services={initialServices.services || []}
+            modalEnabled={true}
             isModalOpen={isServicesModalOpen}
             onOpenModal={() => setServicesModalOpen(true)}
             onCloseModal={() => setServicesModalOpen(false)}
@@ -134,6 +100,17 @@ export default function HomeView({ initialServices }: HomeViewProps) {
 
         {/* Recent Transactions */}
         <motion.div variants={itemVariants}>
+          <SectionHeader
+            title="Transaction History"
+            trailing={
+              <button
+                onClick={() => navigate(ROUTE_PATHS.TRANSACTIONS)}
+                className="text-sm text-sky-600 font-medium hover:underline"
+              >
+                See All
+              </button>
+            }
+          />
           <TransactionHistory />
         </motion.div>
       </motion.div>

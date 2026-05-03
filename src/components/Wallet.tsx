@@ -6,6 +6,7 @@ import {
   EyeOff,
   Plus,
   ArrowUpRight,
+  IndianRupee,
 } from "lucide-react";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
@@ -78,7 +79,8 @@ const Wallet = () => {
       {/* Balance Section */}
       <div className={styles.balanceSection}>
         <div className={styles.balanceContainer}>
-          <span className={styles.currencySymbol}>₹</span>
+          {/* <span className={styles.currencySymbol}>₹</span> */}
+          <IndianRupee size={24} className={styles.currencySymbol} />
           <motion.span
             key={balance}
             initial={{ scale: 1.1 }}

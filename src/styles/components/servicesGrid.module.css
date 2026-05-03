@@ -1,9 +1,7 @@
-/* src/styles/components/servicesGrid.module.css */
-
 .section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.8rem;
 }
 
 .header {
@@ -32,28 +30,35 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box
 }
 
 .modalGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 0.3rem;
 }
 
 /* Tile */
 .tile {
+  position: relative;
+  width: 100%;
+  /* SQUARE SHAPE */
+  aspect-ratio: 1.1 / 1;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  background: var(--color-surface, #f8f8f8);
+  justify-content: flex-start;
+
+  background: var(--color-background);
   border: 1px solid var(--color-border, #eee);
-  border-radius: 14px;
-  padding: 10px 4px;
-  cursor: pointer;
-  position: relative;
-  width: 100%;
+  border-radius: 0.8rem;
+  padding: 0.5rem 0.2rem;
+  /* overflow: hidden; */
+  gap: 0.2rem;
 }
 
 .tileSm {
@@ -63,19 +68,27 @@
 .tileIcon {
   font-size: 22px;
   line-height: 1;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
 }
 
 .tileName {
-  font-size: 10px;
-  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.1;
+  font-weight: 600;
   text-align: center;
-  color: var(--color-on-surface-secondary, #666);
-  line-height: 1.2;
-  white-space: nowrap;
+  /* color: var(--color-on-surface-secondary, #666); */
+  color: var(--color-on-surface);
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Wraps to 2 lines, then dots (...) */
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  padding: 0 2px;
+  /* word-break: break-word; */
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .hotBadge {

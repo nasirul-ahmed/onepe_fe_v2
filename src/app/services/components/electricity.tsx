@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Zap, Receipt, AlertCircle, CheckCircle, CreditCard } from "lucide-react";
+import {
+  Zap,
+  Receipt,
+  AlertCircle,
+  CheckCircle,
+  CreditCard,
+} from "lucide-react";
 import ContentLayout from "@/components/ContentLayout";
 import Button from "@/components/Button";
 
@@ -27,62 +33,62 @@ const ElectricityBillPage = () => {
       id: "adani",
       name: "Adani Electricity",
       logo: "⚡",
-      states: ["Maharashtra", "Gujarat"]
+      states: ["Maharashtra", "Gujarat"],
     },
     {
       id: "bescom",
       name: "BESCOM",
       logo: "🔌",
-      states: ["Karnataka"]
+      states: ["Karnataka"],
     },
     {
       id: "bseb",
       name: "BSEB Bihar",
       logo: "💡",
-      states: ["Bihar"]
+      states: ["Bihar"],
     },
     {
       id: "cesc",
       name: "CESC Kolkata",
       logo: "⚡",
-      states: ["West Bengal"]
+      states: ["West Bengal"],
     },
     {
       id: "dhbvn",
       name: "DHBVN Haryana",
       logo: "🔋",
-      states: ["Haryana"]
+      states: ["Haryana"],
     },
     {
       id: "jseb",
       name: "JSEB Jharkhand",
       logo: "💡",
-      states: ["Jharkhand"]
+      states: ["Jharkhand"],
     },
     {
       id: "mseb",
       name: "MSEB Maharashtra",
       logo: "⚡",
-      states: ["Maharashtra"]
+      states: ["Maharashtra"],
     },
     {
       id: "pseb",
       name: "PSEB Punjab",
       logo: "🔌",
-      states: ["Punjab"]
+      states: ["Punjab"],
     },
     {
       id: "tneb",
       name: "TNEB Tamil Nadu",
       logo: "💡",
-      states: ["Tamil Nadu"]
+      states: ["Tamil Nadu"],
     },
     {
       id: "uppcl",
       name: "UPPCL UP",
       logo: "⚡",
-      states: ["Uttar Pradesh"]
-    }
+      states: ["Uttar Pradesh"],
+    },
   ];
 
   const handleFetchBill = async () => {
@@ -194,8 +200,13 @@ const ElectricityBillPage = () => {
                           Important Information
                         </h4>
                         <ul className="text-sm text-amber-700 dark:text-amber-300 mt-1 space-y-1">
-                          <li>• Consumer number can be found on your electricity bill</li>
-                          <li>• Make sure to enter the correct consumer number</li>
+                          <li>
+                            • Consumer number can be found on your electricity
+                            bill
+                          </li>
+                          <li>
+                            • Make sure to enter the correct consumer number
+                          </li>
                           <li>• Bill fetch may take a few seconds</li>
                         </ul>
                       </div>
@@ -238,23 +249,39 @@ const ElectricityBillPage = () => {
                   Bill Fetched Successfully
                 </h3>
               </div>
-              
+
               <div className="grid grid-cols-1 gap-4">
                 <div className="flex justify-between items-center py-2 border-b border-green-200 dark:border-green-700">
-                  <span className="text-green-700 dark:text-green-300">Consumer Name:</span>
-                  <span className="font-semibold text-green-800 dark:text-green-200">{customerName}</span>
+                  <span className="text-green-700 dark:text-green-300">
+                    Consumer Name:
+                  </span>
+                  <span className="font-semibold text-green-800 dark:text-green-200">
+                    {customerName}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-green-200 dark:border-green-700">
-                  <span className="text-green-700 dark:text-green-300">Consumer Number:</span>
-                  <span className="font-semibold text-green-800 dark:text-green-200">{consumerNumber}</span>
+                  <span className="text-green-700 dark:text-green-300">
+                    Consumer Number:
+                  </span>
+                  <span className="font-semibold text-green-800 dark:text-green-200">
+                    {consumerNumber}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-green-200 dark:border-green-700">
-                  <span className="text-green-700 dark:text-green-300">Bill Amount:</span>
-                  <span className="font-bold text-xl text-green-800 dark:text-green-200">₹{billAmount}</span>
+                  <span className="text-green-700 dark:text-green-300">
+                    Bill Amount:
+                  </span>
+                  <span className="font-bold text-xl text-green-800 dark:text-green-200">
+                    ₹{billAmount}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-green-700 dark:text-green-300">Due Date:</span>
-                  <span className="font-semibold text-red-600 dark:text-red-400">{dueDate}</span>
+                  <span className="text-green-700 dark:text-green-300">
+                    Due Date:
+                  </span>
+                  <span className="font-semibold text-red-600 dark:text-red-400">
+                    {dueDate}
+                  </span>
                 </div>
               </div>
             </div>
@@ -264,7 +291,7 @@ const ElectricityBillPage = () => {
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Payment Details
               </h3>
-              
+
               <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800">
                 <div className="flex items-center justify-between">
                   <div>
@@ -277,7 +304,7 @@ const ElectricityBillPage = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold text-blue-800 dark:text-blue-200">
-                      ₹{parseInt(billAmount.replace(',', '')) + 5}
+                      ₹{parseInt(billAmount.replace(",", "")) + 5}
                     </p>
                     <p className="text-sm text-blue-600 dark:text-blue-300">
                       (Bill: ₹{billAmount} + Fee: ₹5)
@@ -294,10 +321,7 @@ const ElectricityBillPage = () => {
                 >
                   Fetch Another Bill
                 </Button>
-                <Button
-                  onClick={handlePayment}
-                  className="flex-1"
-                >
+                <Button onClick={handlePayment} className="flex-1">
                   <div className="flex items-center justify-center space-x-2">
                     <CreditCard className="w-4 h-4" />
                     <span>Pay Now</span>
@@ -315,8 +339,9 @@ const ElectricityBillPage = () => {
                     Safe & Secure Payment
                   </h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    Your payment is processed through secure payment gateways with 256-bit SSL encryption.
-                    You&apos;ll receive instant confirmation and receipt after payment.
+                    Your payment is processed through secure payment gateways
+                    with 256-bit SSL encryption. You&apos;ll receive instant
+                    confirmation and receipt after payment.
                   </p>
                 </div>
               </div>

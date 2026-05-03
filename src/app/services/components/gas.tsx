@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Flame, MapPin, CreditCard, CheckCircle, AlertTriangle, Clock } from "lucide-react";
+import {
+  Flame,
+  MapPin,
+  CreditCard,
+  CheckCircle,
+  AlertTriangle,
+  Clock,
+} from "lucide-react";
 import ContentLayout from "@/components/ContentLayout";
 import Button from "@/components/Button";
 
@@ -26,14 +33,16 @@ interface Cylinder {
   size: string;
   price: number;
   weight: string;
-  type: 'domestic' | 'commercial';
+  type: "domestic" | "commercial";
 }
 
 const GasBookingPage = () => {
   const [selectedProvider, setSelectedProvider] = useState("");
   const [consumerNumber, setConsumerNumber] = useState("");
   const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null);
-  const [selectedCylinder, setSelectedCylinder] = useState<Cylinder | null>(null);
+  const [selectedCylinder, setSelectedCylinder] = useState<Cylinder | null>(
+    null,
+  );
   const [deliveryDate, setDeliveryDate] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("");
   const [loading, setLoading] = useState(false);
@@ -51,28 +60,28 @@ const GasBookingPage = () => {
       size: "14.2 kg",
       price: 899,
       weight: "14.2 kg",
-      type: "domestic"
+      type: "domestic",
     },
     {
       id: "domestic-5",
-      size: "5 kg", 
+      size: "5 kg",
       price: 429,
       weight: "5 kg",
-      type: "domestic"
+      type: "domestic",
     },
     {
       id: "commercial-19",
       size: "19 kg",
       price: 1699,
-      weight: "19 kg", 
-      type: "commercial"
-    }
+      weight: "19 kg",
+      type: "commercial",
+    },
   ];
 
   const deliverySlots = [
     { id: "morning", label: "Morning (9 AM - 12 PM)", time: "09:00-12:00" },
     { id: "afternoon", label: "Afternoon (12 PM - 4 PM)", time: "12:00-16:00" },
-    { id: "evening", label: "Evening (4 PM - 7 PM)", time: "16:00-19:00" }
+    { id: "evening", label: "Evening (4 PM - 7 PM)", time: "16:00-19:00" },
   ];
 
   const handleFetchInfo = async () => {
@@ -84,9 +93,9 @@ const GasBookingPage = () => {
       setCustomerInfo({
         name: "Nasir Khan",
         address: "123 Green Park, New Delhi - 110016",
-        mobile: "+91 98765 43210", 
+        mobile: "+91 98765 43210",
         lastBooking: "Nov 15, 2023",
-        connectionType: "Domestic"
+        connectionType: "Domestic",
       });
       setLoading(false);
     }, 2000);
@@ -94,19 +103,21 @@ const GasBookingPage = () => {
 
   const handleBooking = () => {
     if (!selectedCylinder || !deliveryDate || !deliveryTime) return;
-    alert(`Booking confirmed for ${selectedCylinder.size} cylinder on ${deliveryDate} (${deliveryTime})`);
+    alert(
+      `Booking confirmed for ${selectedCylinder.size} cylinder on ${deliveryDate} (${deliveryTime})`,
+    );
   };
 
   const getTomorrowDate = () => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split('T')[0];
+    return tomorrow.toISOString().split("T")[0];
   };
 
   const getMaxDate = () => {
     const maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + 7); // 7 days from today
-    return maxDate.toISOString().split('T')[0];
+    return maxDate.toISOString().split("T")[0];
   };
 
   return (
@@ -190,8 +201,13 @@ const GasBookingPage = () => {
                       Important Information
                     </h4>
                     <ul className="text-sm text-amber-700 dark:text-amber-300 mt-1 space-y-1">
-                      <li>• Consumer number is printed on your gas connection booklet</li>
-                      <li>• Booking will be done for registered address only</li>
+                      <li>
+                        • Consumer number is printed on your gas connection
+                        booklet
+                      </li>
+                      <li>
+                        • Booking will be done for registered address only
+                      </li>
                       <li>• Delivery charges may apply</li>
                     </ul>
                   </div>
@@ -236,23 +252,41 @@ const GasBookingPage = () => {
               </div>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-green-600 dark:text-green-300">Name:</span>
-                  <span className="font-medium text-green-800 dark:text-green-200">{customerInfo.name}</span>
+                  <span className="text-green-600 dark:text-green-300">
+                    Name:
+                  </span>
+                  <span className="font-medium text-green-800 dark:text-green-200">
+                    {customerInfo.name}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-green-600 dark:text-green-300">Mobile:</span>
-                  <span className="font-medium text-green-800 dark:text-green-200">{customerInfo.mobile}</span>
+                  <span className="text-green-600 dark:text-green-300">
+                    Mobile:
+                  </span>
+                  <span className="font-medium text-green-800 dark:text-green-200">
+                    {customerInfo.mobile}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-green-600 dark:text-green-300">Type:</span>
-                  <span className="font-medium text-green-800 dark:text-green-200">{customerInfo.connectionType}</span>
+                  <span className="text-green-600 dark:text-green-300">
+                    Type:
+                  </span>
+                  <span className="font-medium text-green-800 dark:text-green-200">
+                    {customerInfo.connectionType}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-green-600 dark:text-green-300">Last Booking:</span>
-                  <span className="font-medium text-green-800 dark:text-green-200">{customerInfo.lastBooking}</span>
+                  <span className="text-green-600 dark:text-green-300">
+                    Last Booking:
+                  </span>
+                  <span className="font-medium text-green-800 dark:text-green-200">
+                    {customerInfo.lastBooking}
+                  </span>
                 </div>
                 <div className="pt-2 border-t border-green-200 dark:border-green-700">
-                  <span className="text-green-600 dark:text-green-300">Address:</span>
+                  <span className="text-green-600 dark:text-green-300">
+                    Address:
+                  </span>
                   <p className="font-medium text-green-800 dark:text-green-200 mt-1">
                     {customerInfo.address}
                   </p>
@@ -267,47 +301,49 @@ const GasBookingPage = () => {
               </h3>
               <div className="space-y-3">
                 {cylinders
-                  .filter(cylinder => 
-                    customerInfo.connectionType.toLowerCase() === 'domestic' 
-                      ? cylinder.type === 'domestic' 
-                      : true
+                  .filter((cylinder) =>
+                    customerInfo.connectionType.toLowerCase() === "domestic"
+                      ? cylinder.type === "domestic"
+                      : true,
                   )
                   .map((cylinder) => (
-                  <motion.div
-                    key={cylinder.id}
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => setSelectedCylinder(cylinder)}
-                    className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
-                      selectedCylinder?.id === cylinder.id
-                        ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20"
-                        : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-orange-100 dark:bg-orange-900 rounded-lg">
-                          <Flame className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                    <motion.div
+                      key={cylinder.id}
+                      whileHover={{ scale: 1.02 }}
+                      onClick={() => setSelectedCylinder(cylinder)}
+                      className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                        selectedCylinder?.id === cylinder.id
+                          ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20"
+                          : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className="p-2 bg-orange-100 dark:bg-orange-900 rounded-lg">
+                            <Flame className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900 dark:text-white">
+                              {cylinder.size} LPG Cylinder
+                            </h4>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              {cylinder.type.charAt(0).toUpperCase() +
+                                cylinder.type.slice(1)}{" "}
+                              • {cylinder.weight}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900 dark:text-white">
-                            {cylinder.size} LPG Cylinder
-                          </h4>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {cylinder.type.charAt(0).toUpperCase() + cylinder.type.slice(1)} • {cylinder.weight}
-                          </p>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xl font-bold text-orange-600 dark:text-orange-400">
+                            ₹{cylinder.price}
+                          </span>
+                          {selectedCylinder?.id === cylinder.id && (
+                            <CheckCircle className="w-5 h-5 text-orange-500" />
+                          )}
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xl font-bold text-orange-600 dark:text-orange-400">
-                          ₹{cylinder.price}
-                        </span>
-                        {selectedCylinder?.id === cylinder.id && (
-                          <CheckCircle className="w-5 h-5 text-orange-500" />
-                        )}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  ))}
               </div>
             </div>
 
@@ -321,7 +357,7 @@ const GasBookingPage = () => {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Schedule Delivery
                 </h3>
-                
+
                 <div className="grid grid-cols-1 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -385,29 +421,42 @@ const GasBookingPage = () => {
                   </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-orange-700 dark:text-orange-300">Cylinder:</span>
+                      <span className="text-orange-700 dark:text-orange-300">
+                        Cylinder:
+                      </span>
                       <span className="font-medium text-orange-800 dark:text-orange-200">
                         {selectedCylinder.size} LPG
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-orange-700 dark:text-orange-300">Price:</span>
+                      <span className="text-orange-700 dark:text-orange-300">
+                        Price:
+                      </span>
                       <span className="font-medium text-orange-800 dark:text-orange-200">
                         ₹{selectedCylinder.price}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-orange-700 dark:text-orange-300">Delivery:</span>
+                      <span className="text-orange-700 dark:text-orange-300">
+                        Delivery:
+                      </span>
                       <span className="font-medium text-orange-800 dark:text-orange-200">
-                        {new Date(deliveryDate).toLocaleDateString()} ({deliveryTime})
+                        {new Date(deliveryDate).toLocaleDateString()} (
+                        {deliveryTime})
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-orange-700 dark:text-orange-300">Delivery Fee:</span>
-                      <span className="font-medium text-orange-800 dark:text-orange-200">₹25</span>
+                      <span className="text-orange-700 dark:text-orange-300">
+                        Delivery Fee:
+                      </span>
+                      <span className="font-medium text-orange-800 dark:text-orange-200">
+                        ₹25
+                      </span>
                     </div>
                     <div className="flex justify-between border-t border-orange-200 dark:border-orange-700 pt-2">
-                      <span className="font-semibold text-orange-800 dark:text-orange-200">Total:</span>
+                      <span className="font-semibold text-orange-800 dark:text-orange-200">
+                        Total:
+                      </span>
                       <span className="font-bold text-lg text-orange-800 dark:text-orange-200">
                         ₹{selectedCylinder.price + 25}
                       </span>
@@ -439,7 +488,9 @@ const GasBookingPage = () => {
                     <li>• Ensure someone is available at delivery address</li>
                     <li>• Keep old cylinder ready for exchange</li>
                     <li>• Check for leaks before using new cylinder</li>
-                    <li>• Delivery executive will verify identity before delivery</li>
+                    <li>
+                      • Delivery executive will verify identity before delivery
+                    </li>
                   </ul>
                 </div>
               </div>

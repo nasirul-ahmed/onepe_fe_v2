@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Droplets, Receipt, CreditCard, CheckCircle, AlertCircle, MapPin } from "lucide-react";
+import {
+  Droplets,
+  Receipt,
+  CreditCard,
+  CheckCircle,
+  AlertCircle,
+  MapPin,
+} from "lucide-react";
 import ContentLayout from "@/components/ContentLayout";
 import Button from "@/components/Button";
 
@@ -33,38 +40,38 @@ const WaterBillPage = () => {
       id: "dda",
       name: "DDA Water Board",
       logo: "💧",
-      areas: ["Central Delhi", "South Delhi", "East Delhi"]
+      areas: ["Central Delhi", "South Delhi", "East Delhi"],
     },
     {
       id: "mcd",
       name: "MCD Water Supply",
       logo: "🚰",
-      areas: ["North Delhi", "West Delhi", "Shahdara"]
+      areas: ["North Delhi", "West Delhi", "Shahdara"],
     },
     {
       id: "bwssb",
       name: "BWSSB Bangalore",
       logo: "💦",
-      areas: ["Bangalore Urban", "Bangalore Rural"]
+      areas: ["Bangalore Urban", "Bangalore Rural"],
     },
     {
       id: "mumbai",
       name: "Mumbai Water Dept",
       logo: "🌊",
-      areas: ["Mumbai City", "Mumbai Suburban"]
+      areas: ["Mumbai City", "Mumbai Suburban"],
     },
     {
       id: "hyderabad",
       name: "HMWSSB Hyderabad",
       logo: "💧",
-      areas: ["Hyderabad", "Secunderabad", "Cyberabad"]
+      areas: ["Hyderabad", "Secunderabad", "Cyberabad"],
     },
     {
       id: "chennai",
       name: "Chennai Metro Water",
       logo: "🚰",
-      areas: ["Chennai City", "Chennai Suburban"]
-    }
+      areas: ["Chennai City", "Chennai Suburban"],
+    },
   ];
 
   const handleFetchBill = async () => {
@@ -79,7 +86,7 @@ const WaterBillPage = () => {
         billAmount: 1850,
         dueDate: "2024-01-30",
         billPeriod: "Dec 2023 - Jan 2024",
-        address: "123 Green Park, New Delhi - 110016"
+        address: "123 Green Park, New Delhi - 110016",
       });
       setLoading(false);
     }, 2000);
@@ -184,7 +191,9 @@ const WaterBillPage = () => {
                           How to find Consumer Number
                         </h4>
                         <ul className="text-sm text-amber-700 dark:text-amber-300 mt-1 space-y-1">
-                          <li>• Check your previous water bill for consumer number</li>
+                          <li>
+                            • Check your previous water bill for consumer number
+                          </li>
                           <li>• Consumer number is usually 8-12 digits long</li>
                           <li>• Some boards use account numbers instead</li>
                           <li>• Contact water board office if unsure</li>
@@ -229,28 +238,48 @@ const WaterBillPage = () => {
                   Bill Details Retrieved
                 </h3>
               </div>
-              
+
               <div className="space-y-3">
                 <div className="grid grid-cols-1 gap-3">
                   <div className="flex justify-between items-center py-2 border-b border-green-200 dark:border-green-700">
-                    <span className="text-green-700 dark:text-green-300">Consumer Name:</span>
-                    <span className="font-semibold text-green-800 dark:text-green-200">{billInfo.consumerName}</span>
+                    <span className="text-green-700 dark:text-green-300">
+                      Consumer Name:
+                    </span>
+                    <span className="font-semibold text-green-800 dark:text-green-200">
+                      {billInfo.consumerName}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-green-200 dark:border-green-700">
-                    <span className="text-green-700 dark:text-green-300">Bill Number:</span>
-                    <span className="font-semibold text-green-800 dark:text-green-200">{billInfo.billNumber}</span>
+                    <span className="text-green-700 dark:text-green-300">
+                      Bill Number:
+                    </span>
+                    <span className="font-semibold text-green-800 dark:text-green-200">
+                      {billInfo.billNumber}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-green-200 dark:border-green-700">
-                    <span className="text-green-700 dark:text-green-300">Bill Period:</span>
-                    <span className="font-semibold text-green-800 dark:text-green-200">{billInfo.billPeriod}</span>
+                    <span className="text-green-700 dark:text-green-300">
+                      Bill Period:
+                    </span>
+                    <span className="font-semibold text-green-800 dark:text-green-200">
+                      {billInfo.billPeriod}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-green-200 dark:border-green-700">
-                    <span className="text-green-700 dark:text-green-300">Due Date:</span>
-                    <span className="font-semibold text-red-600 dark:text-red-400">{billInfo.dueDate}</span>
+                    <span className="text-green-700 dark:text-green-300">
+                      Due Date:
+                    </span>
+                    <span className="font-semibold text-red-600 dark:text-red-400">
+                      {billInfo.dueDate}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="text-green-700 dark:text-green-300">Bill Amount:</span>
-                    <span className="font-bold text-2xl text-green-800 dark:text-green-200">₹{billInfo.billAmount}</span>
+                    <span className="text-green-700 dark:text-green-300">
+                      Bill Amount:
+                    </span>
+                    <span className="font-bold text-2xl text-green-800 dark:text-green-200">
+                      ₹{billInfo.billAmount}
+                    </span>
                   </div>
                 </div>
 
@@ -258,7 +287,9 @@ const WaterBillPage = () => {
                   <div className="flex items-start space-x-2">
                     <MapPin className="w-4 h-4 text-green-600 dark:text-green-400 mt-1 flex-shrink-0" />
                     <div>
-                      <span className="text-green-700 dark:text-green-300 text-sm">Address:</span>
+                      <span className="text-green-700 dark:text-green-300 text-sm">
+                        Address:
+                      </span>
                       <p className="font-medium text-green-800 dark:text-green-200 text-sm mt-1">
                         {billInfo.address}
                       </p>
@@ -273,21 +304,33 @@ const WaterBillPage = () => {
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Payment Summary
               </h3>
-              
+
               <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800">
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-blue-700 dark:text-blue-300">Bill Amount:</span>
-                    <span className="font-semibold text-blue-800 dark:text-blue-200">₹{billInfo.billAmount}</span>
+                    <span className="text-blue-700 dark:text-blue-300">
+                      Bill Amount:
+                    </span>
+                    <span className="font-semibold text-blue-800 dark:text-blue-200">
+                      ₹{billInfo.billAmount}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-blue-700 dark:text-blue-300">Convenience Fee:</span>
-                    <span className="font-semibold text-blue-800 dark:text-blue-200">₹{getConvenienceFee(billInfo.billAmount)}</span>
+                    <span className="text-blue-700 dark:text-blue-300">
+                      Convenience Fee:
+                    </span>
+                    <span className="font-semibold text-blue-800 dark:text-blue-200">
+                      ₹{getConvenienceFee(billInfo.billAmount)}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center pt-2 border-t border-blue-200 dark:border-blue-700">
-                    <span className="font-bold text-blue-800 dark:text-blue-200">Total Amount:</span>
+                    <span className="font-bold text-blue-800 dark:text-blue-200">
+                      Total Amount:
+                    </span>
                     <span className="font-bold text-xl text-blue-800 dark:text-blue-200">
-                      ₹{billInfo.billAmount + getConvenienceFee(billInfo.billAmount)}
+                      ₹
+                      {billInfo.billAmount +
+                        getConvenienceFee(billInfo.billAmount)}
                     </span>
                   </div>
                 </div>
@@ -301,13 +344,14 @@ const WaterBillPage = () => {
                 >
                   Fetch Another Bill
                 </Button>
-                <Button
-                  onClick={handlePayment}
-                  className="flex-1"
-                >
+                <Button onClick={handlePayment} className="flex-1">
                   <div className="flex items-center justify-center space-x-2">
                     <CreditCard className="w-4 h-4" />
-                    <span>Pay ₹{billInfo.billAmount + getConvenienceFee(billInfo.billAmount)}</span>
+                    <span>
+                      Pay ₹
+                      {billInfo.billAmount +
+                        getConvenienceFee(billInfo.billAmount)}
+                    </span>
                   </div>
                 </Button>
               </div>
@@ -322,11 +366,18 @@ const WaterBillPage = () => {
                     Payment Guidelines
                   </h4>
                   <ul className="text-sm text-gray-600 dark:text-gray-400 mt-1 space-y-1">
-                    <li>• Payment will be processed instantly after confirmation</li>
+                    <li>
+                      • Payment will be processed instantly after confirmation
+                    </li>
                     <li>• You will receive SMS and email confirmation</li>
                     <li>• Keep the transaction receipt for your records</li>
-                    <li>• Allow 24-48 hours for payment reflection in water board system</li>
-                    <li>• Contact customer support for any payment related queries</li>
+                    <li>
+                      • Allow 24-48 hours for payment reflection in water board
+                      system
+                    </li>
+                    <li>
+                      • Contact customer support for any payment related queries
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -342,8 +393,9 @@ const WaterBillPage = () => {
                       ⚠️ Overdue Payment Notice
                     </h4>
                     <p className="text-sm text-red-700 dark:text-red-300 mt-1">
-                      This bill was due on {billInfo.dueDate}. Late payment charges may apply. 
-                      Please pay immediately to avoid service disconnection.
+                      This bill was due on {billInfo.dueDate}. Late payment
+                      charges may apply. Please pay immediately to avoid service
+                      disconnection.
                     </p>
                   </div>
                 </div>

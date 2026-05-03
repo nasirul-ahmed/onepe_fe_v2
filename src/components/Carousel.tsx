@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useCallback, useRef, Children, ReactNode } from "react";
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  Children,
+  ReactNode,
+} from "react";
 import { ChevronLeft, ChevronRight, Circle, CircleDot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import styles from "@/styles/components/carousel.module.css";
@@ -60,52 +66,80 @@ const Carousel: React.FC<CarouselProps> = ({
     return Math.max(-150, Math.min(150, dragPercentage)); // Limit drag range
   };
 
-  // Touch handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    e.preventDefault(); // Prevent scrolling on touch start
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     setIsDragging(true);
     setIsPaused(true);
-  };
+  }, []);
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || !touchStartX.current) return;
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (!isDragging || !touchStartX.current) return;
+      e.preventDefault(); // This is why we need passive: false
+      touchEndX.current = e.touches[0].clientX;
+      const offset = calculateDragOffset(
+        touchStartX.current,
+        touchEndX.current,
+      );
+      setDragOffset(offset);
+    },
+    [isDragging, calculateDragOffset],
+  );
 
-    e.preventDefault(); // Prevent page scroll during drag
-    touchEndX.current = e.touches[0].clientX;
-    const offset = calculateDragOffset(touchStartX.current, touchEndX.current);
-    setDragOffset(offset);
-  };
+  // const handleTouchEnd = (e: React.TouchEvent) => {
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      // e?.preventDefault();
+      if (!touchStartX.current || !touchEndX.current) {
+        setIsDragging(false);
+        setDragOffset(0);
+        setIsPaused(false);
+        return;
+      }
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    e.preventDefault();
-    if (!touchStartX.current || !touchEndX.current) {
+      const diff = touchStartX.current - touchEndX.current;
+      const containerWidth = containerRef.current?.offsetWidth || 0;
+      const swipeThreshold = containerWidth * 0.15; // Reduced threshold for easier swiping
+
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+
       setIsDragging(false);
       setDragOffset(0);
       setIsPaused(false);
-      return;
-    }
-
-    const diff = touchStartX.current - touchEndX.current;
-    const containerWidth = containerRef.current?.offsetWidth || 0;
-    const swipeThreshold = containerWidth * 0.15; // Reduced threshold for easier swiping
-
-    if (Math.abs(diff) > swipeThreshold) {
-      if (diff > 0) {
-        nextSlide();
-      } else {
-        prevSlide();
-      }
-    }
-
-    setIsDragging(false);
-    setDragOffset(0);
-    setIsPaused(false);
-    touchStartX.current = 0;
-    touchEndX.current = 0;
-  };
+      touchStartX.current = 0;
+      touchEndX.current = 0;
+    },
+    [nextSlide, prevSlide],
+  );
 
   if (itemsCount === 0) return null;
+
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener("touchstart", handleTouchStart as any, {
+      passive: false,
+    });
+    container.addEventListener("touchmove", handleTouchMove as any, {
+      passive: false,
+    });
+    container.addEventListener("touchend", handleTouchEnd as any, {
+      passive: false,
+    });
+
+    return () => {
+      container.removeEventListener("touchstart", handleTouchStart as any);
+      container.removeEventListener("touchmove", handleTouchMove as any);
+      container.removeEventListener("touchend", handleTouchEnd as any);
+    };
+  }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   return (
     <div
@@ -113,11 +147,11 @@ const Carousel: React.FC<CarouselProps> = ({
       className={cn(styles.carousel, "group", className, "w-full")}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      // onTouchStart={handleTouchStart}
+      // onTouchMove={handleTouchMove}
+      // onTouchEnd={handleTouchEnd}
       style={
-        { "--carousel-current-index": currentIndex, } as React.CSSProperties
+        { "--carousel-current-index": currentIndex } as React.CSSProperties
       }
     >
       {/* Carousel Items */}
@@ -152,7 +186,7 @@ const Carousel: React.FC<CarouselProps> = ({
             onClick={nextSlide}
             className={cn(
               styles.navigationButton,
-              styles.navigationButtonRight
+              styles.navigationButtonRight,
             )}
             disabled={!loop && currentIndex === itemsCount - 1}
             aria-label="Next slide"
