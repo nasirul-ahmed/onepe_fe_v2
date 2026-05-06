@@ -17,23 +17,24 @@ import { ROUTE_PATHS } from "@/config/routes";
 import { useNavigation } from "@/hooks/useNavigate";
 import { useAppServices } from "@/hooks/useAppServices";
 
-export default function HomeView() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5 },
-    },
-  };
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.5 },
+  },
+};
+
+export default function HomeView() {
   const { navigate } = useNavigation();
   const { data: banners } = useBanners();
   const [isServicesModalOpen, setServicesModalOpen] = useState(false);
@@ -61,15 +62,13 @@ export default function HomeView() {
               className={cn(styles.carouselWrapper, "rounded-2xl")}
               itemClassName="h-full"
             >
-              {banners?.items?.map(
-                (banner: BaseBanner, index: number) => {
-                  return (
-                    <CarouselItem key={index}>
-                      <DynamicBanner banner={banner} />
-                    </CarouselItem>
-                  );
-                },
-              )}
+              {banners?.items?.map((banner: BaseBanner, index: number) => {
+                return (
+                  <CarouselItem key={index}>
+                    <DynamicBanner banner={banner} />
+                  </CarouselItem>
+                );
+              })}
             </Carousel>
           </motion.div>
         )}

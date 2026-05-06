@@ -4,6 +4,7 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import ProfileContent from "./ProfileContent";
 import { redirect } from "next/navigation";
 import ROUTES from "@/config/routes";
+import { timer } from "@/lib/utils";
 
 async function getUser(token: string) {
   try {

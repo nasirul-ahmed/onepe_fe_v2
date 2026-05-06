@@ -40,14 +40,6 @@ export default function AuthProvider({
 
   return (
     <>
-      {/* ALWAYS render the Loader, but hide it if initialized */}
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-background"
-        style={{ display: isInitialized ? "none" : "flex" }}
-      >
-        <Loader />
-      </div>
-
       {/* ALWAYS render the children, but hide if not initialized */}
       <div
         className="h-full w-full"

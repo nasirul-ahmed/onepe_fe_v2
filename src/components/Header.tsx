@@ -28,7 +28,7 @@ const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       className="sticky top-0 z-50 bg-surface/80 backdrop-blur-lg shadow-sm"
     >
-      <div className="px-4 py-3">
+      <div className="p-4">
         <div className="flex justify-between items-center">
           {/* Left side */}
           <div className="flex items-center space-x-3">
@@ -47,15 +47,15 @@ const Header = () => {
                 </h1>
               </>
             ) : isHomePage ? (
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+              <div className="mt-2 flex items-center space-x-2">
+                {/* <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                   <span className="text-white text-sm font-bold">1P</span>
-                </div>
+                </div> */}
                 <div>
-                  <h1 className="font-bold text-lg text-on-surface">OnePe</h1>
-                  <p className="text-xs text-secondary -mt-1">
-                    Good evening! 👋
-                  </p>
+                  <h1 className="font-rocky font-bold text-sm text-on-surface">Onepe</h1>
+                  {/* <p className="text-xs text-secondary -mt-1">
+                    True payment partner!
+                  </p> */}
                 </div>
               </div>
             ) : (

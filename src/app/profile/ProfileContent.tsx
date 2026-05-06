@@ -24,13 +24,11 @@ import styles from "@/styles/pages/profile.module.css";
 import Switch from "@/components/Switch";
 import { useLogout, useUserProfile } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigate";
-import Loader from "@/components/Loader";
 
 export default function ProfileContent() {
   const { theme, toggleTheme } = useTheme();
-  // const router = useRouter();
   const { navigate, replace } = useNavigation();
-  const { data: user, isLoading, isError } = useUserProfile();
+  const { data: user } = useUserProfile();
   const { mutate: logout } = useLogout();
 
   const handleSignOut = async () => logout();
@@ -95,8 +93,6 @@ export default function ProfileContent() {
     .join("")
     .toUpperCase();
 
-  // if (isLoading) return <Loader />;
-
   return (
     <ContentLayout>
       <motion.div
@@ -135,11 +131,11 @@ export default function ProfileContent() {
 
           {/* User Details */}
           <div className={styles.contactDetails}>
-            {user.email && (
+            {user?.email && (
               <div className={styles.contactItem}>
                 <Mail className={styles.contactIcon} />
                 <div>
-                  <p className={styles.contactValue}>{user.email}</p>
+                  <p className={styles.contactValue}>{user?.email}</p>
                   <p className={styles.contactLabel}>Email Address</p>
                 </div>
               </div>
@@ -148,7 +144,7 @@ export default function ProfileContent() {
             <div className={styles.contactItem}>
               <Phone className={styles.contactIcon} />
               <div>
-                <p className={styles.contactValue}>{user.phone}</p>
+                <p className={styles.contactValue}>{user?.phone || ""}</p>
                 <p className={styles.contactLabel}>Mobile Number</p>
               </div>
             </div>

@@ -51,8 +51,6 @@ const Footer = () => {
     return null;
   }
 
-  // console.log({ device, isIOS: isIOS(device) });
-
   return (
     <motion.nav
       initial={{ y: 100, opacity: 0 }}

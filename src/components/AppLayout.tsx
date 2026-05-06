@@ -11,6 +11,7 @@ import config from "@/config/config.json";
 import SplashScreen from "./SplashScreen";
 import { useNavigation } from "@/hooks/useNavigate";
 import Loader from "./Loader";
+import OnepeLiquidLoader from "./OnePeLoader";
 
 interface IAppLayoutInputProps {
   children: ReactNode;
@@ -49,7 +50,7 @@ const AppLayout = ({ children }: IAppLayoutInputProps) => {
       <div className="block lg:hidden">
         <div className={styles.appLayout} data-auth-page={dontShowNavs}>
           <Header />
-          <Suspense fallback={<Loader />}>
+          <Suspense fallback={<OnepeLiquidLoader />}>
             <div className={styles.scrollableContent}>{children}</div>
           </Suspense>
           <Footer />

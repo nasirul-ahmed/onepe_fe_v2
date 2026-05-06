@@ -11,9 +11,6 @@ export function useNavigation() {
 
   const navigate = (to: string) => {
     const resolved = RouteUtils.resolve(to);
-
-    console.log({ resolved})
-
     if (!resolved) {
       // TODO: show a toaster
       console.warn(`[Navigation] Blocked reload: ${to} is not in Registry.`);

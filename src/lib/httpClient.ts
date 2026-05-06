@@ -96,12 +96,6 @@ httpClient.interceptors.response.use(
           typeof window !== "undefined" ||
           (refreshError as AxiosError)?.response?.status === 401
         ) {
-          console.log(
-            "Token refresh failed:",
-            refreshError,
-            typeof window !== "undefined",
-          );
-
           Cookies.remove("authToken");
           localStorage.removeItem("accessToken");
 

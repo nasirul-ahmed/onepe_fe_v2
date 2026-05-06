@@ -7,12 +7,9 @@ export const useDeepLink = () => {
   const { navigate } = useNavigation();
 
   const handleAction = (action: string) => {
-    console.log({ actionFromHook: action });
     if (!action) return;
 
-    // 1. External Web URLs
     if (isValidUrl(action)) {
-      console.log("norma link");
       try {
         const url = new URL(action);
         const appUrl = new URL(FRONTEND_BASE_URL);
@@ -37,9 +34,7 @@ export const useDeepLink = () => {
       return;
     }
 
-    // 2. Internal Deep Links
     if (action.startsWith("deep_link://")) {
-      console.log("deeplink");
       try {
         const url = new URL(
           action.replace("deep_link://", `${FRONTEND_BASE_URL}/`),
@@ -50,8 +45,6 @@ export const useDeepLink = () => {
 
         // Check if path exists in our configuration
         const validPaths = Object.values(ROUTE_PATHS);
-
-        console.log({ validPaths });
 
         if (validPaths.includes(path)) {
           navigate(`${path}${search}`);

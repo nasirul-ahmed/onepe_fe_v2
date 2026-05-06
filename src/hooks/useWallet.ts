@@ -78,10 +78,7 @@ export function useWalletTopup(): UseWalletTopupResult {
       }
 
       if (order.gateway === "cashfree") {
-        console.log({ order });
         const result = await triggerCashfreePayment(order.paymentSessionId!);
-
-        console.log({ result });
 
         // Cashfree gives us status directly from the popup promise
         if (result.paymentDetails.paymentStatus === "FAILED") return "failed";

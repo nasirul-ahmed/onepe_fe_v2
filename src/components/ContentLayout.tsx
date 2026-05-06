@@ -3,6 +3,8 @@
 import { ReactNode } from "react";
 import { useAppStore } from "@/store/app-store";
 import styles from "@/styles/components/contentLayout.module.css";
+import { cn } from "@/lib/utils";
+import OnepeLiquidLoader from "./OnePeLoader";
 
 interface IContentLayoutInputProps {
   children: ReactNode;
@@ -12,13 +14,12 @@ const ContentLayout = ({
   children,
   className = "",
 }: IContentLayoutInputProps) => {
-  const { isLoading } = useAppStore();
-
+  const isLoading = useAppStore((state) => state.isLoading);
   return (
-    <main className={`${styles.contentLayout} ${className}`}>
-      {/* <div style={{ display: isLoading ? "flex" : "none", height: "100%" }}>
-        <Loader />
-      </div> */}
+    <main className={cn(`${styles.contentLayout}`, className)}>
+      <div className={cn(isLoading ? "flex" : "hidden")}>
+        <OnepeLiquidLoader />
+      </div>
 
       <div
         className={styles.contentContainer}
