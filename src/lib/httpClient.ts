@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import config from "@/config/config.json";
+import Cookies from "js-cookie";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -91,7 +92,17 @@ httpClient.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null);
 
-        if (typeof window !== "undefined") {
+        if (
+          typeof window !== "undefined" ||
+          (refreshError as AxiosError)?.response?.status === 401
+        ) {
+          console.log(
+            "Token refresh failed:",
+            refreshError,
+            typeof window !== "undefined",
+          );
+
+          Cookies.remove("authToken");
           localStorage.removeItem("accessToken");
 
           const isPublicPage = config.publicRoutes.includes(

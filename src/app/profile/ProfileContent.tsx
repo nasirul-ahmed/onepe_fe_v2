@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import {
-  Settings,
-  CreditCard,
   Shield,
   Bell,
   Moon,
@@ -16,8 +14,6 @@ import {
   MapPin,
   Award,
   Wallet,
-  Languages,
-  DollarSign,
   Send,
 } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
@@ -26,19 +22,25 @@ import Button from "@/components/Button";
 import { cn } from "@/lib/utils";
 import styles from "@/styles/pages/profile.module.css";
 import Switch from "@/components/Switch";
-import { useRouter } from "next/navigation";
 import { useLogout, useUserProfile } from "@/hooks/useAuth";
+import { useNavigation } from "@/hooks/useNavigate";
+import Loader from "@/components/Loader";
 
 export default function ProfileContent() {
   const { theme, toggleTheme } = useTheme();
-  const router = useRouter();
+  // const router = useRouter();
+  const { navigate, replace } = useNavigation();
   const { data: user, isLoading, isError } = useUserProfile();
   const { mutate: logout } = useLogout();
 
-  const handleSignOut = async () => {
-    logout(undefined, {
-      onSuccess: () => router.push("/login"),
-    });
+  const handleSignOut = async () => logout();
+
+  const handleProfileMenuItems = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    route: string,
+  ) => {
+    e?.stopPropagation();
+    navigate(route);
   };
 
   const containerVariants = {
@@ -63,13 +65,26 @@ export default function ProfileContent() {
   };
 
   const profileMenuItems = [
-    { icon: Settings, label: "Account Settings", badge: null },
-    { icon: DollarSign, label: "Cashback Earned", badge: "2" },
-    { icon: Shield, label: "Security & Privacy", badge: null },
-    { icon: Bell, label: "Manage Notifications", badge: "New" },
-    { icon: Languages, label: "Change Language", badge: "New" },
-    { icon: Award, label: "Rewards & Offers", badge: "5" },
-    { icon: Send, label: "Refer & Earn" },
+    // { icon: Languages, label: "Change Language", badge: "New" },
+    {
+      icon: Shield,
+      label: "Security & Privacy",
+      badge: null,
+      route: "/profile/security",
+    },
+    {
+      icon: Bell,
+      label: "Manage Notifications",
+      badge: "New",
+      route: "/profile/manage-notifications",
+    },
+    {
+      icon: Award,
+      label: "Offers & Cashback",
+      badge: "5",
+      route: "/profile/offers",
+    },
+    { icon: Send, label: "Refer & Earn", route: "/refer" },
   ];
 
   const fullName =
@@ -80,8 +95,7 @@ export default function ProfileContent() {
     .join("")
     .toUpperCase();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!user) return <div>No user data</div>;
+  // if (isLoading) return <Loader />;
 
   return (
     <ContentLayout>
@@ -201,6 +215,7 @@ export default function ProfileContent() {
                 key={index}
                 whileTap={{ scale: 0.98 }}
                 className={styles.menuItem}
+                onClick={(e) => handleProfileMenuItems(e, item.route)}
               >
                 <div className={styles.menuItemLeft}>
                   <item.icon className={styles.menuItemIcon} />

@@ -43,7 +43,7 @@
 }
 
 .addMoneySection {
-  background: white;
+  background: var(--color-secondary);
   margin: 16px;
   padding: 20px;
   border-radius: 16px;

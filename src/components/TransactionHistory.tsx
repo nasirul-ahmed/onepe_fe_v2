@@ -142,6 +142,11 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           <>
             {filtered.map((item, index) => {
               const tx = formatItem(item);
+
+              const amountIcon = cn(
+                styles.amountIcon,
+                tx.status === "failed" && styles.amountFailed,
+              );
               return (
                 <motion.div
                   key={tx.id}
@@ -177,20 +182,21 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     </div>
                   </div>
 
-                  <div className={styles.transactionAmount}>
+                  <div className={styles.amountContainer}>
                     <div
                       className={cn(
                         styles.amountValue,
                         tx.amount > 0
                           ? styles.amountPositive
                           : styles.amountNegative,
+                        tx.status === "failed" && styles.amountFailed,
                       )}
                     >
-                      <p>{}</p>
+                      {/* <p>{}</p> */}
                       {tx.amount > 0 ? (
-                        <ArrowDownRight className={styles.amountIcon} />
+                        <ArrowDownRight className={amountIcon} />
                       ) : (
-                        <ArrowUpRight className={styles.amountIcon} />
+                        <ArrowUpRight className={amountIcon} />
                       )}
                       ₹{Math.abs(tx.amount).toLocaleString("en-IN")}
                     </div>

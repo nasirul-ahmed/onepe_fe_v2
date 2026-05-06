@@ -1,15 +1,25 @@
-import { useRouter, usePathname } from 'next/navigation';
-import { useNavigationStore } from '@/store/navigation-store';
-import { RouteUtils } from '@/config/routes';
+import { useRouter, usePathname } from "next/navigation";
+import { useNavigationStore } from "@/store/navigation-store";
+import { RouteUtils } from "@/config/routes";
 
 export function useNavigation() {
-  const router    = useRouter();
-  const pathname  = usePathname();
-  const push      = useNavigationStore((s) => s.push);
-  const pop       = useNavigationStore((s) => s.pop);
+  const router = useRouter();
+  const pathname = usePathname();
+  const push = useNavigationStore((s) => s.push);
+  const pop = useNavigationStore((s) => s.pop);
   const canGoBack = useNavigationStore((s) => s.history.length > 0);
 
   const navigate = (to: string) => {
+    const resolved = RouteUtils.resolve(to);
+
+    console.log({ resolved})
+
+    if (!resolved) {
+      // TODO: show a toaster
+      console.warn(`[Navigation] Blocked reload: ${to} is not in Registry.`);
+      return;
+    }
+
     push(pathname);
     router.push(to);
   };

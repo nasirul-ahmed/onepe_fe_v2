@@ -15,7 +15,7 @@ interface SwitchProps {
 
 const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
   (
-    { checked, onChange, disabled = false, size = "md", label, className = "" },
+    { checked, onChange, disabled = false, size = "md", label, className = "", ...props },
     ref
   ) => {
     const getSizeClass = () => {

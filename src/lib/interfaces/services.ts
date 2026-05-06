@@ -13,8 +13,8 @@ export interface AppService {
   name: string;
   slug: string;
 
-  type: ServiceType;
-  category: ServiceCategory;
+  type: string;
+  category: string;
 
   icon?: string;
 
@@ -32,7 +32,7 @@ export interface AppService {
 
   isActive: boolean;
 
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, unknown> | null;
 
   createdAt?: Date;
   updatedAt?: Date;

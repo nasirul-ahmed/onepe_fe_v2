@@ -6,15 +6,19 @@ import { redirect } from "next/navigation";
 import ROUTES from "@/config/routes";
 
 async function getUser(token: string) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/profile`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
-    },
-  );
-  if (!res.ok) throw new Error("Failed to fetch user");
-  return res.json();
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/profile`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: "no-store",
+      },
+    );
+    if (!res.ok) throw new Error("Failed to fetch user");
+    return res.json();
+  } catch (error) {
+    redirect(ROUTES.LOGIN.path);
+  }
 }
 
 export default async function ProfilePage() {
@@ -22,18 +26,18 @@ export default async function ProfilePage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("authToken")?.value;
 
-  if (!token) {
-    redirect(ROUTES.LOGIN.path);
-  }
-
   // Prefetch user data on server
-  await queryClient.prefetchQuery({
+  queryClient.prefetchQuery({
     queryKey: ["user", "profile"],
     queryFn: async () => {
-      const data = await getUser(token);
+      const data = await getUser(token!);
       return data.user;
     },
   });
+
+  if (!token) {
+    redirect(ROUTES.LOGIN.path);
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

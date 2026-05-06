@@ -8,7 +8,6 @@ const GasBillModule = dynamic(() => import("./components/gas"));
 const WaterBillModule = dynamic(() => import("./components/water"));
 
 export const ServiceModuleFactory = (type: string) => {
-  console.log("fetching module for type", type);
   const modules: Record<
     string,
     React.ComponentType<Record<string, AppService | unknown>>

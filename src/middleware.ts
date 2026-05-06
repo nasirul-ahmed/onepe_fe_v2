@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import configuration from "@/config/config.json";
-import { X } from "lucide-react";
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -9,13 +8,12 @@ export function middleware(request: NextRequest) {
 
   const authToken = request.cookies.get("authToken")?.value;
 
-  if (!authToken && !publicRoutes.includes(pathname)) {
-    // return NextResponse.redirect(new URL("/login", request.url));
-    return NextResponse.next();
-  }
+  // if (authToken && pathname === "/login") {
+  //   return NextResponse.redirect(new URL("/home", request.url));
+  // }
 
-  if (authToken && pathname === "/login") {
-    return NextResponse.redirect(new URL("/home", request.url));
+  if (!authToken && !publicRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();
@@ -30,6 +28,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|login|select-language).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|login|select-language|not-found).*)",
   ],
 };

@@ -93,7 +93,7 @@ export default function HomeView() {
             }
           />
           <ServicesGrid
-            services={initialServices.services || []}
+            services={initialServices?.services || []}
             modalEnabled={true}
             isModalOpen={isServicesModalOpen}
             onOpenModal={() => setServicesModalOpen(true)}

@@ -7,6 +7,9 @@ import ModalContainer from "./ModalContainer";
 import styles from "@/styles/components/servicesGrid.module.css";
 import { cn } from "@/lib/utils";
 import { AppService } from "@/lib/interfaces/services";
+import React from "react";
+import config from "@/config/config.json";
+import Button from "./Button";
 
 interface ServicesGridProps {
   services: AppService[];
@@ -23,15 +26,17 @@ interface ServiceTileProps {
 }
 
 function ServiceTile({ service, onClick, size = "md" }: ServiceTileProps) {
-  console.log(
-    "discount label",
-    service.discountLabel,
-    service.discountPercentage,
-  );
+  const [loading, setLoading] = React.useState(false);
+
+  const handleClick = () => {
+    if (loading) return;
+    setLoading(true);
+    onClick?.();
+  };
+
   return (
-    <motion.button
-      whileTap={{ scale: 0.92 }}
-      onClick={onClick}
+    <Button
+      onClick={handleClick}
       className={`${styles.tile} ${size === "sm" ? styles.tileSm : ""}`}
     >
       {service.isPopular && <span className={styles.hotBadge}>HOT</span>}
@@ -42,12 +47,12 @@ function ServiceTile({ service, onClick, size = "md" }: ServiceTileProps) {
       )}
       <span className={styles.tileIcon}>{service.icon}</span>
       <span className={styles.tileName}>{service.name}</span>
-    </motion.button>
+    </Button>
   );
 }
 
 export default function ServicesGrid({
-  services,
+  services: intialServices,
   modalEnabled,
   isModalOpen,
   onOpenModal,
@@ -64,6 +69,8 @@ export default function ServicesGrid({
     navigate(url);
   };
 
+  const services =
+    intialServices.length > 0 ? intialServices : (config.appServices satisfies AppService[]);
   const preview = services.slice(0, 8);
 
   return (
@@ -118,7 +125,12 @@ export default function ServicesGrid({
               </div>
             ))}
             <div className="divider"></div>
-            <button onClick={() => navigate(ROUTES.SERVICES.path)} className="p-2 flex ml-auto mr-auto text-center">Go to all services page</button>
+            <button
+              onClick={() => navigate(ROUTES.SERVICES.path)}
+              className="p-2 flex ml-auto mr-auto text-center"
+            >
+              Go to all services page
+            </button>
           </div>
         </ModalContainer>
       )}

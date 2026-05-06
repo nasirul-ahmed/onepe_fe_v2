@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { ChevronDown, ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import TextField from "@/components/TextField";
 import Button from "@/components/Button";
 import { ROUTE_PATHS } from "@/config/routes";
@@ -10,7 +9,7 @@ import styles from "@/styles/pages/login.module.css";
 import { useNavigation } from "@/hooks/useNavigate";
 
 export function LoginForm() {
-  const { navigate } = useNavigation();
+  const { navigate, replace } = useNavigation();
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"phone" | "otp">("phone");
@@ -25,7 +24,7 @@ export function LoginForm() {
 
   const handleVerifyOtp = () => {
     if (otp.length < 4) return alert("Enter valid OTP");
-    verifyOtp({ phone, otp }, { onSuccess: () => navigate(ROUTE_PATHS.HOME) });
+    verifyOtp({ phone, otp }, { onSuccess: () => replace(ROUTE_PATHS.HOME) });
   };
 
   const isLoading = isRequesting || isVerifying;

@@ -1,4 +1,3 @@
-// components/MobileOnlyMessage.tsx
 import styles from "@/styles/components/mobileOnly.module.css";
 
 const MobileOnlyMessage = () => {

@@ -3,7 +3,7 @@
 import React, { ReactNode, Suspense } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { useDevice } from "@/hooks/useDevice";
+// import { useDevice } from "@/hooks/useDevice";
 import MobileOnlyMessage from "./MobileOnly";
 import styles from "@/styles/components/appLayout.module.css";
 import { usePathname } from "next/navigation";
@@ -17,7 +17,6 @@ interface IAppLayoutInputProps {
 }
 
 const AppLayout = ({ children }: IAppLayoutInputProps) => {
-  const { isMobile } = useDevice();
   const pathname = usePathname();
   const dontShowNavs = config.dontShowNavsOn.includes(pathname);
   const [showSplash, setShowSplash] = React.useState(true);
@@ -33,10 +32,6 @@ const AppLayout = ({ children }: IAppLayoutInputProps) => {
     }
   }, []);
 
-  if (!isMobile) {
-    return <MobileOnlyMessage />;
-  }
-
   const handleSplashComplete = () => {
     sessionStorage.setItem("splash_shown", "true");
     setShowSplash(false);
@@ -47,12 +42,19 @@ const AppLayout = ({ children }: IAppLayoutInputProps) => {
   }
 
   return (
-    <div className={styles.appLayout} data-auth-page={dontShowNavs}>
-      <Header />
-      <Suspense fallback={<Loader />}>
-        <div className={styles.scrollableContent}>{children}</div>
-      </Suspense>
-      <Footer />
+    <div className="min-height-screen">
+      <div className="hidden lg:flex fixed inset-0 z-[100] bg-white dark:bg-slate-900 items-center justify-center p-6 text-center">
+        <MobileOnlyMessage />
+      </div>
+      <div className="block lg:hidden">
+        <div className={styles.appLayout} data-auth-page={dontShowNavs}>
+          <Header />
+          <Suspense fallback={<Loader />}>
+            <div className={styles.scrollableContent}>{children}</div>
+          </Suspense>
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 };

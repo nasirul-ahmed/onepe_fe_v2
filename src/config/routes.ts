@@ -11,10 +11,10 @@ export interface RouteConfig {
 }
 
 /**
- * Enterprise Route Registry
+ * Enterprise Route Registry`
  * Only define structural routes here. Specific services are dynamic.
  */
-export const ROUTES = {
+export const ROUTES: Record<string, RouteConfig> = {
   HOME: {
     path: "/home",
     name: "Home",
@@ -23,19 +23,19 @@ export const ROUTES = {
     icon: "🏠",
     category: "main",
   },
-  SERVICES: {
-    path: "/services",
-    name: "Services",
-    requiresBackButton: true,
-    icon: "⚡",
-    category: "service",
-  },
   // The "Master" route for all services: /services/mobile-recharge, etc.
   SERVICE_ENTITY: {
     path: "/services/:slug",
     name: "Service",
     requiresBackButton: true,
     parentRoute: "/home",
+    category: "service",
+  },
+  SERVICES: {
+    path: "/services",
+    name: "Services",
+    requiresBackButton: true,
+    icon: "⚡",
     category: "service",
   },
   TRANSACTIONS: {
@@ -72,6 +72,12 @@ export const ROUTES = {
     parentRoute: "/home",
   },
   LOGIN: { path: "/login", name: "Login" },
+  MANAGE_NOTIFICATIONS: {
+    path: "/profile/manage-notifications",
+    name: "Manage Notifications",
+    requiresBackButton: true,
+    parentRoute: "/profile",
+  },
 } as const;
 
 export type AppRouteKey = keyof typeof ROUTES;
@@ -86,7 +92,7 @@ export class RouteUtils {
     const cleanPath = path.split("?")[0];
 
     for (const route of Object.values(ROUTES)) {
-      const matcher = match(route.path, { decode: decodeURIComponent });
+      const matcher = match(route.path, { decode: decodeURIComponent, end: true });
       const result = matcher(cleanPath);
 
       if (result) {

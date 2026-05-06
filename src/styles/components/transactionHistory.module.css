@@ -176,7 +176,7 @@
 
 .transactionSubtitle {
   font-size: 0.875rem;
-  color: var(--color-secondary);
+  color: var(--color-on-surafce);
   margin: 0;
 }
 
@@ -221,9 +221,15 @@
 
 .amountContainer {
   display: flex;
-  align-items: center;
+  align-items: end;
   gap: 0.25rem;
   font-weight: 600;
+}
+
+.amountValue {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 
 .amountPositive {
@@ -237,6 +243,10 @@
 .amountIcon {
   width: 1rem;
   height: 1rem;
+}
+
+.amountFailed {
+  color: var(--color-error);
 }
 
 /* Empty State */
