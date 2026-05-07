@@ -4,22 +4,17 @@ import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import ProfileContent from "./ProfileContent";
 import { redirect } from "next/navigation";
 import ROUTES from "@/config/routes";
-import { timer } from "@/lib/utils";
 
 async function getUser(token: string) {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/profile`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        cache: "no-store",
-      },
-    );
-    if (!res.ok) throw new Error("Failed to fetch user");
-    return res.json();
-  } catch (error) {
-    redirect(ROUTES.LOGIN.path);
-  }
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/profile`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    },
+  );
+  if (!res.ok) throw new Error("Failed to fetch user");
+  return res.json();
 }
 
 export default async function ProfilePage() {

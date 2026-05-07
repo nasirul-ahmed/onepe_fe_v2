@@ -7,6 +7,7 @@ import { ROUTE_PATHS } from "@/config/routes";
 import { useRequestOtp, useVerifyOtp } from "@/hooks/useAuth";
 import styles from "@/styles/pages/login.module.css";
 import { useNavigation } from "@/hooks/useNavigate";
+import { cn } from "@/lib/utils";
 
 export function LoginForm() {
   const { navigate, replace } = useNavigation();
@@ -23,7 +24,7 @@ export function LoginForm() {
   };
 
   const handleVerifyOtp = () => {
-    if (otp.length < 4) return alert("Enter valid OTP");
+    // if (otp.length < 4) return alert("Enter valid OTP");
     verifyOtp({ phone, otp }, { onSuccess: () => replace(ROUTE_PATHS.HOME) });
   };
 
@@ -37,7 +38,7 @@ export function LoginForm() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={styles.logo}>OnePe</div>
+        <div className={cn(styles.logo, 'font-rocky text-sm mt-4')}>Onepe</div>
         <div className={styles.headerActions}>
           <button
             className={styles.langButton}

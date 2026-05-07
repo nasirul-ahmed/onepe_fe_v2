@@ -8,7 +8,7 @@ import { ROUTE_PATHS } from "@/config/routes";
 import { cn } from "@/lib/utils";
 import styles from "@/styles/components/footer.module.css";
 
-const navItems = [
+export const navItems = [
   {
     id: ROUTE_PATHS.HOME,
     label: "Home",

@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Smartphone, Zap, Gift, CheckCircle } from "lucide-react";
+import { Smartphone, Zap, Gift, CheckCircle, BookUser } from "lucide-react";
 import ContentLayout from "@/components/ContentLayout";
 import Button from "@/components/Button";
-import UserContacts from "@/components/Contacts";
+// import UserContacts from "@/components/Contacts";
+import { useContactPicker } from "@/hooks/useContacts";
 
 interface Plan {
   amount: number;
@@ -179,6 +180,17 @@ const MobileRechargePage = () => {
     return null;
   };
 
+  const [contacts, setContacts] = React.useState<{
+    contact: { name: string; phone: string } | null;
+  }>({ contact: null });
+  const { pickContact, isSupported } = useContactPicker();
+
+  const handlePickContact = async () => {
+    const contact = await pickContact();
+    if (!contact) return;
+    setContacts({ contact: contact });
+  };
+
   return (
     <ContentLayout>
       <div className="space-y-6 pb-6">
@@ -293,7 +305,17 @@ const MobileRechargePage = () => {
         </motion.div>
 
         <motion.div>
-          <UserContacts />
+          {/* <UserContacts /> */}
+          {isSupported && (
+            <button
+              onClick={handlePickContact}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1
+                       text-blue-500 hover:text-blue-600"
+              aria-label="Pick from contacts"
+            >
+              <BookUser size={20} />
+            </button>
+          )}
         </motion.div>
 
         {/* Recharge Plans */}

@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { RouteUtils, ROUTE_PATHS } from "@/config/routes";
 import { useNavigation } from "@/hooks/useNavigate";
+import { navItems } from "./Footer";
 
 const Header = () => {
   const { navigate, goBack, replace } = useNavigation(); // ← use goBack, not navigate
@@ -19,7 +20,7 @@ const Header = () => {
   if (!mounted) return null;
   if (pathname === "/") return null;
 
-  const isHomePage = pathname === ROUTE_PATHS.HOME;
+  const isNavPages = navItems.map(nav => nav.id).includes(pathname);
   const showBackButton = RouteUtils.requiresBackButton(pathname);
 
   return (
@@ -46,7 +47,7 @@ const Header = () => {
                   {RouteUtils.getRouteName(pathname)}
                 </h1>
               </>
-            ) : isHomePage ? (
+            ) : isNavPages ? (
               <div className="mt-2 flex items-center space-x-2">
                 {/* <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                   <span className="text-white text-sm font-bold">1P</span>
