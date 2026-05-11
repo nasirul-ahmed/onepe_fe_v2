@@ -56,6 +56,7 @@ interface SectionHeaderProps {
   barColor?: string;
   classes?: string;
   // Icon settings
+  hideLeadingBar?: boolean;
   leadingIcon?: LucideIcon;
   iconSize?: number;
   iconClasses?: string;
@@ -68,6 +69,7 @@ interface SectionHeaderProps {
 const SectionHeader: React.FC<SectionHeaderProps> = ({
   title,
   level: Tag = "h6",
+  hideLeadingBar=false,
   barColor = "bg-sky-600 dark:bg-sky-500",
   classes = "",
   leadingIcon: Icon,
@@ -96,7 +98,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
           </span>
         ) : (
           <span
-            className={cn("w-1.5 h-7 rounded-full", barColor)}
+            className={cn("w-1.5 h-7 rounded-full", barColor, hideLeadingBar && "hidden")}
             aria-hidden="true"
           />
         )}

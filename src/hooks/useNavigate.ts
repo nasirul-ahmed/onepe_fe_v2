@@ -3,34 +3,46 @@ import { useNavigationStore } from "@/store/navigation-store";
 import { RouteUtils } from "@/config/routes";
 
 export function useNavigation() {
+  // const router = useRouter();
+  // const pathname = usePathname();
+  // const push = useNavigationStore((s) => s.push);
+  // const pop = useNavigationStore((s) => s.pop);
+  // const canGoBack = useNavigationStore((s) => s.history.length > 0);
+
   const router = useRouter();
   const pathname = usePathname();
-  const push = useNavigationStore((s) => s.push);
-  const pop = useNavigationStore((s) => s.pop);
-  const canGoBack = useNavigationStore((s) => s.history.length > 0);
+  const { push, clear, history } = useNavigationStore();
 
   const navigate = (to: string) => {
     const resolved = RouteUtils.resolve(to);
-    if (!resolved) {
-      // TODO: show a toaster
-      console.warn(`[Navigation] Blocked reload: ${to} is not in Registry.`);
+    if (!resolved) return;
+
+    const isNavTab = resolved.config.isBottomTabRoute;
+
+    if (isNavTab) {
+      clear();
+      router.replace(to);
       return;
     }
 
-    push(pathname);
+    if (history[history.length - 1] !== pathname) {
+      push(pathname);
+    }
+
     router.push(to);
   };
 
   const goBack = () => {
+    const { pop } = useNavigationStore.getState();
     const previous = pop();
-    router.push(previous ?? RouteUtils.getParentPath(pathname));
+
+    if (previous) {
+      router.push(previous);
+    } else {
+      // Fallback to parent if history is empty
+      router.push(RouteUtils.getParentPath(pathname));
+    }
   };
 
-  const replace = (to: string) => {
-    // Navigate without pushing to stack — used for redirects
-    // e.g. after login, after payment success
-    router.replace(to);
-  };
-
-  return { navigate, goBack, canGoBack, replace };
+  return { navigate, goBack };
 }

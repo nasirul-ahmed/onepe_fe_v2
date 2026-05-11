@@ -44,7 +44,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         <div className={cn(styles.inputWrapper, error && styles.wrapperError)}>
           {/* Left Adornment */}
           {startAdornment && (
-            <div className={styles.adornment}>{startAdornment}</div>
+            <div className={styles.startAdornment}>{startAdornment}</div>
           )}
 
           <input

@@ -3,15 +3,16 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Bell, Sun, Moon, Search, ArrowLeft } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { RouteUtils, ROUTE_PATHS } from "@/config/routes";
 import { useNavigation } from "@/hooks/useNavigate";
 import { navItems } from "./Footer";
 
 const Header = () => {
-  const { navigate, goBack, replace } = useNavigation(); // ← use goBack, not navigate
+  const { navigate, goBack } = useNavigation(); // ← use goBack, not navigate
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -44,7 +45,7 @@ const Header = () => {
                   <ArrowLeft className="w-5 h-5 text-on-surface" />
                 </motion.button>
                 <h1 className="font-semibold text-lg text-on-surface">
-                  {RouteUtils.getRouteName(pathname)}
+                  {RouteUtils.getRouteName(pathname, searchParams)}
                 </h1>
               </>
             ) : isNavPages ? (
@@ -62,7 +63,7 @@ const Header = () => {
             ) : (
               <div className="flex items-center space-x-3">
                 <motion.button
-                  onClick={() => replace(ROUTE_PATHS.HOME)}
+                  onClick={() => navigate(ROUTE_PATHS.HOME)}
                   whileTap={{ scale: 0.95 }}
                   className="p-2 rounded-full hover:bg-muted transition-colors"
                 >
@@ -71,7 +72,7 @@ const Header = () => {
                   </div>
                 </motion.button>
                 <h1 className="font-semibold text-lg text-on-surface">
-                  {RouteUtils.getRouteName(pathname)}
+                  {RouteUtils.getRouteName(pathname, searchParams)}
                 </h1>
               </div>
             )}

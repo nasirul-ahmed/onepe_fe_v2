@@ -20,6 +20,7 @@ interface ModalContainerProps {
   closeOnOverlayClick?: boolean;
   showCloseButton?: boolean;
   variant?: "center" | "bottom-sheet";
+  classes?: string
 }
 
 const SIZE_CLASSES = {
@@ -38,6 +39,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   closeOnOverlayClick = true,
   showCloseButton = true,
   variant = "center",
+  classes
 }) => {
   const isBottomSheet = variant === "bottom-sheet";
 
@@ -123,6 +125,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
                 : `relative rounded-2xl shadow-xl w-full ${SIZE_CLASSES[size]} max-h-[90vh] flex flex-col overflow-hidden mx-4`,
               !isBottomSheet && "h-[40vh] max-h[40vh]",
               styles.container,
+              classes
             )}
             initial={
               isBottomSheet ? { y: "100%" } : { opacity: 0, scale: 0.96, y: 8 }
@@ -178,12 +181,6 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
                 )}
               </div>
             )}
-
-            {/* Content */}
-            {/* <div className="overflow-y-auto flex-1 overscroll-contain pt-2 pb-12 px-4">
-              {children}
-            </div> */}
-
             <div className="overflow-y-auto flex-1 overscroll-contain pt-2 pb-12 px-4 modal-scrollbar max-h-[70vh]">
               {children}
             </div>

@@ -7,6 +7,8 @@ import { useDevice } from "@/hooks/useDevice";
 import { ROUTE_PATHS } from "@/config/routes";
 import { cn } from "@/lib/utils";
 import styles from "@/styles/components/footer.module.css";
+import Button from "./Button";
+import { useNavigation } from "@/hooks/useNavigate";
 
 export const navItems = [
   {
@@ -32,7 +34,8 @@ export const navItems = [
 ];
 
 const Footer = () => {
-  const router = useRouter();
+  const { navigate } = useNavigation();
+  // const router = useRouter();
   const pathname = usePathname();
   const device = useDevice();
 
@@ -40,8 +43,11 @@ const Footer = () => {
     e: React.MouseEvent<HTMLButtonElement>,
     route: string,
   ) => {
+    e?.preventDefault();
     e.preventDefault();
-    router.push(route);
+    if (pathname === route) return;
+    // router.push(route);
+    navigate(route);
   };
 
   const isIOS = (d: typeof device) => d.os === "iOS" && d.isMobile;
@@ -63,10 +69,10 @@ const Footer = () => {
           const IconComponent = item.icon;
 
           return (
-            <motion.button
+            <Button
               key={item.id}
               onClick={(e) => handleClick(e, item.id)}
-              whileTap={{ scale: 0.95 }}
+              // whileTap={{ scale: 0.95 }}
               className={styles.navButton}
             >
               {/* Active indicator */}
@@ -117,7 +123,7 @@ const Footer = () => {
                   className={styles.activeDot}
                 />
               )}
-            </motion.button>
+            </Button>
           );
         })}
       </div>

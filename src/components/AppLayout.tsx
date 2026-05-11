@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import config from "@/config/config.json";
 import SplashScreen from "./SplashScreen";
 import { useNavigation } from "@/hooks/useNavigate";
-import Loader from "./Loader";
+// import Loader from "./Loader";
 import OnepeLiquidLoader from "./OnePeLoader";
 
 interface IAppLayoutInputProps {
@@ -21,7 +21,7 @@ const AppLayout = ({ children }: IAppLayoutInputProps) => {
   const pathname = usePathname();
   const dontShowNavs = config.dontShowNavsOn.includes(pathname);
   const [showSplash, setShowSplash] = React.useState(true);
-  const { replace } = useNavigation();
+  const { navigate } = useNavigation();
 
   React.useEffect(() => {
     if (sessionStorage.getItem("splash_shown")) {
@@ -29,7 +29,7 @@ const AppLayout = ({ children }: IAppLayoutInputProps) => {
     }
 
     if (pathname === "/") {
-      replace("/home");
+      navigate("/home");
     }
   }, []);
 

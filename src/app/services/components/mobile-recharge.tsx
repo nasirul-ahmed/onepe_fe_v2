@@ -2,11 +2,20 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Smartphone, Zap, Gift, CheckCircle, BookUser } from "lucide-react";
+import {
+  Zap,
+  Gift,
+  CheckCircle,
+  BookUser,
+  Phone,
+  EllipsisVertical,
+  ChevronRight,
+} from "lucide-react";
 import ContentLayout from "@/components/ContentLayout";
 import Button from "@/components/Button";
-// import UserContacts from "@/components/Contacts";
 import { useContactPicker } from "@/hooks/useContacts";
+import TextField from "@/components/TextField";
+import SectionHeader from "@/components/SectionHeader";
 
 interface Plan {
   amount: number;
@@ -179,73 +188,77 @@ const MobileRechargePage = () => {
     if (plan.amount === 449) return "Best Value";
     return null;
   };
-
-  const [contacts, setContacts] = React.useState<{
-    contact: { name: string; phone: string } | null;
-  }>({ contact: null });
+  const [selectedContact, setSelectedContact] = React.useState<
+    {
+      name: string;
+      phone: string;
+      timestamp: number;
+    }[]
+  >([{ name: "Disha", phone: "8133062461", timestamp: Date.now() }]);
   const { pickContact, isSupported } = useContactPicker();
 
   const handlePickContact = async () => {
     const contact = await pickContact();
+    // console.log({ contact });
+
     if (!contact) return;
-    setContacts({ contact: contact });
+    setSelectedContact((prev) => [
+      ...prev,
+      { ...contact, timestamp: Date.now() },
+    ]);
   };
 
   return (
     <ContentLayout>
-      <div className="space-y-6 pb-6">
-        {/* Header */}
-        <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Smartphone className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold text-on-surface mb-2">
-            Mobile Recharge
-          </h1>
-          <p className="text-secondary">
-            Instant recharge with exclusive offers
-          </p>
-        </div>
-
+      <div className="space-y-2">
         {/* Offers Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800/30"
-        >
-          <div className="flex items-center gap-3">
-            <Gift className="w-6 h-6 text-orange-600 dark:text-orange-400" />
-            <div>
-              <h3 className="font-semibold text-orange-800 dark:text-orange-300">
-                🎉 Cashback Offers
-              </h3>
-              <p className="text-sm text-orange-600 dark:text-orange-400">
-                Get up to 5% cashback on recharges above ₹200
-              </p>
+        <Button className="w-full bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800/30">
+          <div className="w-full p-2">
+            <div className="flex justify-between items-center gap-3">
+              <div className="flex gap-4">
+                <Gift className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                <span className="font-semibold text-lg text-orange-800 dark:text-orange-300">
+                  {"23"} Offers available
+                </span>
+              </div>
+              <ChevronRight />
             </div>
           </div>
-        </motion.div>
+        </Button>
 
         {/* Mobile Number Input */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-surface rounded-xl p-4 shadow-sm"
+          className="bg-surface rounded-xl py-2 shadow-sm"
         >
-          <h3 className="font-semibold text-on-surface mb-3">Mobile Number</h3>
           <div className="space-y-4">
-            <div>
-              <input
-                type="text"
-                placeholder="Enter 10-digit mobile number"
+            <div className="">
+              <TextField
+                label="Enter Mobile Number"
+                name="mobileNumber"
                 value={mobileNumber}
+                maxLength={10}
                 onChange={(e) => {
                   handleMobileNumberChange(e.target.value);
                   detectOperator(e.target.value);
                 }}
-                className="w-full p-3 border border-border rounded-lg bg-muted focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-on-surface"
-                maxLength={10}
+                startAdornment={"+91"}
+                endAdornment={
+                  <>
+                    {isSupported && (
+                      <button
+                        onClick={handlePickContact}
+                        className="mt-2 rounded-lg"
+                        aria-label="Pick from contacts"
+                      >
+                        <BookUser size={28} />
+                      </button>
+                    )}
+                  </>
+                }
+                className="bg-transparent"
               />
               {mobileNumber.length === 10 && (
                 <div className="flex items-center gap-2 mt-2 text-green-600">
@@ -304,19 +317,41 @@ const MobileRechargePage = () => {
           </div>
         </motion.div>
 
-        <motion.div>
-          {/* <UserContacts /> */}
-          {isSupported && (
-            <button
-              onClick={handlePickContact}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1
-                       text-blue-500 hover:text-blue-600"
-              aria-label="Pick from contacts"
-            >
-              <BookUser size={20} />
-            </button>
-          )}
-        </motion.div>
+        <div className="w-full space-y-2">
+          <SectionHeader hideLeadingBar title="My Number" />
+          <div className="classicShadow rounded-xl p-2">
+            <div className="bg-red p-2 flex justify-between items-center">
+              <div className="flex gap-8 items-center">
+                <Phone />
+                <div className="flex flex-col">
+                  <span>{"Nasirul Ahmed"}</span>
+                  <span>{"9101336849"}</span>
+                </div>
+              </div>
+              <EllipsisVertical />
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full">
+          <SectionHeader hideLeadingBar title="My Recharges & Bills" />
+          {selectedContact?.map((contact) => {
+            return (
+              <div className="classicShadow rounded-xl p-2">
+                <div className="bg-red p-2 flex justify-between items-center">
+                  <div className="flex gap-8 items-center">
+                    <Phone />
+                    <div className="flex flex-col">
+                      <span>{"Nasirul Ahmed"}</span>
+                      <span>{"9101336849"}</span>
+                    </div>
+                  </div>
+                  <EllipsisVertical />
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
         {/* Recharge Plans */}
         {mobileNumber.length === 10 && operator && circle && (

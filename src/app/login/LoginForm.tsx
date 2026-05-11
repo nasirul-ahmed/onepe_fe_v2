@@ -10,7 +10,7 @@ import { useNavigation } from "@/hooks/useNavigate";
 import { cn } from "@/lib/utils";
 
 export function LoginForm() {
-  const { navigate, replace } = useNavigation();
+  const { navigate } = useNavigation();
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"phone" | "otp">("phone");
@@ -25,7 +25,7 @@ export function LoginForm() {
 
   const handleVerifyOtp = () => {
     // if (otp.length < 4) return alert("Enter valid OTP");
-    verifyOtp({ phone, otp }, { onSuccess: () => replace(ROUTE_PATHS.HOME) });
+    verifyOtp({ phone, otp }, { onSuccess: () => navigate(ROUTE_PATHS.HOME) });
   };
 
   const isLoading = isRequesting || isVerifying;

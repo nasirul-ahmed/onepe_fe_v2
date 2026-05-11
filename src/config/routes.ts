@@ -92,7 +92,10 @@ export class RouteUtils {
     const cleanPath = path.split("?")[0];
 
     for (const route of Object.values(ROUTES)) {
-      const matcher = match(route.path, { decode: decodeURIComponent, end: true });
+      const matcher = match(route.path, {
+        decode: decodeURIComponent,
+        end: true,
+      });
       const result = matcher(cleanPath);
 
       if (result) {
@@ -135,9 +138,21 @@ export class RouteUtils {
     return resolved?.config.parentRoute ?? "/home";
   }
 
-  static getRouteName(path: string, fallback?: string): string {
+  static getRouteName(path: string, searchParams?: URLSearchParams): string {
     const resolved = this.resolve(path);
-    return fallback || resolved?.config.name || "OnePe";
+
+    if (resolved?.config.path === "/services/:slug") {
+      const step = searchParams?.get("step");
+      const slug = resolved.params.slug;
+
+      if (slug === "recharge") {
+        if (step === "plans") return "Select Plan";
+        if (step === "confirm") return "Confirm Payment";
+        return "Mobile Recharge";
+      }
+    }
+
+    return resolved?.config.name || "OnePe";
   }
 
   static isBottomTab(path: string): boolean {

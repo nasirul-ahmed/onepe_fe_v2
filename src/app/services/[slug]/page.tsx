@@ -41,6 +41,8 @@ export default async function DynamicServicePage({
 
   const service = await fetchServiceBySlug(slug, token!);
   
+  // TODO: make sure our service by slug api does not fail. if it fails
+  // then we need to come up with a secondary solution 
   // if (!service) {
   //   notFound();
   // }
@@ -48,8 +50,8 @@ export default async function DynamicServicePage({
   const ComponentModule = ServiceModuleFactory(slug);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-1 p-4 md:p-8">
+    <div className="flex flex-col">
+      <main>
         <Suspense fallback={<SkeletonList count={6} />}>
           <ComponentModule service={null} />
         </Suspense>
