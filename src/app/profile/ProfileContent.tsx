@@ -24,14 +24,20 @@ import styles from "@/styles/pages/profile.module.css";
 import Switch from "@/components/Switch";
 import { useLogout, useUserProfile } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigate";
+import { useAuthStore } from "@/store/auth-store";
 
 export default function ProfileContent() {
   const { theme, toggleTheme } = useTheme();
-  const { navigate, replace } = useNavigation();
+  const { navigate } = useNavigation();
   const { data: user } = useUserProfile();
   const { mutate: logout } = useLogout();
+  const onLogout = useAuthStore().onLogout;
 
-  const handleSignOut = async () => logout();
+  const handleSignOut = async () => {
+    // first lets clear all from frontend side
+    onLogout();
+    logout();
+  };
 
   const handleProfileMenuItems = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -104,7 +110,7 @@ export default function ProfileContent() {
         {/* Profile Header */}
         <motion.div
           variants={itemVariants}
-          className={cn(styles.profileHeader, "classicShadow")}
+          className={cn(styles.profileHeader, "classicShadow bg-surface-1")}
         >
           <div className={styles.profileHeaderTop}>
             <div className={styles.userInfo}>
@@ -125,7 +131,7 @@ export default function ProfileContent() {
               whileTap={{ scale: 0.95 }}
               className={styles.editButton}
             >
-              <Edit className={styles.editIcon} />
+              <Edit />
             </motion.button>
           </div>
 
@@ -181,7 +187,10 @@ export default function ProfileContent() {
         </motion.div>
 
         {/* Theme Toggle */}
-        <motion.div variants={itemVariants} className={styles.themeToggle}>
+        <motion.div
+          variants={itemVariants}
+          className={cn(styles.themeToggle, "bg-surface-1")}
+        >
           <div className={styles.themeToggleContent}>
             <div className={styles.themeToggleLeft}>
               {theme === "dark" ? (

@@ -6,11 +6,12 @@ import AuthProvider from "@/components/providers/AuthProvider";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-import React from "react";
+import React, { Suspense } from "react";
 import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 import { Work_Sans } from "next/font/google";
 import { LoaderProvider } from "@/components/providers/LoaderProvider";
+import OnepeLiquidLoader from "@/components/OnePeLoader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,16 +46,18 @@ export default function RootLayout({
       <body
         className={cn(workSans.className, rocky.variable, workSans.variable)}
       >
-        <ThemeProvider>
-          <AppLayout>
+        <Suspense fallback={<OnepeLiquidLoader />}>
+          <ThemeProvider>
             <QueryProvider>
               <LoaderProvider />
               <AuthProvider>
-                <PageTransition>{children}</PageTransition>
+                <AppLayout>
+                  <PageTransition>{children}</PageTransition>
+                </AppLayout>
               </AuthProvider>
             </QueryProvider>
-          </AppLayout>
-        </ThemeProvider>
+          </ThemeProvider>
+        </Suspense>
       </body>
     </html>
   );

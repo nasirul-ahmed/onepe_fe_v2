@@ -6,7 +6,7 @@ const OnepeLiquidLoader = () => {
   const brandColor = "rgb(13, 120, 208)";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 bg-transparent flex items-center justify-center backdrop-blur-sm">
       <div className="relative">
         {/* Background Outline Layer */}
         <span

@@ -15,7 +15,7 @@ export default function SplashScreen({
   const [showTagline, setShowTagline] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
 
-  const { replace } = useNavigation();
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     const timer1 = setTimeout(() => setShowLogo(true), 500);
@@ -24,7 +24,7 @@ export default function SplashScreen({
 
     const timer4 = setTimeout(() => {
       onComplete();
-      replace(ROUTE_PATHS.HOME);
+      navigate(ROUTE_PATHS.HOME);
     }, 5000);
 
     return () => {

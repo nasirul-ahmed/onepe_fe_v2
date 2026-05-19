@@ -1,9 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useNavigation } from "@/hooks/useNavigate";
 import ROUTES, { RouteUtils } from "@/config/routes";
-import ModalContainer from "./ModalContainer";
 import styles from "@/styles/components/servicesGrid.module.css";
 import { cn } from "@/lib/utils";
 import { AppService } from "@/lib/interfaces/services";
@@ -25,7 +23,11 @@ interface ServiceTileProps {
   size?: "sm" | "md";
 }
 
-function ServiceTile({ service, onClick, size = "md" }: ServiceTileProps) {
+export function ServiceTile({
+  service,
+  onClick,
+  size = "sm",
+}: ServiceTileProps) {
   const [loading, setLoading] = React.useState(false);
 
   const handleClick = () => {
@@ -65,12 +67,14 @@ export default function ServicesGrid({
     const url = RouteUtils.build(ROUTES.SERVICE_ENTITY, {
       slug: slug,
     });
-    console.log("navigating to", url, ROUTES.SERVICE_ENTITY);
+
     navigate(url);
   };
 
   const services =
-    intialServices.length > 0 ? intialServices : (config.appServices satisfies AppService[]);
+    intialServices.length > 0
+      ? intialServices
+      : (config.appServices satisfies AppService[]);
   const preview = services.slice(0, 8);
 
   return (
@@ -79,7 +83,7 @@ export default function ServicesGrid({
         <div
           className={cn(
             styles.grid,
-            "p-4 rounded-lg bg-[var(--color-secondary)] ",
+            "p-4 rounded-lg bg-[var(--color-surface-2)] ",
           )}
         >
           {preview.map((service, i) => (
@@ -93,7 +97,7 @@ export default function ServicesGrid({
       </section>
 
       {/* Uses your existing ModalContainer — just with variant="bottom-sheet" */}
-      {modalEnabled && (
+      {/* {modalEnabled && (
         <ModalContainer
           isOpen={isModalOpen!}
           onClose={onCloseModal!}
@@ -103,9 +107,14 @@ export default function ServicesGrid({
           <div className="px-5 pb-8">
             {groupByCategory(services).map(({ category, items }) => (
               <div key={category} className="mb-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">
+                <Typography
+                  variant={"small"}
+                  weight={"bold"}
+                  textColor={"muted"}
+                  className="font-semibold uppercase tracking-widest mb-3"
+                >
                   {category}
-                </p>
+                </Typography>
                 <div className={styles.modalGrid}>
                   {items.map((service, i) => (
                     <motion.div
@@ -124,7 +133,7 @@ export default function ServicesGrid({
                 </div>
               </div>
             ))}
-            <div className="divider"></div>
+            <div className="divider w-full"></div>
             <button
               onClick={() => navigate(ROUTES.SERVICES.path)}
               className="p-2 flex ml-auto mr-auto text-center"
@@ -133,7 +142,7 @@ export default function ServicesGrid({
             </button>
           </div>
         </ModalContainer>
-      )}
+      )} */}
     </>
   );
 }

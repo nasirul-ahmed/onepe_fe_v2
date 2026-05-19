@@ -199,7 +199,6 @@ const MobileRechargePage = () => {
 
   const handlePickContact = async () => {
     const contact = await pickContact();
-    // console.log({ contact });
 
     if (!contact) return;
     setSelectedContact((prev) => [
@@ -337,7 +336,7 @@ const MobileRechargePage = () => {
           <SectionHeader hideLeadingBar title="My Recharges & Bills" />
           {selectedContact?.map((contact) => {
             return (
-              <div className="classicShadow rounded-xl p-2">
+              <div key={contact.phone} className="classicShadow rounded-xl p-2">
                 <div className="bg-red p-2 flex justify-between items-center">
                   <div className="flex gap-8 items-center">
                     <Phone />

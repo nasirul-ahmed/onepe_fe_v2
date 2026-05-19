@@ -10,7 +10,7 @@ export default async function WalletTopup({ searchParams }: WalletTopupProps) {
   const amount = _amount ? Number(_amount) : undefined;
 
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col h-[100dvh] overflow-hidden">
       <WalletTopupView amount={amount} />
     </div>
   );

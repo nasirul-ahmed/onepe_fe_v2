@@ -16,6 +16,9 @@ import SectionHeader from "@/components/SectionHeader";
 import { ROUTE_PATHS } from "@/config/routes";
 import { useNavigation } from "@/hooks/useNavigate";
 import { useAppServices } from "@/hooks/useAppServices";
+import { MODAL_TYPES, useAppStore } from "@/store/app-store";
+import { AppService } from "@/lib/interfaces/services";
+import config from "@/config/config.json";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -39,7 +42,15 @@ export default function HomeView() {
   const { data: banners } = useBanners();
   const [isServicesModalOpen, setServicesModalOpen] = useState(false);
 
+  const modalData = useAppStore().modalData;
+  const openModal = useAppStore().openModal;
+
   const { data: initialServices } = useAppServices();
+
+  const services =
+    initialServices.length > 0
+      ? initialServices
+      : (config.appServices satisfies AppService[]);
 
   return (
     <ContentLayout>
@@ -84,7 +95,18 @@ export default function HomeView() {
             title="Recharge & Services"
             trailing={
               <button
-                onClick={() => setServicesModalOpen(true)}
+                onClick={() =>
+                  openModal(MODAL_TYPES.SHOW_ALL_SERVICES, {
+                    title: "All Services",
+                    size: "sm",
+                    childrenProps: {
+                      services: groupByCategory(services) as unknown as Record<
+                        string,
+                        unknown
+                      >,
+                    },
+                  })
+                }
                 className="text-sm text-sky-600 font-medium hover:underline"
               >
                 See All
@@ -118,4 +140,22 @@ export default function HomeView() {
       </motion.div>
     </ContentLayout>
   );
+}
+
+function groupByCategory(services: AppService[]) {
+  const groupedByCategory = services.reduce(
+    (acc, service) => {
+      const key = service.category;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(service);
+      return acc;
+    },
+    {} as { [key: string]: AppService[] },
+  );
+  return Object.entries(groupedByCategory).map(([category, items]) => ({
+    category,
+    items,
+  }));
 }

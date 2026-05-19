@@ -82,7 +82,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-between w-full mb-4",
+        "flex items-center justify-between w-full mb-2",
         containerClasses,
       )}
     >

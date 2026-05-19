@@ -1,52 +1,25 @@
-import { motion } from "framer-motion";
-import { CheckCircle } from "lucide-react";
+"use client";
 
-export interface Plan {
-  amount: number;
-  validity: string;
-  data?: string;
-  talktime?: string;
-  sms?: string;
-  type: "popular" | "talktime" | "data";
-}
+import { MobileRechargePlan } from "@/lib/interfaces/recharge.interface";
+import { motion } from "framer-motion";
 
 const PlanCard = ({
   plan,
-  isSelected,
-  onClick,
-  badge,
+  onSelect,
 }: {
-  plan: Plan;
-  isSelected: boolean;
-  onClick: () => void;
-  badge?: string | null;
+  plan: MobileRechargePlan;
+  onSelect: (id: string) => void;
 }) => (
   <motion.div
     whileTap={{ scale: 0.98 }}
-    onClick={onClick}
-    className={`p-4 rounded-xl border cursor-pointer transition-all relative ${
-      isSelected
-        ? "border-primary bg-primary/5 ring-1 ring-primary"
-        : "border-border hover:bg-muted/50"
-    }`}
+    onClick={() => onSelect(plan.id)}
+    className={`p-4 h-[90px] rounded-xl border cursor-pointer transition-all relative ${"border-border hover:bg-muted/50"}`}
   >
-    {badge && (
-      <div className="absolute -top-2 right-2 bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
-        {badge}
-      </div>
-    )}
     <div className="flex justify-between items-start mb-2">
       <div className="flex items-center gap-2">
         <span className="text-xl font-bold text-on-surface">
           ₹{plan.amount}
         </span>
-        {isSelected && (
-          <CheckCircle
-            // className="w-5 h-5 text-primary"
-            fill="currentColor"
-            className="text-white fill-primary"
-          />
-        )}
       </div>
       <span className="text-sm font-medium text-secondary">
         {plan.validity}

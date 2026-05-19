@@ -9,6 +9,7 @@ interface AuthState {
   // Actions
   setAuthenticated: (authenticated: boolean) => void;
   setInitialized: (initialized: boolean) => void;
+  onLogout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -17,4 +18,10 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   setAuthenticated: (authenticated) => set({ isAuthenticated: authenticated }),
   setInitialized: (initialized) => set({ isInitialized: initialized }),
+  onLogout: () =>
+    set(() => {
+      localStorage.removeItem("access_token");
+      Cookies.remove("authToken");
+      return { isAuthenticated: false };
+    }),
 }));

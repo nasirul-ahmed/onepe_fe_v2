@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useRef, useCallback } from "react";
-import { motion } from "framer-motion";
-import { Search, ArrowUpRight, ArrowDownRight, Loader2 } from "lucide-react";
+import { Search, Loader2, IndianRupee } from "lucide-react";
 import styles from "@/styles/components/transactionHistory.module.css";
-import { cn } from "@/lib/utils";
-import { useWalletHistory } from "@/hooks/useWallet";
+import { capitalize, cn } from "@/lib/utils";
+import { useTransactionHistory } from "@/hooks/useWallet";
 import { TransactionItem } from "@/types/transaction";
 import { usePathname } from "next/navigation";
 import SkeletonList from "./SkeletonList";
+import { useNavigation } from "@/hooks/useNavigate";
+import HistoryListItem from "./HistoryListItem";
 
 interface TransactionHistoryProps {
   pageTitle?: string;
@@ -22,8 +23,8 @@ function formatItem(item: TransactionItem) {
 
   return {
     id: item.id,
-    title: isCredit ? "Money Added to wallet" : "Payment",
-    subtitle: item.providerReferenceId ?? item.reference ?? "",
+    title: isCredit ? "Money Added to wallet" : item.description,
+    subtitle: item.reference || item.idempotencyKey || item.providerReferenceId,
     amount: isCredit ? item.amount : -item.amount,
     status: item.status,
     date: item.createdAt,
@@ -46,12 +47,17 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   const pathname = usePathname();
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedFilter, setSelectedFilter] = React.useState("all");
-
-  const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage } =
-    useWalletHistory(20);
+  const { navigate } = useNavigation();
+  const {
+    data: transactions,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useTransactionHistory(20);
 
   // Flatten all pages into one list
-  const allItems = data?.pages.flatMap((p) => p.items) ?? [];
+  const allItems = transactions?.pages.flatMap((p) => p.items) ?? [];
 
   const filtered = allItems
     .filter(
@@ -83,7 +89,16 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   const getStatusClass = (s: string) => styles[`status${capitalize(s)}`] ?? "";
   const getStatusBgClass = (s: string) =>
     styles[`statusBg${capitalize(s)}`] ?? "";
-  const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+  const handleTxnItemClick = (txn: TransactionItem) => {
+    // const txn = allItems.find((item) => item.id === id);
+
+    if (txn.metadata?.serviceType === "MOBILE_RECHARGE") {
+      navigate(
+        `/services/recharge?step=recharge-status&orderId=${txn.reference}`,
+      );
+    }
+  };
 
   if (isLoading) {
     return (
@@ -132,7 +147,12 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
         ))}
 
       {/* List */}
-      <div className={styles.transactionsList}>
+      <div
+        className={cn(
+          styles.transactionsList,
+          "flex-1 overflow-y-auto scrollbar-hide mt-1 px-2 bg-surface pb-44",
+        )}
+      >
         {filtered.length === 0 ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyStateIcon}>📊</div>
@@ -141,67 +161,14 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
         ) : (
           <>
             {filtered.map((item, index) => {
-              const tx = formatItem(item);
-
-              const amountIcon = cn(
-                styles.amountIcon,
-                tx.status === "failed" && styles.amountFailed,
-              );
               return (
-                <motion.div
-                  key={tx.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: Math.min(index * 0.05, 0.3) }} // cap delay
-                  className={styles.transactionItem}
-                >
-                  <div className={styles.transactionContent}>
-                    <div className={styles.transactionIcon}>{tx.icon}</div>
-                    <div className={styles.transactionDetails}>
-                      <h3 className={styles.transactionTitle}>{tx.title}</h3>
-                      <p className={styles.transactionSubtitle}>
-                        {tx.subtitle}
-                      </p>
-                      <div className={styles.transactionMeta}>
-                        <span
-                          className={cn(
-                            styles.statusBadge,
-                            getStatusBgClass(tx.status),
-                            getStatusClass(tx.status),
-                          )}
-                        >
-                          {capitalize(tx.status)}
-                        </span>
-                        <span className={styles.transactionDate}>
-                          {new Date(tx.date).toLocaleDateString("en-IN", {
-                            day: "2-digit",
-                            month: "short",
-                          })}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.amountContainer}>
-                    <div
-                      className={cn(
-                        styles.amountValue,
-                        tx.amount > 0
-                          ? styles.amountPositive
-                          : styles.amountNegative,
-                        tx.status === "failed" && styles.amountFailed,
-                      )}
-                    >
-                      {/* <p>{}</p> */}
-                      {tx.amount > 0 ? (
-                        <ArrowDownRight className={amountIcon} />
-                      ) : (
-                        <ArrowUpRight className={amountIcon} />
-                      )}
-                      ₹{Math.abs(tx.amount).toLocaleString("en-IN")}
-                    </div>
-                  </div>
-                </motion.div>
+                <HistoryListItem
+                  key={item.id}
+                  index={index}
+                  item={item}
+                  fallbackIcon={<IndianRupee />}
+                  onClick={() => handleTxnItemClick(item)}
+                />
               );
             })}
 

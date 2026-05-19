@@ -3,6 +3,7 @@ import httpClient from "@/lib/httpClient";
 import {
   getBalance,
   getTransactions,
+  getWalletTopuopHistory,
   initiateTopup,
 } from "@/services/wallet.services";
 import {
@@ -18,6 +19,7 @@ import {
 } from "@/lib/payments-gateway/razorpay";
 import { Paginated } from "@/types/paginated";
 import { TransactionItem } from "@/types/transaction";
+import { WalletTopup } from "@/lib/interfaces/common.interface";
 
 interface TopupOrderResponse {
   gateway: "razorpay" | "cashfree";
@@ -70,7 +72,7 @@ export function useWalletTopup(): UseWalletTopupResult {
           currency: order.currency!,
           orderId: order.orderId!,
           prefill: {
-            name: user?.name,
+            name: `${user?.firstName} ${user?.lastName}`,
             email: user?.email,
             contact: user?.phone,
           },
@@ -90,7 +92,8 @@ export function useWalletTopup(): UseWalletTopupResult {
       queryClient.invalidateQueries({ queryKey: ["wallet", "balance"] });
       return "success";
     } catch (err: unknown) {
-      if (err instanceof Error && err.message === "Payment cancelled") return "cancelled";
+      if (err instanceof Error && err.message === "Payment cancelled")
+        return "cancelled";
       return "failed";
     }
   };
@@ -101,7 +104,7 @@ export function useWalletTopup(): UseWalletTopupResult {
   };
 }
 
-export function useWalletHistory(limit = 20) {
+export function useTransactionHistory(limit = 20) {
   // return useQuery({
   //   queryKey: ["wallet", "transactions"],
   //   queryFn: () => getTransactions<Paginated<>>({ page: pageParam, limit }),
@@ -111,9 +114,23 @@ export function useWalletHistory(limit = 20) {
   // });
 
   return useInfiniteQuery<Paginated<TransactionItem>>({
-    queryKey: ["wallet", "history"],
+    queryKey: ["transaction-history"],
     queryFn: ({ pageParam = 1 }) =>
       getTransactions<Paginated<TransactionItem>>({
+        page: Number(pageParam),
+        limit,
+      }),
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.morePages ? allPages.length + 1 : undefined,
+    initialPageParam: 1,
+  });
+}
+
+export function useWalletTopupHistory(limit = 20) {
+  return useInfiniteQuery<Paginated<WalletTopup>>({
+    queryKey: ["wallet-topups"],
+    queryFn: ({ pageParam = 1 }) =>
+      getWalletTopuopHistory<Paginated<WalletTopup>>({
         page: Number(pageParam),
         limit,
       }),

@@ -17,4 +17,5 @@ export interface TransactionItem {
   idempotencyKey: string;
   createdAt: string;
   completedAt: string | null;
+  metadata?: Record<string, unknown>;
 }

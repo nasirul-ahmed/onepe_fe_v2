@@ -33,7 +33,7 @@ const ContactCard = ({
   return (
     <div
       onClick={onClick}
-      className="classicShadow bg-[var(--color-secondary)] rounded-xl p-3 relative border border-border/50"
+      className="classicShadow bg-surface-1 rounded-xl p-3 relative border border-border/50"
     >
       <div className="flex justify-between items-center">
         <div className="flex gap-4 items-center">

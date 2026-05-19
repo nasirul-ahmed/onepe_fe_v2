@@ -21,7 +21,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       variant,
       size = "md",
-      loading: buttonLoading = false,
+      loading = false,
       icon: Icon,
       iconPosition = "left",
       fullWidth = false,
@@ -32,7 +32,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const [isLoading, setIsLoading] = React.useState(buttonLoading);
+    // const [isLoading, setIsLoading] = React.useState(buttonLoading);
     // Memoize class construction value to prevent unnecessary recalculations
     const buttonClasses = useMemo(() => {
       const getVariantClass = () => {
@@ -77,20 +77,18 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return classes;
     }, [variant, size, fullWidth, className]);
 
-    const loading = isLoading || buttonLoading;
+    // const loading = isLoading || buttonLoading;
 
     // Determine if we should show left/right icons
     const showLeftIcon = Icon && iconPosition === "left" && !loading;
     const showRightIcon = Icon && iconPosition === "right" && !loading;
 
-    const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-      e?.preventDefault();
-      e?.stopPropagation();
-
-      if (loading || disabled) return;
-      setIsLoading(true)
-      await onClick?.(e);
-      setTimeout(() => setIsLoading(false), 500);
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (loading || disabled) {
+        e?.preventDefault();
+        return;
+      }
+      onClick?.(e);
     };
 
     return (

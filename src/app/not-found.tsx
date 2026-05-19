@@ -1,14 +1,17 @@
 "use client";
 
-import React from "react";
-import { motion, Variants } from "framer-motion";
-import { ArrowLeft, Search, Home } from "lucide-react";
+import React, { Suspense, useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
+import { ArrowLeft, Search, Home, Loader2 } from "lucide-react";
 import Button from "@/components/Button";
 import { useNavigation } from "@/hooks/useNavigate";
 import ROUTES from "@/config/routes";
 
-export default function NotFound() {
+function NotFoundPageContent() {
+  // 🔑 This will now execute safely only on real client browsers!
   const { navigate, goBack } = useNavigation();
+
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -52,7 +55,6 @@ export default function NotFound() {
             </motion.div>
           </motion.div>
 
-          {/* Title */}
           <motion.h1
             className="text-4xl sm:text-5xl font-bold text-on-background mb-3"
             variants={itemVariants}
@@ -60,7 +62,6 @@ export default function NotFound() {
             Page Not Found
           </motion.h1>
 
-          {/* Description */}
           <motion.p
             className="text-lg text-on-background/70 mb-4"
             variants={itemVariants}
@@ -68,6 +69,7 @@ export default function NotFound() {
             {`Sorry, the page you're looking for doesn't exist or has been moved.
             Let's get you back on track!`}
           </motion.p>
+
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
             variants={itemVariants}
@@ -98,4 +100,8 @@ export default function NotFound() {
       </motion.div>
     </div>
   );
+}
+
+export default function NotFound() {
+  return <NotFoundPageContent />;
 }

@@ -3,15 +3,15 @@
 import React, { ReactNode, Suspense } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-// import { useDevice } from "@/hooks/useDevice";
 import MobileOnlyMessage from "./MobileOnly";
 import styles from "@/styles/components/appLayout.module.css";
 import { usePathname } from "next/navigation";
 import config from "@/config/config.json";
 import SplashScreen from "./SplashScreen";
 import { useNavigation } from "@/hooks/useNavigate";
-// import Loader from "./Loader";
 import OnepeLiquidLoader from "./OnePeLoader";
+import { BottomSheet } from "./BottomSheet";
+import ModalContainer from "./ModalContainer";
 
 interface IAppLayoutInputProps {
   children: ReactNode;
@@ -49,9 +49,12 @@ const AppLayout = ({ children }: IAppLayoutInputProps) => {
       </div>
       <div className="block lg:hidden">
         <div className={styles.appLayout} data-auth-page={dontShowNavs}>
-          <Header />
-          <Suspense fallback={<OnepeLiquidLoader />}>
+          <Suspense fallback={<>Suspense Fallback</>}>
+            <Header />
             <div className={styles.scrollableContent}>{children}</div>
+            {/* Global Bottom Sheet */}
+            <BottomSheet />
+            <ModalContainer />
           </Suspense>
           <Footer />
         </div>

@@ -23,13 +23,14 @@
 }
 
 .balanceCard {
-  margin: 1rem;
-  padding: 1.5rem;
+
+  padding: 1rem 2rem;
   background: linear-gradient(to bottom, #ffffff, #e0f2fe);
-  border-radius: 16px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
   display: flex;
   justify-content: space-between;
-  border: 1px solid #e5e7eb;
+  align-items: center;
 }
 
 :global(.dark) .balanceCard {

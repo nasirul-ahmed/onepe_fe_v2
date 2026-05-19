@@ -1,10 +1,7 @@
-import { notFound } from "next/navigation";
 import { AppService } from "@/lib/interfaces/services";
-import { Suspense } from "react";
-import SkeletonList from "@/components/SkeletonList";
-import { ServiceModuleFactory } from "../factory";
 import { cookies } from "next/headers";
 import config from "@/config/config.json";
+import { ServiceModuleFactory } from "../factory";
 
 async function fetchServiceBySlug(slug: string, token: string) {
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/app-services/${slug}`;
@@ -40,9 +37,9 @@ export default async function DynamicServicePage({
   }
 
   const service = await fetchServiceBySlug(slug, token!);
-  
+
   // TODO: make sure our service by slug api does not fail. if it fails
-  // then we need to come up with a secondary solution 
+  // then we need to come up with a secondary solution
   // if (!service) {
   //   notFound();
   // }
@@ -51,10 +48,8 @@ export default async function DynamicServicePage({
 
   return (
     <div className="flex flex-col">
-      <main>
-        <Suspense fallback={<SkeletonList count={6} />}>
-          <ComponentModule service={null} />
-        </Suspense>
+      <main className="flex flex-col h-[100dvh] overflow-hidden">
+        <ComponentModule service={null} />
       </main>
     </div>
   );

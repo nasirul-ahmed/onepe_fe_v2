@@ -28,7 +28,7 @@ const Header = () => {
     <motion.nav
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="sticky top-0 z-50 bg-surface/80 backdrop-blur-lg shadow-sm"
+      className="sticky top-0 z-50 backdrop-blur-lg shadow-sm"
     >
       <div className="p-4">
         <div className="flex justify-between items-center">

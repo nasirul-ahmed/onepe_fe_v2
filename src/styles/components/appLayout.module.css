@@ -1,17 +1,21 @@
 .appLayout {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   /* 5rem for header, 1fr for remaining space, 5rem for footer */
-  grid-template-rows: 4rem 1fr 4rem;
+  /* grid-template-rows: 4rem 1fr 4rem; */
   height: 100dvh;
-  width: 100vw;
   overflow: hidden;
 }
 
 .scrollableContent {
   position: relative;
-  overflow-y: auto;
-  height: 100%;
-  width: 100%;
+  overflow-y: hidden;
+  /* height: 100%;
+  width: 100%; */
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .appLayout[data-auth-page="true"] nav {

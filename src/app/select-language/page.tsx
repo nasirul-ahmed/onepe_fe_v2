@@ -7,7 +7,7 @@ import styles from "@/styles/pages/select-language.module.css";
 import { useNavigation } from "@/hooks/useNavigate";
 
 export default function SelectLanguage() {
-  const { navigate, goBack } = useNavigation();
+  // const { navigate, goBack } = useNavigation();
 
   return (
     <div className={styles.container}>
@@ -36,7 +36,7 @@ export default function SelectLanguage() {
 
         <div className={styles.badge}>Coming Soon</div>
 
-        <Button onClick={() => goBack()} className={styles.backBtn}>
+        <Button onClick={undefined} className={styles.backBtn}>
           Got it, take me back
         </Button>
       </motion.div>

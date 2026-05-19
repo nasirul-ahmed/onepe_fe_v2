@@ -42,7 +42,7 @@ export default function ManageNotificationClient({
   return (
     <div className="h-full max-w-xl mx-auto p-6 flex flex-col gap-4">
       {/* Offers Section */}
-      <div className="bg-[var(--color-secondary)] border rounded-xl p-4 classicShadow">
+      <div className="bg-surface-1 border rounded-xl p-4 classicShadow">
         <h2 className="text-lg font-medium mb-4">🎁 Offers & Rewards</h2>
 
         <div className="flex items-center justify-between py-2">
@@ -54,7 +54,7 @@ export default function ManageNotificationClient({
       </div>
 
       {/* Payments Section */}
-      <div className="bg-[var(--color-secondary)] border rounded-xl p-4 classicShadow">
+      <div className="bg-surface-1 border rounded-xl p-4 classicShadow">
         <h2 className="text-lg font-medium mb-4">💰 Payment Notifications</h2>
 
         <div className="flex items-center justify-between py-2">

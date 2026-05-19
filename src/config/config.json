@@ -191,5 +191,8 @@
       "isActive": true,
       "displayOrder": 11
     }
-  ]
+  ],
+  "sheetConfigs": {
+    "plans-filters": { "title": "Filters", "height": "50vh" }
+  }
 }

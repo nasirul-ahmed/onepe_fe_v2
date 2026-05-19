@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import { promoBannerSchema } from "./banner-types";
-import { BannerRegistry } from "./types";
 
 export const COMPONENT_REGISTRY = {
   promo_banner_v1: {

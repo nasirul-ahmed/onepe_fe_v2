@@ -28,3 +28,11 @@ export async function getTransactions<T>({
   });
   return data as T;
 }
+
+export async function getWalletTopuopHistory<T>(pagination: {
+  page: number;
+  limit: number;
+}) {
+  const { data } = await httpClient.post<T>("/wallet/topup-history", pagination);
+  return data as T;
+}

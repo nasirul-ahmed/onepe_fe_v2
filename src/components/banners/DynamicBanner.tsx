@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { COMPONENT_REGISTRY } from "./registry";
 import { BaseBanner } from "./types";
 
@@ -22,7 +23,9 @@ export default function DynamicBanner({ banner }: { banner: BaseBanner }) {
   const props: any = parsed.data;
   return (
     <div className="">
-      <Component {...props} />
+      <Suspense fallback={<>Suspense Fallback</>}>
+        <Component {...props} />
+      </Suspense>
     </div>
   );
 }

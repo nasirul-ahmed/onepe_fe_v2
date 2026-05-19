@@ -9,64 +9,97 @@ import { useContactPicker } from "@/hooks/useContacts";
 import SectionHeader from "@/components/SectionHeader";
 import { useUserProfile } from "@/hooks/useAuth";
 import ModalContainer from "@/components/ModalContainer";
+import { Contact, useRechargeStore } from "@/store/recharge-store";
+import {
+  useAddContact,
+  useDeleteContact,
+  useUserPrefs,
+} from "@/hooks/useUserPrefs";
+import { cleanPhoneNumber } from "@/lib/utils";
+import OfferCard from "@/components/OfferCard";
+import { useRouter } from "next/navigation";
 
 interface Props {
-  onNext: (data: { name?: string; phone: string; operator: string }) => void;
-}
-
-interface SavedContact {
-  name?: string;
-  phone: string;
-  timestamp?: number;
+  onNext: (data: Partial<Contact>) => void;
 }
 
 export const RechargeDetailsView = ({ onNext }: Props) => {
-  const [phone, setPhone] = useState("");
-  const [operator, setOperator] = useState("Jio Prepaid");
-  //TODO: call user preference api here or get data from user pref
-  const [recentNumbers, setRecents] = React.useState<SavedContact[]>([
-    { name: "Disha", phone: "8133062461", timestamp: Date.now() },
-    { phone: "6000839540", name: "XYZ" },
-  ]);
-  const [optionSelected, setSelectedOption] = useState<SavedContact | null>(
-    null,
-  );
+  const [input, setInput] = useState("");
   const [isOptionModalOpen, setOptionModalOpen] = useState(false);
+  const router = useRouter();
+  const selectedContact = useRechargeStore().selectedContact;
+  const setSelectedContact = useRechargeStore().setSelectedContact;
 
   const { data: user } = useUserProfile();
+  const { data: userPrefs } = useUserPrefs();
   const { pickContact, isSupported } = useContactPicker();
-  const isReady = phone.length === 10 && operator;
 
-  const handlePickContact = async () => {
-    const contact = await pickContact();
-    // console.log({ contact });
-
-    if (!contact) return;
-    // setSelectedContact((prev) => [
-    //   ...prev,
-    //   { ...contact, timestamp: Date.now() },
-    // ]);
-
-    // TODO: call api and save the contact in user preferences & directly navigate to select plan
-    onNext({ name: contact.name!, phone: contact.phone, operator: "any" });
-  };
+  const { mutate: addNewContact } = useAddContact();
+  const { mutate: deleteContact } = useDeleteContact();
 
   const userFullName =
     user?.firstName && user?.lastName
       ? `${user.firstName} ${user.lastName}`
       : "User";
+  const isReady =
+    selectedContact?.phone.length === 10 && selectedContact?.operator;
+
+  const userContact: Partial<Contact> = {
+    name: userFullName,
+    phone: cleanPhoneNumber(user?.phone || ""),
+    operator: "JIO",
+    circle: "Any Circle",
+  };
+  const recentNumbers = userPrefs?.savedContacts || [];
+
+  const isNewContact = (phone: string) => {
+    return (
+      cleanPhoneNumber(user?.phone || "") !== phone &&
+      !recentNumbers.find((ct) => ct.phone === phone)
+    );
+  };
+
+  const handlePickContact = async () => {
+    const contact = await pickContact();
+
+    if (!contact) return;
+
+    setSelectedContact({ ...contact, timestamp: Date.now() });
+
+    if (isNewContact(contact.phone)) {
+      addNewContact(contact);
+    }
+
+    onNext({
+      name: contact.name!,
+      phone: contact.phone,
+      operator: "JIO",
+      circle: "Any Circle",
+    });
+  };
 
   const handleMobileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const _phone = e.target.value.replace(/\D/g, "").slice(0, 10);
-    setPhone(_phone);
 
     if (_phone.toString().length === 10) {
-      const data: SavedContact & { operator: string } = {
+      const data: Partial<Contact> = {
         phone: _phone,
-        operator: "any",
+        operator: "JIO",
+        circle: "Any Circle",
       };
 
-      if (_phone === user?.phone) data["name"] = userFullName;
+      const isUserPhoneNumber = _phone === cleanPhoneNumber(user?.phone || "");
+
+      if (isUserPhoneNumber) {
+        setSelectedContact(userContact);
+        return;
+      }
+
+      setSelectedContact(data);
+
+      if (isNewContact(_phone)) {
+        addNewContact(data);
+      }
 
       onNext(data);
     }
@@ -81,79 +114,90 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
 
     if (!phone) return;
 
-    if (phone === user?.phone) {
-      setSelectedOption({ phone: user.phone, name: userFullName });
+    if (phone === cleanPhoneNumber(user?.phone || "")) {
+      setSelectedContact({ phone: user?.phone || "", name: userFullName });
     } else {
-      const contact = recentNumbers?.find((ct) => ct?.phone === phone);
-      setSelectedOption(contact as SavedContact);
+      const contact = (userPrefs?.savedContacts || []).find(
+        (ct) => ct?.phone === phone,
+      );
+      setSelectedContact(contact as Contact);
     }
 
     setOptionModalOpen(true);
   };
 
-  const removeFromOnepe = (phone: string) => {
+  const removeFromOnepe = (phone?: string) => {
+    if (!phone || !phone.length) return;
+
     if (phone === user?.phone) {
-      alert("Cannot delete your own contact");
+      setOptionModalOpen(false);
+      return;
     }
-    setRecents((prev) => prev.filter((ct) => ct.phone !== phone));
+
+    deleteContact(phone);
     setOptionModalOpen(false);
   };
+
+  const handleRecentContactClick = (contact: Partial<Contact>) => {
+    const data: Partial<Contact> = {
+      ...contact,
+      operator: "JIO",
+      circle: "Any Circle",
+    };
+
+    setSelectedContact(data);
+
+    onNext(data);
+  };
+
+  React.useEffect(() => {
+    router.prefetch("/services/recharge?step=plans");
+  }, []);
 
   return (
     <div className="p-4">
       {/* Offers */}
-      <Button className="w-full bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 p-4 rounded-xl border border-orange-200 dark:border-orange-800/30">
-        <div className="w-full p-2">
-          <div className="flex justify-between items-center gap-3">
-            <div className="flex gap-4">
-              <Gift className="w-6 h-6 text-orange-600 dark:text-orange-400" />
-              <span className="font-semibold text-lg text-orange-800 dark:text-orange-300">
-                {"23"} Offers available
-              </span>
-            </div>
-            <ChevronRight />
-          </div>
-        </div>
-      </Button>
-
+      <OfferCard totalOffers={23} />
       {/* Input Section */}
       {/* <div className="bg-surface space-y-4"> */}
       <TextField
         label="Mobile Number"
-        value={phone}
+        value={input}
         onChange={handleMobileInputChange}
         startAdornment="+91"
         endAdornment={
           <>
-            {/* {isSupported && ( */}
-            <button
-              onClick={handlePickContact}
-              className="mt-2 rounded-lg"
-              aria-label="Pick from contacts"
-            >
-              <BookUser size={28} className="color-[var(--color-secondary)]" />
-            </button>
-            {/* )} */}
+            {isSupported && (
+              <button
+                onClick={handlePickContact}
+                className="mt-2 rounded-lg"
+                aria-label="Pick from contacts"
+              >
+                <BookUser
+                  size={28}
+                  className="color-[var(--color-secondary)]"
+                />
+              </button>
+            )}
           </>
         }
       />
 
       {/*TODO: add a Quick data add-ons section here for different available numbers on user pref + local storage saved contacts */}
 
-      {/* Recent Contacts */}
+      {/* User Contact */}
       <div className="w-full mt-4 space-y-2">
         {/* <h3 className="text-sm font-semibold mb-3 text-secondary">Recents</h3> */}
         <SectionHeader hideLeadingBar title="My Number" />
         <ContactCard
           name={userFullName}
-          phone={user?.phone!}
-          onClick={() =>
-            onNext({ name: userFullName, phone: user?.phone!, operator: "any" })
-          }
+          phone={cleanPhoneNumber(user?.phone || "")}
+          onClick={() => handleRecentContactClick(userContact)}
           onOptionClick={handleOptionClick}
         />
       </div>
 
+      {/* Recent Contacts */}
       {recentNumbers.length > 0 && (
         <div className="w-full mt-4 ">
           {/* <h3 className="text-sm font-semibold mb-3 text-secondary">Recents</h3> */}
@@ -162,10 +206,13 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
             {recentNumbers.map((ct, index) => (
               <ContactCard
                 key={index}
-                name={ct.name! || ct.phone}
-                phone={ct?.phone!}
+                name={ct.name || ct.phone || "User"}
+                phone={ct?.phone ?? ""}
                 onClick={() =>
-                  onNext({ name: ct.name, phone: ct?.phone!, operator: "any" })
+                  handleRecentContactClick({
+                    phone: ct?.phone,
+                    name: ct?.name ?? "Unkown",
+                  } as Contact)
                 }
                 onOptionClick={handleOptionClick}
               />
@@ -174,7 +221,7 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
         </div>
       )}
 
-      <ModalContainer
+      {/* <ModalContainer
         isOpen={isOptionModalOpen}
         onClose={() => setOptionModalOpen(false)}
         title="Contact Optoins"
@@ -188,21 +235,21 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
             </div>
             <div className="flex flex-col">
               <span className="font-semibold text-on-surface">
-                {optionSelected?.name!}
+                {`${selectedContact?.name ?? ""}`}
               </span>
               <span className="text-sm text-secondary">
-                +91 {optionSelected?.phone!}
+                {`+91${selectedContact?.phone ?? ""}`}
               </span>
             </div>
           </div>
           <Button
-            onClick={() => removeFromOnepe(optionSelected?.phone!)}
-            className="px-6 mt-8 bg-[var(--color-secondary)] flex flex-col justify-center items-center"
+            onClick={() => removeFromOnepe(selectedContact?.phone)}
+            className="px-6 mt-8 bg-surface-3 flex flex-col justify-center items-center"
           >
             <span>Remove from Onepe</span>
           </Button>
         </div>
-      </ModalContainer>
+      </ModalContainer> */}
     </div>
   );
 };

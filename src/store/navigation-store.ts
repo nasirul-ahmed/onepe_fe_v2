@@ -16,28 +16,12 @@ export const useNavigationStore = create<NavigationStore>()(
 
       push: (path) =>
         set((s) => {
-          // const lastEntry = s.history[s.history.length - 1];
-
-          // if (lastEntry === path) return s;
-
-          // if (s.history.includes(path)) {
-          //   const index = s.history.indexOf(path);
-          //   return { history: s.history.slice(0, index + 1) };
-          // }
-
-          // const updated = [...s.history, path];
-          // return { history: updated.slice(-10) };
-
           if (s.history[s.history.length - 1] === path) return s;
 
-          // 2. PATH SYNC: If we are going back to a page already in our history,
-          // truncate the stack to that point. This prevents: /home -> /profile -> /home
           const existingIndex = s.history.indexOf(path);
           if (existingIndex !== -1) {
             return { history: s.history.slice(0, existingIndex + 1) };
           }
-
-          // 3. Otherwise, push new path and keep last 10
           const updated = [...s.history, path];
           return { history: updated.slice(-10) };
         }),

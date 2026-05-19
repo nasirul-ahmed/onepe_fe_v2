@@ -3,7 +3,7 @@
 import { InputHTMLAttributes, forwardRef, useState, ReactNode } from "react";
 import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import styles from "@/styles/components/textField.module.css"
+import styles from "@/styles/components/textField.module.css";
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;

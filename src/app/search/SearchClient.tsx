@@ -99,7 +99,7 @@ const SearchClient = ({
 
   return (
     <div className={styles.searchPage}>
-      <div className={cn("bg-[var(--color-on-surface)]", styles.searchHeader)}>
+      <div className={cn("bg-[var(--color-surface-2)]", styles.searchHeader)}>
         <div className={styles.searchHeaderContent}>
           <form onSubmit={handleSearchSubmit}>
             <div className={styles.searchInputContainer}>
