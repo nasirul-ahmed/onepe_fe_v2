@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { COMPONENT_REGISTRY } from "./registry";
 import { BaseBanner } from "./types";
+import OnepeLiquidLoader from "../OnePeLoader";
 
 export default function DynamicBanner({ banner }: { banner: BaseBanner }) {
   const key: string = `${banner.component}_v${banner.version}`;
@@ -23,7 +24,7 @@ export default function DynamicBanner({ banner }: { banner: BaseBanner }) {
   const props: any = parsed.data;
   return (
     <div className="">
-      <Suspense fallback={<>Suspense Fallback</>}>
+      <Suspense fallback={<OnepeLiquidLoader />}>
         <Component {...props} />
       </Suspense>
     </div>

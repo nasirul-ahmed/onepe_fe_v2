@@ -19,9 +19,22 @@ export function isValidUrl(urlString: string): boolean {
 }
 
 export function cleanPhoneNumber(phone: string): string {
-  const sanitized = phone.replace(/[\s\-\(\)]/g, "");
-  const cleaned = sanitized.replace(/^(\+91|91|0)/, "");
-  return cleaned.length > 10 ? cleaned.slice(-10) : cleaned;
+  // keep only digits
+  const digits = phone.replace(/\D/g, "");
+
+  if (digits.length === 10) {
+    return digits;
+  }
+
+  if (digits.length === 12 && digits.startsWith("91")) {
+    return digits.slice(2);
+  }
+
+  if (digits.length === 11 && digits.startsWith("0")) {
+    return digits.slice(1);
+  }
+
+  return digits.slice(-10);
 }
 
 export function convertObjectToQuery(object: Record<string, unknown>) {
@@ -39,6 +52,13 @@ export function convertObjectToQuery(object: Record<string, unknown>) {
   return params;
 }
 
-export function capitalize(s: string) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
+export function capitalize(str: string) {
+  const words = str.split(" ");
+
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i].toLocaleLowerCase();
+    words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  return words;
 }

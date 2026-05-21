@@ -2,22 +2,19 @@
 
 import React, { useState } from "react";
 import TextField from "@/components/TextField";
-import Button from "@/components/Button";
 import { BookUser, ChevronRight, Gift, Phone } from "lucide-react";
 import ContactCard from "@/components/ContactCard";
 import { useContactPicker } from "@/hooks/useContacts";
 import SectionHeader from "@/components/SectionHeader";
 import { useUserProfile } from "@/hooks/useAuth";
-import ModalContainer from "@/components/ModalContainer";
 import { Contact, useRechargeStore } from "@/store/recharge-store";
-import {
-  useAddContact,
-  useDeleteContact,
-  useUserPrefs,
-} from "@/hooks/useUserPrefs";
+import { useAddContact, useUserPrefs } from "@/hooks/useUserPrefs";
 import { cleanPhoneNumber } from "@/lib/utils";
 import OfferCard from "@/components/OfferCard";
 import { useRouter } from "next/navigation";
+import { useDebounce } from "@/hooks/useDebounce";
+import { detectOperatorCircle } from "@/services/mobileRecharge.service";
+import { SHEET_TYPES, useAppStore } from "@/store/app-store";
 
 interface Props {
   onNext: (data: Partial<Contact>) => void;
@@ -25,84 +22,104 @@ interface Props {
 
 export const RechargeDetailsView = ({ onNext }: Props) => {
   const [input, setInput] = useState("");
-  const [isOptionModalOpen, setOptionModalOpen] = useState(false);
   const router = useRouter();
-  const selectedContact = useRechargeStore().selectedContact;
+
+  const skipNextDetectionRef = React.useRef(false);
+
+  const openSheet = useAppStore().openSheet;
   const setSelectedContact = useRechargeStore().setSelectedContact;
 
   const { data: user } = useUserProfile();
   const { data: userPrefs } = useUserPrefs();
+  const { mutate: addNewContact } = useAddContact();
   const { pickContact, isSupported } = useContactPicker();
 
-  const { mutate: addNewContact } = useAddContact();
-  const { mutate: deleteContact } = useDeleteContact();
+  const debouncedPhone = useDebounce(input, 500);
 
+  const userSelfPhone = cleanPhoneNumber(user?.phone || "");
   const userFullName =
     user?.firstName && user?.lastName
       ? `${user.firstName} ${user.lastName}`
       : "User";
-  const isReady =
-    selectedContact?.phone.length === 10 && selectedContact?.operator;
 
   const userContact: Partial<Contact> = {
     name: userFullName,
-    phone: cleanPhoneNumber(user?.phone || ""),
-    operator: "JIO",
-    circle: "Any Circle",
+    phone: userSelfPhone,
   };
   const recentNumbers = userPrefs?.savedContacts || [];
 
   const isNewContact = (phone: string) => {
     return (
-      cleanPhoneNumber(user?.phone || "") !== phone &&
-      !recentNumbers.find((ct) => ct.phone === phone)
+      userSelfPhone !== phone && !recentNumbers.find((ct) => ct.phone === phone)
     );
   };
 
-  const handlePickContact = async () => {
-    const contact = await pickContact();
+  const processPhoneSelection = React.useCallback(
+    async ({ phone, name, operator, circle }: Partial<Contact>) => {
+      const normalizedPhone = cleanPhoneNumber(phone || "");
 
-    if (!contact) return;
+      if (normalizedPhone.length !== 10) return;
 
-    setSelectedContact({ ...contact, timestamp: Date.now() });
+      const isSelf = normalizedPhone === userSelfPhone;
 
-    if (isNewContact(contact.phone)) {
-      addNewContact(contact);
-    }
-
-    onNext({
-      name: contact.name!,
-      phone: contact.phone,
-      operator: "JIO",
-      circle: "Any Circle",
-    });
-  };
-
-  const handleMobileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const _phone = e.target.value.replace(/\D/g, "").slice(0, 10);
-
-    if (_phone.toString().length === 10) {
-      const data: Partial<Contact> = {
-        phone: _phone,
-        operator: "JIO",
-        circle: "Any Circle",
+      let data: Partial<Contact> = {
+        name,
+        phone: normalizedPhone,
+        operator,
+        circle,
       };
 
-      const isUserPhoneNumber = _phone === cleanPhoneNumber(user?.phone || "");
+      const needsDetection = !data.operator || !data.circle;
 
-      if (isUserPhoneNumber) {
-        setSelectedContact(userContact);
-        return;
+      if (needsDetection) {
+        try {
+          const response = await detectOperatorCircle(normalizedPhone);
+
+          data = {
+            ...data,
+            ...response,
+            operator: response?.operatorId?.replace("_", " "),
+            circle: response?.circle,
+          };
+        } catch {
+          data = {
+            ...data,
+            operator: "Unknown",
+            circle: "Unknown",
+          };
+        }
       }
 
       setSelectedContact(data);
 
-      if (isNewContact(_phone)) {
+      // Save/update self contact metadata too
+      if (isSelf || isNewContact(normalizedPhone)) {
         addNewContact(data);
       }
 
       onNext(data);
-    }
+    },
+    [userSelfPhone, setSelectedContact, addNewContact, onNext],
+  );
+
+  const handleContactPicker = async () => {
+    const contact = await pickContact();
+
+    if (!contact) return;
+
+    skipNextDetectionRef.current = true;
+    setInput(contact.phone);
+
+    await processPhoneSelection({
+      phone: contact.phone,
+      name: contact.name,
+    });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const phone = e.target.value.replace(/\D/g, "").slice(0, 10);
+
+    setInput(phone);
   };
 
   const handleOptionClick = (
@@ -114,41 +131,41 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
 
     if (!phone) return;
 
-    if (phone === cleanPhoneNumber(user?.phone || "")) {
-      setSelectedContact({ phone: user?.phone || "", name: userFullName });
+    let data: Partial<Contact> = { phone };
+
+    if (phone === userSelfPhone) {
+      data = { ...data, ...userContact };
     } else {
       const contact = (userPrefs?.savedContacts || []).find(
         (ct) => ct?.phone === phone,
       );
-      setSelectedContact(contact as Contact);
+      data = { ...contact };
     }
 
-    setOptionModalOpen(true);
-  };
-
-  const removeFromOnepe = (phone?: string) => {
-    if (!phone || !phone.length) return;
-
-    if (phone === user?.phone) {
-      setOptionModalOpen(false);
-      return;
-    }
-
-    deleteContact(phone);
-    setOptionModalOpen(false);
+    openSheet(SHEET_TYPES.CONTACT_OPTIONS, { ...data });
   };
 
   const handleRecentContactClick = (contact: Partial<Contact>) => {
-    const data: Partial<Contact> = {
+    console.log({ contact });
+    processPhoneSelection({
+      phone: contact.phone || "",
+      name: contact.name,
       ...contact,
-      operator: "JIO",
-      circle: "Any Circle",
-    };
-
-    setSelectedContact(data);
-
-    onNext(data);
+    });
   };
+
+  React.useEffect(() => {
+    if (debouncedPhone.length !== 10) return;
+
+    if (skipNextDetectionRef.current) {
+      skipNextDetectionRef.current = false;
+      return;
+    }
+
+    processPhoneSelection({
+      phone: debouncedPhone,
+    });
+  }, [debouncedPhone, processPhoneSelection]);
 
   React.useEffect(() => {
     router.prefetch("/services/recharge?step=plans");
@@ -163,13 +180,13 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
       <TextField
         label="Mobile Number"
         value={input}
-        onChange={handleMobileInputChange}
+        onChange={handleInputChange}
         startAdornment="+91"
         endAdornment={
           <>
             {isSupported && (
               <button
-                onClick={handlePickContact}
+                onClick={handleContactPicker}
                 className="mt-2 rounded-lg"
                 aria-label="Pick from contacts"
               >
@@ -191,7 +208,7 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
         <SectionHeader hideLeadingBar title="My Number" />
         <ContactCard
           name={userFullName}
-          phone={cleanPhoneNumber(user?.phone || "")}
+          phone={userSelfPhone}
           onClick={() => handleRecentContactClick(userContact)}
           onOptionClick={handleOptionClick}
         />

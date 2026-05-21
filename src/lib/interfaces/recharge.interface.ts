@@ -6,7 +6,7 @@ export interface MobileRechargePlan {
   talktime?: string;
   badge?: string;
   badgeColor?: "green" | "blue";
-  benefits?: string[];
+  benefits?: Record<string, unknown>;
   description?: string;
   type?: string;
 }

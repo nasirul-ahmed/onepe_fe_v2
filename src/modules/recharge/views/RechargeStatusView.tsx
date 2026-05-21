@@ -11,12 +11,14 @@ import {
   Share2,
   Download,
   IndianRupee,
+  Loader2,
 } from "lucide-react";
 import { Typography } from "@/components/Typography";
 import Button from "@/components/Button";
 import { useSearchParams } from "next/navigation";
 import { getServiceOrderStatus } from "@/services/serviceOrder.service";
 import { useQuery } from "@tanstack/react-query";
+import { useRechargeStore } from "@/store/recharge-store";
 
 interface RechargeStatusViewProps {
   onDone: () => void;
@@ -31,9 +33,11 @@ export function RechargeStatusView({
 }: RechargeStatusViewProps) {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || null;
+  const reset = useRechargeStore().reset;
 
   const {
     data: order,
+    isFetching,
     isLoading,
     error,
   } = useQuery({
@@ -66,9 +70,8 @@ export function RechargeStatusView({
     refetchIntervalInBackground: true,
   });
 
-
-
   const orderStatus = order?.status?.toLowerCase();
+  console.log({ orderStatus });
   const statusConfig = {
     success: {
       icon: (
@@ -89,6 +92,9 @@ export function RechargeStatusView({
     },
   }[orderStatus || "pending"];
 
+  React.useEffect(() => {
+    reset();
+  }, []);
 
   if (!orderId) return <div>Inalid orderID</div>;
 
@@ -98,6 +104,12 @@ export function RechargeStatusView({
       <div
         className={`flex-none flex flex-col items-center text-center p-8 pt-12 bg-surface-1 rounded-b-[2.5rem]`}
       >
+        {(isLoading || isFetching || orderStatus === "processing") && (
+          <div className="flex flex-col items-center">
+            <Loader2 className="animate-spin " size={30} />
+            Please wait, your transaction is in progress!
+          </div>
+        )}
         <div className="mb-4">{statusConfig?.icon}</div>
         <Typography variant="h4" weight="bold" className="mb-1 text-center">
           {statusConfig?.title}
@@ -179,7 +191,7 @@ export function RechargeStatusView({
               variant="medium"
               className="text-on-surface-variant font-medium text-right"
             >
-              {new Date(order?.completedAt || "")?.toLocaleDateString() || ""}
+              {new Date(order?.completedAt || new Date())?.toLocaleDateString()}
             </Typography>
           </div>
         </div>

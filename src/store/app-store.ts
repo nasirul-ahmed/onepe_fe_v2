@@ -10,6 +10,7 @@ export type ActiveTab = (typeof ActiveTab)[keyof typeof ActiveTab];
 
 export const SHEET_TYPES = {
   PLANS_FILTERS: "plans-filters",
+  CONTACT_OPTIONS: "contact-options",
 } as const;
 
 export const MODAL_TYPES = {
@@ -41,7 +42,7 @@ interface AppState {
 
   setActiveTab: (tab: ActiveTab) => void;
   setLoading: (loading: boolean) => void;
-  openSheet: (id: string) => void;
+  openSheet: (id: string, data?: Record<string, unknown>) => void;
   closeSheet: () => void;
   isSheetOpen: (id: SheetType) => boolean;
 

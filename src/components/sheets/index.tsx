@@ -1,8 +1,9 @@
 "use client";
 
-import { useAppStore } from "@/store/app-store";
+import { SHEET_TYPES, useAppStore } from "@/store/app-store";
 import { PlansFilterSheet } from "./RechargeSheets";
 import { lazy } from "react";
+import ContactDetailsOption from "./ContactDetailsOption";
 
 const sheetComponents = {
   // "plans-filters": lazy(() =>
@@ -11,7 +12,8 @@ const sheetComponents = {
   //   })),
   // ),
 
-  "plans-filters": PlansFilterSheet,
+  [SHEET_TYPES.PLANS_FILTERS]: PlansFilterSheet,
+  [SHEET_TYPES.CONTACT_OPTIONS]: ContactDetailsOption,
 } as const;
 
 interface SheetContentProps {
@@ -28,5 +30,5 @@ export function SheetContent({ sheetId }: SheetContentProps) {
 
   if (!SheetComponent) return null;
 
-  return <SheetComponent {...(sheetData?.props ?? {})} />;
+  return <SheetComponent data={sheetData || {}} />;
 }

@@ -27,8 +27,11 @@ export function ConfirmPlanView({ onProceed, onBack }: _PageProps) {
       ? `${user.firstName} ${user.lastName}`
       : "User";
 
-  React.useEffect(() => {
-    if (!selectedContact || !selectedPlan) {
+  React.useLayoutEffect(() => {
+    if (!selectedContact && !selectedPlan) {
+      navigate("/services/recharge?step=details");
+    }
+     if (selectedContact && !selectedPlan) {
       navigate("/services/recharge?step=plans");
     }
   }, [selectedContact, selectedPlan]);

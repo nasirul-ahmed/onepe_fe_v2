@@ -1,5 +1,5 @@
 export type TransactionType = "credit" | "debit";
-export type TransactionStatus = "completed" | "pending" | "failed";
+export type TransactionStatus = "completed" | "pending" | "failed" | "processing";
 
 export interface TransactionItem {
   id: string;

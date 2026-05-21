@@ -74,6 +74,7 @@ const Footer = () => {
               onClick={(e) => handleClick(e, item.id)}
               // whileTap={{ scale: 0.95 }}
               className={styles.navButton}
+              // variant="primary"
             >
               {/* Active indicator */}
               {isActive && (

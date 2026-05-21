@@ -61,7 +61,10 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
 
   const filtered = allItems
     .filter(
-      (item) => selectedFilter === "all" || item.status === selectedFilter,
+      (item) =>
+        selectedFilter === "all" ||
+        item.status === selectedFilter ||
+        (item.status === "processing" && selectedFilter === "pending"),
     )
     .filter((item) =>
       item.description?.toLowerCase().includes(searchTerm.toLowerCase()),
