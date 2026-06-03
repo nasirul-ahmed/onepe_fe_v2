@@ -134,9 +134,7 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
                   <Typography variant={"p"}>
                     {`(${capitalize(
                       selectedContact?.circle?.replace("_", " ") || "",
-                    )
-                      .join()
-                      ?.replace(",", " ")})`}
+                    )})`}
                   </Typography>
                 )}
               </div>
