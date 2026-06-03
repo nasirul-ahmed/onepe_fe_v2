@@ -11,7 +11,6 @@ import Button from "./Button";
 
 interface ServicesGridProps {
   services: AppService[];
-  modalEnabled: boolean;
   isModalOpen?: boolean;
   onOpenModal?: () => void;
   onCloseModal?: () => void;
@@ -20,13 +19,15 @@ interface ServicesGridProps {
 interface ServiceTileProps {
   service: AppService;
   onClick: () => void;
-  size?: "sm" | "md";
+  size?: "xs" | "sm" | "md";
+  classes?: string;
 }
 
 export function ServiceTile({
   service,
   onClick,
   size = "sm",
+  classes,
 }: ServiceTileProps) {
   const [loading, setLoading] = React.useState(false);
 
@@ -39,7 +40,12 @@ export function ServiceTile({
   return (
     <Button
       onClick={handleClick}
-      className={`${styles.tile} ${size === "sm" ? styles.tileSm : ""}`}
+      className={cn(
+        styles.tile,
+        size === "sm" && styles.tileSm,
+        size === "xs" && styles.tileXs,
+        classes,
+      )}
     >
       {service.isPopular && <span className={styles.hotBadge}>HOT</span>}
       {service.discountPercentage! > 0 && (
@@ -55,7 +61,6 @@ export function ServiceTile({
 
 export default function ServicesGrid({
   services: intialServices,
-  modalEnabled,
   isModalOpen,
   onOpenModal,
   onCloseModal,

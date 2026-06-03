@@ -43,12 +43,14 @@ export function BottomSheet({ className }: BottomSheetProps) {
         return { title: "Filters", height: "50vh" };
       case SHEET_TYPES.PLAN_DETAILS:
         return { title: "Plan Details", height: "50vh" };
+      case SHEET_TYPES.RECHARGE_OFFERS:
+        return { title: "Available Offers", height: "50vh", maxHeight: "90vh" };
       default:
         return { title: "", height: "auto" };
     }
   };
 
-  const { title, height } = getSheetConfig();
+  const { title, height, maxHeight } = getSheetConfig();
 
   // Prevent body scroll when sheet is open
   React.useEffect(() => {
@@ -97,7 +99,7 @@ export function BottomSheet({ className }: BottomSheetProps) {
             "animate-slide-up duration-300 ease-standard",
             className,
           )}
-          style={{ height: height, maxHeight: "100vh" }}
+          style={{ height: height, maxHeight: maxHeight ?? "100vh" }}
         >
           {/* Drag Handle */}
           {/* <div className="flex justify-center pt-2 cursor-grab active:cursor-grabbing">

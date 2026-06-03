@@ -108,10 +108,10 @@
   width: 100%;
   background-color: #00baf2;
   color: #fff;
-  padding: 1rem;
+  padding: .4rem;
   border-radius: 0.75rem;
   font-weight: 700;
-  font-size: 1.125rem;
+  font-size: 1rem;
   border: none;
   box-shadow: 0 10px 15px -3px rgba(0, 186, 242, 0.2);
   transition: all 0.2s;

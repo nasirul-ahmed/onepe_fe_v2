@@ -7,7 +7,7 @@ import Carousel from "@/components/Carousel";
 import { motion } from "framer-motion";
 import TransactionHistory from "@/components/TransactionHistory";
 import styles from "@/styles/pages/home.module.css";
-import { cn } from "@/lib/utils";
+import { cn, groupByCategory } from "@/lib/utils";
 import ServicesGrid from "@/components/ServicesGrid";
 import { useBanners } from "@/hooks/useBanners";
 import DynamicBanner from "@/components/banners/DynamicBanner";
@@ -97,7 +97,7 @@ export default function HomeView() {
                 onClick={() =>
                   openModal(MODAL_TYPES.SHOW_ALL_SERVICES, {
                     title: "All Services",
-                    size: "sm",
+                    size: "md",
                     services: groupByCategory(
                       services,
                     ) as unknown as ServicesCategory[],
@@ -110,9 +110,8 @@ export default function HomeView() {
             }
           />
           <ServicesGrid
-            services={initialServices?.services || []}
-            modalEnabled={true}
             isModalOpen={isServicesModalOpen}
+            services={initialServices?.services || []}
             onOpenModal={() => setServicesModalOpen(true)}
             onCloseModal={() => setServicesModalOpen(false)}
           />
@@ -136,22 +135,4 @@ export default function HomeView() {
       </motion.div>
     </ContentLayout>
   );
-}
-
-function groupByCategory(services: AppService[]) {
-  const groupedByCategory = services.reduce(
-    (acc, service) => {
-      const key = service.category;
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(service);
-      return acc;
-    },
-    {} as { [key: string]: AppService[] },
-  );
-  return Object.entries(groupedByCategory).map(([category, items]) => ({
-    category,
-    items,
-  }));
 }

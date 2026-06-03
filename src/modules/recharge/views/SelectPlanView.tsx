@@ -110,7 +110,7 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
       <div className="flex-none">
         <div className="bg-on-secondary p-4 mx-4 my-2 rounded-xl">
           <div className="flex justify-between">
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3">
               <Phone size={18} />
               <div className="flex flex-col">
                 {selectedContact?.name && (
@@ -123,8 +123,8 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
                 </Typography>{" "}
               </div>
             </div>
-            <div className="flex flex-col justify-center gap-2">
-              <div className="flex gap-2 justify-end items-end">
+            <div className="flex flex-col justify-center">
+              <div className="flex gap-1 justify-end items-end">
                 {selectedContact.operator && (
                   <Typography variant={"p"}>
                     {selectedContact?.operator}
@@ -132,7 +132,11 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
                 )}
                 {selectedContact.circle && (
                   <Typography variant={"p"}>
-                    {`(${capitalize(selectedContact?.circle?.replace("_", " ") || "")})`}
+                    {`(${capitalize(
+                      selectedContact?.circle?.replace("_", " ") || "",
+                    )
+                      .join()
+                      ?.replace(",", " ")})`}
                   </Typography>
                 )}
               </div>
@@ -161,9 +165,9 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
                 </div>
                 <Button
                   onClick={() => onSelectPlan(recommendedPlan.id)}
-                  className="bg-surface-1 rounded-full p-4"
+                  className="bg-surface-1 rounded-full p-2"
                 >
-                  <Typography variant={"h5"}>Recharge</Typography>
+                  <Typography variant={"medium"}>Recharge</Typography>
                 </Button>
               </span>
               {/* plan duration */}
@@ -185,7 +189,7 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
         </div>
 
         {/* Quick Data Recharges */}
-        <div className="mt-2 px-3">
+        <div className="flex flex-col gap-1 mt-2 px-4">
           <Typography variant={"p"} weight={"medium"} className="">
             Quick Recharges
           </Typography>
@@ -193,8 +197,8 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
             {quickRecharges.map((qr) => (
               <button
                 key={qr.id}
-                onClick={() => onSelect(qr.id)}
-                className="shrink-0 flex items-center gap-1 border border-[var(--color-border)] rounded-full px-4 py-2 text-sm text-on-surface bg-surface active:bg-surface-variant transition-colors"
+                onClick={() => onSelectPlan(qr.id)}
+                className="shrink-0 flex items-center gap-1 border border-[var(--color-border)] rounded-full px-2 py-1 text-sm text-on-surface bg-surface active:bg-surface-variant transition-colors"
               >
                 <Typography variant={"p"} className="text-[.7rem]">
                   {qr.data} {" | " + qr.validity}
@@ -206,8 +210,8 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
         </div>
 
         {/* Search plans */}
-        <div className="flex items-center w-full">
-          <div className="flex items-center bg-surface rounded-full pl-2 py-2 pr-1">
+        <div className="flex-1 flex items-center gap-2 w-full mt-2 mx-2 px-2">
+          <div className="flex-1 flex gap-1 items-center bg-surface rounded-full">
             <TextField
               type="text"
               placeholder="Search e.g. 299 or 28 days"
@@ -215,11 +219,11 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
               onChange={(e) => setSearch(e.target.value)}
               startAdornment={
                 <Search
-                  size={12}
-                  className="text-on-surface-variant shrink-0 mt-[3px]"
+                  size={14}
+                  className="text-on-surface-variant shrink-0 mr-2"
                 />
               }
-              className="bg-transparent text-xs px-2 py-0 mb-[2px] placeholder:text-xs text-on-surface placeholder:text-on-surface-variant outline-none"
+              className="bg-transparent text-on-surface placeholder:text-on-surface-variant outline-none"
             />
           </div>
           <Button
@@ -233,27 +237,6 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
             <SlidersHorizontal size={22} className="text-on-surface-variant" />
           </Button>
         </div>
-
-        {/* Quick filters */}
-        {/* <div className="px-3 flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-          {FILTER_CHIPS.map((f) => {
-            const active = activeFilters.includes(f);
-            return (
-              <button
-                key={f}
-                onClick={() => toggleFilter(f)}
-                className={[
-                  "shrink-0 text-xs font-medium px-3 py-1.5 rounded-full border transition-colors",
-                  active
-                    ? "bg-primary-container text-on-primary-container border-primary"
-                    : "bg-surface text-on-surface border-[var(--color-border)]",
-                ].join(" ")}
-              >
-                {f}
-              </button>
-            );
-          })}
-        </div> */}
 
         {/* Category Tabs */}
         <div className="flex overflow-x-auto scrollbar-hide border-b border-[var(--color-border)]">

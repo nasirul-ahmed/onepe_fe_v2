@@ -135,12 +135,13 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
 
     if (phone === userSelfPhone) {
       data = { ...data, ...userContact };
-    } else {
-      const contact = (userPrefs?.savedContacts || []).find(
-        (ct) => ct?.phone === phone,
-      );
-      data = { ...contact };
     }
+
+    const contact = (userPrefs?.savedContacts || []).find(
+      (ct) => ct?.phone === phone,
+    );
+
+    data = { ...contact };
 
     openSheet(SHEET_TYPES.CONTACT_OPTIONS, { ...data });
   };
@@ -174,7 +175,10 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
     <div className="p-4 pb-48 overflow-y-auto">
       {/* Offers */}
       <div className="mb-2">
-        <OfferCard totalOffers={23} />
+        <OfferCard
+          totalOffers={23}
+          onClick={() => openSheet(SHEET_TYPES.RECHARGE_OFFERS, { offers: [] })}
+        />
       </div>
       {/* Input Section */}
       {/* <div className="bg-surface space-y-4"> */}

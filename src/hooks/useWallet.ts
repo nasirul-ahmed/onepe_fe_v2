@@ -107,17 +107,9 @@ export function useWalletTopup(): UseWalletTopupResult {
   };
 }
 
-export function useTransactionHistory(limit = 20) {
-  // return useQuery({
-  //   queryKey: ["wallet", "transactions"],
-  //   queryFn: () => getTransactions<Paginated<>>({ page: pageParam, limit }),
-  //   getNextPageParam: (lastPage, allPages) =>
-  //     lastPage.morePages ? allPages.length + 1 : undefined,
-  //   initialPageParam: 1,
-  // });
-
+export function useTransactionHistory(limit = 10) {
   return useInfiniteQuery<Paginated<TransactionItem>>({
-    queryKey: ["transaction-history"],
+    queryKey: ["transaction-history", limit],
     queryFn: ({ pageParam = 1 }) =>
       getTransactions<Paginated<TransactionItem>>({
         page: Number(pageParam),

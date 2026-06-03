@@ -8,6 +8,7 @@ import { useRequestOtp, useVerifyOtp } from "@/hooks/useAuth";
 import styles from "@/styles/pages/login.module.css";
 import { useNavigation } from "@/hooks/useNavigate";
 import { cn } from "@/lib/utils";
+import { Typography } from "@/components/Typography";
 
 export function LoginForm() {
   const { navigate } = useNavigation();
@@ -76,10 +77,12 @@ export function LoginForm() {
               placeholder="00000 00000"
               maxLength={10}
               startAdornment={
-                <span className="pr-2 border-r border-white/10 mr-2 font-bold">
-                  +91
-                </span>
+                // <span className="pr-2 border-r border-white/10 mr-2 font-bold">
+                  
+                // </span>
+                <Typography variant={"small"} className="mr-2 pr-2 text-center border-r border-white/10">+91</Typography>
               }
+              className="placeholder:text-md"
             />
           ) : (
             <TextField

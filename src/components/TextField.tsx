@@ -51,7 +51,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             id={name}
             ref={ref}
             type={isPassword && showPassword ? "text" : type}
-            className={cn(styles.innerInput, className)}
+            className={cn(styles.innerInput, "self-stretch", className)}
             {...props}
           />
 

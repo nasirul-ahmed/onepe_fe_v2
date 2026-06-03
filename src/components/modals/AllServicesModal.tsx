@@ -29,6 +29,12 @@ const AllServicesModal = (props: AllServicesModalProps) => {
 
     navigate(url);
   };
+
+  const goToAllServicesPage = () => {
+    isModalOpen(MODAL_TYPES.SHOW_ALL_SERVICES) && closeModal();
+    navigate(ROUTES.SERVICES.path)
+  };
+
   return (
     <div className="px-5 pb-8">
       {services.map(({ category, items }) => (
@@ -52,7 +58,7 @@ const AllServicesModal = (props: AllServicesModalProps) => {
                 <ServiceTile
                   service={service}
                   size="sm"
-                  onClick={() => handleServiceClick(service.name)}
+                  onClick={() => handleServiceClick(service.slug)}
                 />
               </motion.div>
             ))}
@@ -61,7 +67,7 @@ const AllServicesModal = (props: AllServicesModalProps) => {
       ))}
       <div className="divider w-full"></div>
       <button
-        onClick={() => navigate(ROUTES.SERVICES.path)}
+        onClick={goToAllServicesPage}
         className="p-2 flex ml-auto mr-auto text-center"
       >
         Go to all services page

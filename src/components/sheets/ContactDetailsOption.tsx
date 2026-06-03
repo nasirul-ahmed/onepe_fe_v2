@@ -1,4 +1,4 @@
-import { useRechargeStore } from "@/store/recharge-store";
+import { Contact } from "@/store/recharge-store";
 import { Phone } from "lucide-react";
 import Button from "../Button";
 import { useUserProfile } from "@/hooks/useAuth";
@@ -6,15 +6,14 @@ import { useDeleteContact } from "@/hooks/useUserPrefs";
 import { useAppStore } from "@/store/app-store";
 
 interface _ComponentProps {
-  data: Record<string, unknown>;
+  data: Partial<Contact>;
 }
 
 export default function ContactDetailsOption(props: _ComponentProps) {
-  console.log("ContactDetailsOption props:", props);
   const { data: user } = useUserProfile();
   const { closeSheet } = useAppStore();
   const { mutate: deleteContact } = useDeleteContact();
-  const selectedContact = useRechargeStore().selectedContact;
+  const selectedContact = props.data;
 
   const removeFromOnepe = (phone?: string) => {
     if (!phone || !phone.length) return;

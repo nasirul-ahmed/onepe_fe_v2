@@ -43,19 +43,23 @@ const FILTERS = [
 const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   showSearchBox = false,
   showFilters = false,
-  pageTitle = "Transaction History",
 }) => {
   const pathname = usePathname();
+  const isTransactionPage = pathname == "/transactions";
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedFilter, setSelectedFilter] = React.useState("all");
   const { navigate } = useNavigation();
+
+  const limit = isTransactionPage ? 10 : 5;
   const {
     data: transactions,
     isLoading,
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useTransactionHistory(20);
+  } = useTransactionHistory(limit);
+
+  console.log({ pathname, isTransactionPage });
 
   // Flatten all pages into one list
   const allItems = transactions?.pages.flatMap((p) => p.items) ?? [];
@@ -112,13 +116,16 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
     );
   }
 
-  const isNotTransactionPage = pathname !== "/transactions";
-
   return (
-    <div className={cn("flex flex-col pt-1 h-full max-h-[100%] overflow-hidden", !isNotTransactionPage && "p-4 pt-0")}>
+    <div
+      className={cn(
+        "flex flex-col pt-1 h-full max-h-[100%] overflow-hidden",
+        isTransactionPage && "p-4 pt-0",
+      )}
+    >
       {/* Search + Filter — full view only */}
       {(showFilters && showSearchBox) ||
-        (!isNotTransactionPage && (
+        (isTransactionPage && (
           <div className={cn(styles.header, "flex flex-col gap-4")}>
             <div className={styles.searchContainer}>
               {/* <input
@@ -184,17 +191,19 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
             })}
 
             {/* Sentinel — observed to trigger next page fetch */}
-            {<div ref={sentinelRef} className="h-4 w-full" />}
+            {isTransactionPage && (
+              <div ref={sentinelRef} className="h-4 w-full" />
+            )}
 
             {/* Spinner while loading next page */}
-            {isFetchingNextPage && (
+            {isTransactionPage && isFetchingNextPage && (
               <div className="flex justify-center py-4">
                 <Loader2 className="animate-spin text-gray-400" size={20} />
               </div>
             )}
 
             {/* End of list */}
-            {!hasNextPage && filtered.length > 0 && (
+            {isTransactionPage && !hasNextPage && filtered.length > 0 && (
               <p className="text-center text-xs text-gray-400 py-4">
                 {`You've reached the end`}
               </p>
