@@ -19,6 +19,7 @@ import { useSearchParams } from "next/navigation";
 import { getServiceOrderStatus } from "@/services/serviceOrder.service";
 import { useQuery } from "@tanstack/react-query";
 import { useRechargeStore } from "@/store/recharge-store";
+import * as htmlToImage from "html-to-image";
 
 interface RechargeStatusViewProps {
   onDone: () => void;
@@ -31,6 +32,7 @@ export function RechargeStatusView({
   onDone,
   onRetry,
 }: RechargeStatusViewProps) {
+  const ref = React.useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || null;
   const reset = useRechargeStore().reset;
@@ -71,26 +73,49 @@ export function RechargeStatusView({
   });
 
   const orderStatus = order?.status?.toLowerCase();
-  console.log({ orderStatus });
-  const statusConfig = {
-    success: {
-      icon: (
-        <CheckCircle2 className="w-16 h-16 text-emerald-500 animate-scale-up" />
-      ),
-      title: "Recharge Successful",
-      subtitle: "Your recharge has been processed successfully.",
-    },
-    failed: {
-      icon: <XCircle className="w-16 h-16 text-rose-500" />,
-      title: "Recharge Failed",
-      subtitle: "Your money will be refunded if debited.",
-    },
-    pending: {
-      icon: <AlertCircle className="w-16 h-16 text-amber-500 animate-pulse" />,
-      title: "Recharge Pending",
-      subtitle: "We are waiting for operator confirmation.",
-    },
-  }[orderStatus || "pending"];
+  const statusConfig =
+    {
+      success: {
+        icon: (
+          <CheckCircle2 className="w-16 h-16 text-emerald-500 animate-scale-up" />
+        ),
+        title: "Recharge Successful",
+        subtitle: "Your recharge has been processed successfully.",
+      },
+      failed: {
+        icon: <XCircle className="w-16 h-16 text-rose-500" />,
+        title: "Recharge Failed",
+        subtitle: "Your money will be refunded if debited.",
+      },
+      pending: {
+        icon: (
+          <AlertCircle className="w-16 h-16 text-amber-500 animate-pulse" />
+        ),
+        title: "Recharge Pending",
+        subtitle: "We are waiting for operator confirmation.",
+      },
+    }[orderStatus as "success" | "failed" | "pending"] || null;
+
+  const handleDownload = async () => {
+    if (!ref.current) return;
+
+    try {
+      await document.fonts.ready;
+
+      const dataUrl = await htmlToImage.toPng(ref.current, {
+        cacheBust: true,
+        pixelRatio: 2,
+        backgroundColor: "#1a1a1a",
+      });
+
+      const link = document.createElement("a");
+      link.download = `receipt-${orderId}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error("Download failed", error);
+    }
+  };
 
   React.useEffect(() => {
     reset();
@@ -99,10 +124,10 @@ export function RechargeStatusView({
   if (!orderId) return <div>Inalid orderID</div>;
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-surface">
+    <div ref={ref} className="flex-1 bg-surface overflow-y-auto pb-60">
       {/* Top Status Header */}
       <div
-        className={`flex-none flex flex-col items-center text-center p-8 pt-12 bg-surface-1 rounded-b-[2.5rem]`}
+        className={`flex-none flex flex-col items-center text-center p-4 bg-surface-1 rounded-b-[2.5rem]`}
       >
         {(isLoading || isFetching || orderStatus === "processing") && (
           <div className="flex flex-col items-center">
@@ -110,7 +135,7 @@ export function RechargeStatusView({
             Please wait, your transaction is in progress!
           </div>
         )}
-        <div className="mb-4">{statusConfig?.icon}</div>
+        <div className="mb-2">{statusConfig?.icon}</div>
         <Typography variant="h4" weight="bold" className="mb-1 text-center">
           {statusConfig?.title}
         </Typography>
@@ -121,7 +146,7 @@ export function RechargeStatusView({
           {statusConfig?.subtitle}
         </Typography>
 
-        <Typography variant="h1" weight="bold" className="mt-6 text-4xl">
+        <Typography variant="h4" weight="bold" className="mt-2">
           ₹{order?.amount}
         </Typography>
       </div>
@@ -202,7 +227,10 @@ export function RechargeStatusView({
             <button className="flex-1 py-3 px-4 rounded-xl border border-outline-variant flex items-center justify-center gap-2 text-sm font-medium active:bg-surface-variant/20 transition-colors">
               <Share2 size={16} /> Share Receipt
             </button>
-            <button className="flex-1 py-3 px-4 rounded-xl border border-outline-variant flex items-center justify-center gap-2 text-sm font-medium active:bg-surface-variant/20 transition-colors">
+            <button
+              onClick={handleDownload}
+              className="flex-1 py-3 px-4 rounded-xl border border-outline-variant flex items-center justify-center gap-2 text-sm font-medium active:bg-surface-variant/20 transition-colors"
+            >
               <Download size={16} /> Download
             </button>
           </div>

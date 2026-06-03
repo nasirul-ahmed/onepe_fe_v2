@@ -1,25 +1,17 @@
 "use client";
 
-import {
-  Wallet as WalletIcon,
-  Eye,
-  EyeOff,
-  Plus,
-  ArrowUpRight,
-  IndianRupee,
-} from "lucide-react";
+import { IndianRupee, Zap, LucideWallet } from "lucide-react";
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import config from "@/config/config.json";
 import styles from "@/styles/components/wallet.module.css";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { useWalletBalance } from "@/hooks/useWallet";
 import LoadingDots from "./LoadingDots";
 import { useWalletStore } from "@/store/wallet-store";
 import Button from "./Button";
 import { useNavigation } from "@/hooks/useNavigate";
 import ROUTES from "@/config/routes";
+import { Typography } from "./Typography";
+import GlowCard from "./GlowCard";
 
 const Wallet = () => {
   const { navigate } = useNavigation();
@@ -27,8 +19,6 @@ const Wallet = () => {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
 
   const handleAddMoney = (amount: number) => {
-    // setBalance((prev) => prev + amount);
-    // Here you would typically integrate with your payment API
     navigate(`${ROUTES.WALLET_TOPUP.path}?amount=${amount}`);
   };
 
@@ -39,8 +29,12 @@ const Wallet = () => {
   const balance = useWalletStore((s) => s.balance);
   const setBalance = useWalletStore((s) => s.setBalance);
 
-  const { data: walletBalance, isLoading: isBalanceLoading } =
-    useWalletBalance();
+  const {
+    data: walletBalance,
+    refetch: refetchWallet,
+    isLoading: isBalanceLoading,
+    isRefetching,
+  } = useWalletBalance();
 
   React.useEffect(() => {
     if (walletBalance?.availableBalance !== undefined) {
@@ -49,98 +43,88 @@ const Wallet = () => {
   }, [walletBalance?.availableBalance, setBalance]);
 
   return (
-    <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      className={styles.walletContainer}
-    >
-      {/* Subtle pattern overlay */}
-      <div className={styles.walletOverlay} />
-
-      {/* Header */}
-      <div className={styles.walletHeader}>
-        <div className={styles.walletBranding}>
-          <div className={styles.walletIconContainer}>
-            <WalletIcon className={styles.walletIcon} />
-          </div>
-          <h2 className={styles.walletTitle}>Balance</h2>
-        </div>
-        <Button
-          onClick={toggleBalanceVisibility}
-          className={styles.visibilityButton}
-          aria-label={isBalanceVisible ? "Hide balance" : "Show balance"}
-        >
-          {isBalanceVisible ? (
-            <EyeOff className={styles.visibilityIcon} />
-          ) : (
-            <Eye className={styles.visibilityIcon} />
-          )}
-        </Button>
-      </div>
-
-      {/* Balance Section */}
-      <div className={styles.balanceSection}>
-        <div className={styles.balanceContainer}>
-          {/* <span className={styles.currencySymbol}>₹</span> */}
-          <IndianRupee size={24} className={styles.currencySymbol} />
-          <motion.span
-            key={balance}
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            className={styles.balanceAmount}
-          >
-            {isBalanceVisible ? (
-              isBalanceLoading ? (
-                <LoadingDots />
-              ) : (
-                balance
-              )
-            ) : (
-              "•••••"
-            )}
-          </motion.span>
-        </div>
-        <p className={styles.balanceLabel}>Available Balance</p>
-      </div>
-
-      {/* Quick Add Section */}
-      <div className={styles.quickAddSection}>
-        <div className={styles.quickAddGrid}>
-          {config.quickAddAmounts.map((amount) => (
-            <Button
-              key={amount}
-              onClick={() => handleAddMoney(amount)}
-              className={styles.quickAddButton}
+    <div className="flex-none">
+      <GlowCard className="px-4 pt-3 pb-3">
+        <div className="flex items-center justify-between">
+          {/* left */}
+          <div className="flex flex-col justify-between">
+            <Typography
+              variant="small"
+              className="uppercase tracking-[0.1em] text-on-surface-variant font-bold"
             >
-              <span className="font-semibold text-sm">+₹{amount}</span>
+              Wallet Balance
+            </Typography>
+
+            <div className="mt-3 flex items-center gap-2 rounded-full">
+              <div
+                className="
+                    flex h-6 w-6 items-center justify-center
+                    rounded-full
+                    bg-primary-container
+                    text-on-primary-container"
+              >
+                <IndianRupee size={12} />
+              </div>
+
+              <Typography
+                variant="h6"
+                weight="semibold"
+                className="leading-none text-on-surface tracking-[0.05em]"
+              >
+                {isBalanceLoading || isRefetching ? (
+                  <LoadingDots />
+                ) : (
+                  balance?.toFixed(2)
+                )}
+              </Typography>
+            </div>
+
+            <Button
+              className="
+                    mt-4
+                    w-fit
+                    rounded-full
+                    border border-outline-variant
+                    bg-surface-2
+                    px-4 py-2
+                    text-xs font-medium
+                    text-on-surface"
+              onClick={(e) => {
+                e?.stopPropagation();
+                refetchWallet();
+              }}
+              disabled={isBalanceLoading}
+            >
+              Refresh Balance
             </Button>
-          ))}
+          </div>
+
+          {/* right */}
+          <div className="flex flex-col justify-center items-end gap-2">
+            <div
+              className="
+                flex flex-col h-14 w-14 items-center justify-center
+                rounded-2xl
+                border border-outline-variant
+                bg-surface-2
+                text-primary
+                shadow-elevation-1"
+            >
+              <Zap size={30} fill="currentColor" />
+            </div>
+            <Button
+              size="sm"
+              className={cn(styles.actionButton, styles.actionButtonPrimary)}
+              onClick={() => handleAddMoney(0)}
+            >
+              {/* <Plus className={styles.actionIcon} /> */}
+              <LucideWallet size={14} />
+              <span className="font-semibold text-sm">Add Money</span>
+            </Button>
+          </div>
         </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className={styles.actionsSection}>
-        <Button
-          className={cn(styles.actionButton, styles.actionButtonPrimary)}
-          onClick={() => handleAddMoney(0)}
-        >
-          <Plus className={styles.actionIcon} />
-          <span className="font-semibold text-sm">Add Money</span>
-        </Button>
-
-        <Button
-          // whileTap={{ scale: 0.95 }}
-          className={cn(
-            styles.actionButton,
-            styles.actionButtonSecondary,
-            styles.test,
-          )}
-        >
-          <ArrowUpRight className={styles.actionIcon} />
-          <span className="font-semibold text-sm">History</span>
-        </Button>
-      </div>
-    </motion.div>
+      </GlowCard>
+    </div>
   );
 };
 

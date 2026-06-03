@@ -21,7 +21,6 @@ export default function SplashScreen({
     const timer1 = setTimeout(() => setShowLogo(true), 500);
     const timer2 = setTimeout(() => setShowTagline(true), 1500);
     const timer3 = setTimeout(() => setShowLoader(true), 2500);
-
     const timer4 = setTimeout(() => {
       onComplete();
       navigate(ROUTE_PATHS.HOME);
@@ -39,7 +38,7 @@ export default function SplashScreen({
     <div className={styles.splashContainer}>
       {/* Animated Background Elements */}
       <div className={styles.backgroundElements}>
-        {[...Array(20)].map((_, i) => (
+        {new Array(20).map((_, i) => (
           <motion.div
             key={i}
             className={styles.backgroundDot}

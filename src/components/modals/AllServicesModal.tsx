@@ -6,29 +6,27 @@ import ROUTES, { RouteUtils } from "@/config/routes";
 import { MODAL_TYPES, useAppStore } from "@/store/app-store";
 import { useNavigation } from "@/hooks/useNavigate";
 
-interface Services {
+export interface ServicesCategory {
   category: string;
   items: AppService[];
 }
 
 interface AllServicesModalProps {
-  data?: {
-    services?: Services[];
-  };
+  services?: ServicesCategory[];
 }
 
 const AllServicesModal = (props: AllServicesModalProps) => {
   const { navigate } = useNavigation();
   const { closeModal, isModalOpen } = useAppStore();
 
-  const services = props?.data?.services || [];
+  const services = props?.services || [];
 
   const handleServiceClick = (slug: string) => {
     isModalOpen(MODAL_TYPES.SHOW_ALL_SERVICES) && closeModal();
     const url = RouteUtils.build(ROUTES.SERVICE_ENTITY, {
       slug: slug,
     });
-    
+
     navigate(url);
   };
   return (

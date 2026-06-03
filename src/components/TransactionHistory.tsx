@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import SkeletonList from "./SkeletonList";
 import { useNavigation } from "@/hooks/useNavigate";
 import HistoryListItem from "./HistoryListItem";
+import TextField from "./TextField";
 
 interface TransactionHistoryProps {
   pageTitle?: string;
@@ -114,19 +115,26 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
   const isNotTransactionPage = pathname !== "/transactions";
 
   return (
-    <div className={styles.container}>
+    <div className={cn("flex flex-col pt-1 h-full max-h-[100%] overflow-hidden", !isNotTransactionPage && "p-4 pt-0")}>
       {/* Search + Filter — full view only */}
       {(showFilters && showSearchBox) ||
         (!isNotTransactionPage && (
           <div className={cn(styles.header, "flex flex-col gap-4")}>
             <div className={styles.searchContainer}>
-              <Search className={styles.searchIcon} />
-              <input
+              {/* <input
                 type="text"
                 placeholder="Search transactions..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className={styles.searchInput}
+              /> */}
+              <TextField
+                type="text"
+                placeholder="Search transactions..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="text-sm"
+                startAdornment={<Search size={16} className="mr-4" />}
               />
             </div>
 
@@ -153,7 +161,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
       <div
         className={cn(
           styles.transactionsList,
-          "flex-1 overflow-y-auto scrollbar-hide mt-1 px-2 bg-surface pb-44",
+          "flex-1 overflow-y-auto scrollbar-hide bg-surface pb-44",
         )}
       >
         {filtered.length === 0 ? (
@@ -163,7 +171,7 @@ const TransactionHistory: React.FC<TransactionHistoryProps> = ({
           </div>
         ) : (
           <>
-            {filtered.map((item, index) => {
+            {filtered?.map((item, index) => {
               return (
                 <HistoryListItem
                   key={item.id}

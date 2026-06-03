@@ -49,13 +49,13 @@ const AppLayout = ({ children }: IAppLayoutInputProps) => {
       </div>
       <div className="block lg:hidden">
         <div className={styles.appLayout} data-auth-page={dontShowNavs}>
-          <Suspense fallback={<OnepeLiquidLoader />}>
+          {/* <Suspense fallback={<OnepeLiquidLoader />}> */}
             <Header />
             <div className={styles.scrollableContent}>{children}</div>
             {/* Global Bottom Sheet */}
             <BottomSheet />
             <ModalContainer />
-          </Suspense>
+          {/* </Suspense> */}
           <Footer />
         </div>
       </div>

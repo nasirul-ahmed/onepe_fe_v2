@@ -81,7 +81,7 @@ export default function ComingSoon() {
         </div>
 
         {/* Text */}
-        <h2 className="text-3xl font-bold tracking-tight text-white">
+        <h2 className="text-3xl font-bold tracking-tight">
           Coming Soon
         </h2>
 

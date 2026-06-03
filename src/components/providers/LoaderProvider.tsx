@@ -6,7 +6,9 @@ import { useAppStore } from "@/store/app-store";
 
 export function LoaderProvider() {
   const setLoading = useAppStore((state) => state.setLoading);
-  const isFetching = useIsFetching();
+  const isFetching = useIsFetching({
+    predicate: (query) => query.meta?.globalLoading !== false,
+  });
   const isMutating = useIsMutating();
 
   useEffect(() => {

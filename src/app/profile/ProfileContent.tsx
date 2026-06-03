@@ -25,6 +25,13 @@ import Switch from "@/components/Switch";
 import { useLogout, useUserProfile } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigate";
 import { useAuthStore } from "@/store/auth-store";
+import {
+  ProfileIcon1,
+  ProfileIcon2,
+  ProfileIcon3,
+  ProfileIcon4,
+  ProfileIcon5,
+} from "@/components/ProfileIcons";
 
 export default function ProfileContent() {
   const { theme, toggleTheme } = useTheme();
@@ -115,10 +122,11 @@ export default function ProfileContent() {
           <div className={styles.profileHeaderTop}>
             <div className={styles.userInfo}>
               <div className={styles.avatarContainer}>
-                <div className={styles.avatar}>{initials}</div>
-                <div className={styles.verificationBadge}>
+                <ProfileIcon5 />
+                {/* <div className={styles.avatar}>{initials}</div> */}
+                {/* <div className={styles.verificationBadge}>
                   <Shield className={styles.verificationIcon} />
-                </div>
+                </div> */}
               </div>
               <div className={styles.userDetails}>
                 <h1 className={styles.userName}>{fullName}</h1>
@@ -238,7 +246,10 @@ export default function ProfileContent() {
         </motion.div>
 
         {/* Action Buttons */}
-        <motion.div variants={itemVariants} className={styles.actionButtons}>
+        <motion.div
+          variants={itemVariants}
+          className={cn(styles.actionButtons, "pb-30")}
+        >
           <Button className={styles.supportButton} variant="outline">
             Help & Support
           </Button>

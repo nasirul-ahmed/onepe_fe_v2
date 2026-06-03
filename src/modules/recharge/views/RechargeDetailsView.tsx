@@ -2,8 +2,7 @@
 
 import React, { useState } from "react";
 import TextField from "@/components/TextField";
-import { BookUser, ChevronRight, Gift, Phone } from "lucide-react";
-import ContactCard from "@/components/ContactCard";
+import { BookUser } from "lucide-react";
 import { useContactPicker } from "@/hooks/useContacts";
 import SectionHeader from "@/components/SectionHeader";
 import { useUserProfile } from "@/hooks/useAuth";
@@ -15,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useDebounce } from "@/hooks/useDebounce";
 import { detectOperatorCircle } from "@/services/mobileRecharge.service";
 import { SHEET_TYPES, useAppStore } from "@/store/app-store";
+import ContactCard from "../components/ContactCard";
 
 interface Props {
   onNext: (data: Partial<Contact>) => void;
@@ -146,7 +146,6 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
   };
 
   const handleRecentContactClick = (contact: Partial<Contact>) => {
-    console.log({ contact });
     processPhoneSelection({
       phone: contact.phone || "",
       name: contact.name,
@@ -172,9 +171,11 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="p-4 pb-48 overflow-y-auto">
       {/* Offers */}
-      <OfferCard totalOffers={23} />
+      <div className="mb-2">
+        <OfferCard totalOffers={23} />
+      </div>
       {/* Input Section */}
       {/* <div className="bg-surface space-y-4"> */}
       <TextField
@@ -219,7 +220,7 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
         <div className="w-full mt-4 ">
           {/* <h3 className="text-sm font-semibold mb-3 text-secondary">Recents</h3> */}
           <SectionHeader hideLeadingBar title="Recent Numbers" />
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 mt-2">
             {recentNumbers.map((ct, index) => (
               <ContactCard
                 key={index}
@@ -237,36 +238,6 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
           </div>
         </div>
       )}
-
-      {/* <ModalContainer
-        isOpen={isOptionModalOpen}
-        onClose={() => setOptionModalOpen(false)}
-        title="Contact Optoins"
-        variant="bottom-sheet"
-        classes="h-[30vh]"
-      >
-        <div className="flex flex-col mt-4">
-          <div className="flex gap-4 items-center">
-            <div className="p-2 bg-primary/10 rounded-full text-primary">
-              <Phone size={20} />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-semibold text-on-surface">
-                {`${selectedContact?.name ?? ""}`}
-              </span>
-              <span className="text-sm text-secondary">
-                {`+91${selectedContact?.phone ?? ""}`}
-              </span>
-            </div>
-          </div>
-          <Button
-            onClick={() => removeFromOnepe(selectedContact?.phone)}
-            className="px-6 mt-8 bg-surface-3 flex flex-col justify-center items-center"
-          >
-            <span>Remove from Onepe</span>
-          </Button>
-        </div>
-      </ModalContainer> */}
     </div>
   );
 };

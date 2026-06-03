@@ -44,6 +44,9 @@ export function useWalletBalance() {
     queryKey: ["wallet", "balance"],
     queryFn: () => getBalance(),
     staleTime: 5000,
+    meta: {
+      globalLoading: false,
+    },
   });
 }
 

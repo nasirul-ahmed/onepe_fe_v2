@@ -5,7 +5,7 @@ import TextField from "@/components/TextField";
 import Button from "@/components/Button";
 import { Chip } from "@/components/Chip";
 import config from "@/config/config.json";
-import { IndianRupee, Loader2, Zap } from "lucide-react";
+import { IndianRupee, Loader2, RefreshCcw, Zap } from "lucide-react";
 import styles from "@/styles/pages/wallet-topup.module.css";
 import { useWalletStore } from "@/store/wallet-store";
 import {
@@ -18,6 +18,8 @@ import SectionHeader from "@/components/SectionHeader";
 import { cn } from "@/lib/utils";
 import { WalletTopup } from "@/lib/interfaces/common.interface";
 import HistoryListItem from "@/components/HistoryListItem";
+import { Typography } from "@/components/Typography";
+import GlowCard from "@/components/GlowCard";
 
 type PaymentStatus = "success" | "cancelled" | "failed" | "refunded" | "idle";
 
@@ -122,77 +124,129 @@ export default function WalletTopupView({ amount }: { amount?: number }) {
         "flex flex-col overflow-hidden min-h-0 h-full w-full ",
       )}
     >
-      {/* Balance card */}
-      <div className="flex-none flex flex-col">
-        <section className={styles.balanceCard}>
-          <div className={styles.balanceInfo}>
-            <p className={styles.balanceLabel}>Wallet Balance</p>
-            <div className={styles.balanceValue}>
-              <IndianRupee size={28} />
-              <span className={styles.balance}>
-                {isFetching ? <LoadingDots /> : balance}
-              </span>
+      <div className="flex-none px-4">
+        <GlowCard className="px-4 pt-3 pb-3">
+          <div className="flex items-center justify-between">
+            {/* left */}
+            <div className="flex flex-col">
+              <Typography
+                variant="small"
+                className="
+            uppercase tracking-[0.18em]
+            text-on-surface-variant
+          "
+              >
+                Wallet Balance
+              </Typography>
+
+              <div className="mt-3 flex items-center gap-2">
+                <div
+                  className="
+              flex h-9 w-9 items-center justify-center
+              rounded-full
+              bg-primary-container
+              text-on-primary-container
+            "
+                >
+                  <IndianRupee size={16} />
+                </div>
+
+                <Typography
+                  variant="h3"
+                  weight="extrabold"
+                  className="leading-none text-on-surface"
+                >
+                  {isFetching ? <LoadingDots /> : balance?.toFixed(2)}
+                </Typography>
+              </div>
+
+              <Button
+                className="
+            mt-4
+            w-fit
+            rounded-full
+            border border-outline-variant
+            bg-surface-2
+            px-4 py-2
+            text-xs font-medium
+            text-on-surface
+          "
+                onClick={() => refetch()}
+              >
+                Refresh Balance
+              </Button>
             </div>
-            <button className={styles.refreshLink} onClick={() => refetch()}>
-              Refresh Balance
-            </button>
+
+            {/* right */}
+            <div
+              className="
+          flex h-16 w-16 items-center justify-center
+          rounded-2xl
+          border border-outline-variant
+          bg-surface-2
+          text-primary
+          shadow-elevation-1
+        "
+            >
+              <Zap size={30} fill="currentColor" />
+            </div>
           </div>
-          <Zap className={styles.zapIcon} fill="currentColor" />
-        </section>
+        </GlowCard>
+      </div>
+      {/* Add money */}
+      <div className="flex-none px-4 mt-2">
+        <GlowCard className="px-4 pt-3 pb-3">
+          <TextField
+            label="Enter Amount"
+            value={amountToAdd}
+            onChange={(e) => setAmountToAdd(Number(e.target.value))}
+            fullWidth
+            className={cn(styles.amountInput, "text-sm")}
+            helperText="UPI Lite can have maximum of ₹5000 balance"
+            startAdornment={<IndianRupee size={16} className="mt-[2px]" />}
+          />
+
+          <div className={styles.chipGrid}>
+            {quickAmounts.map(({ value, badge }) => (
+              <Chip
+                key={value}
+                label={`+ ₹${value}`}
+                badge={badge}
+                onClick={() => setAmountToAdd(value)}
+                className="rounded-xl text-[0.7rem]"
+              />
+            ))}
+          </div>
+
+          {/* Status message */}
+          {STATUS_MESSAGE[status] && (
+            <Typography
+              variant={"p"}
+              className={
+                status === "success"
+                  ? "text-green-600 text-xs"
+                  : "text-red-500 text-xs"
+              }
+            >
+              {STATUS_MESSAGE[status]}
+            </Typography>
+          )}
+
+          <Button
+            fullWidth
+            size="md"
+            className={styles.addBtn}
+            onClick={handlePay}
+            disabled={amountToAdd <= 0 || isLoading}
+          >
+            {isLoading ? "Processing..." : `Add ₹${amountToAdd}`}
+          </Button>
+          {/* </section> */}
+        </GlowCard>
       </div>
 
-      {/* Add money */}
-      <section className={styles.addMoneySection}>
-        {/* <h2 className={styles.sectionTitle}>Add Money to your Wallet</h2> */}
-
-        <TextField
-          label="Enter Amount"
-          value={amountToAdd}
-          onChange={(e) => setAmountToAdd(Number(e.target.value))}
-          fullWidth
-          className={styles.amountInput}
-          helperText="UPI Lite can have maximum of ₹5000 balance"
-          startAdornment={<IndianRupee />}
-        />
-
-        <div className={styles.chipGrid}>
-          {quickAmounts.map(({ value, badge }) => (
-            <Chip
-              key={value}
-              label={`+ ₹${value}`}
-              badge={badge}
-              onClick={() => setAmountToAdd(value)}
-              className="rounded-xl"
-            />
-          ))}
-        </div>
-
-        {/* Status message */}
-        {STATUS_MESSAGE[status] && (
-          <p
-            className={
-              status === "success"
-                ? "text-green-600 text-sm"
-                : "text-red-500 text-sm"
-            }
-          >
-            {STATUS_MESSAGE[status]}
-          </p>
-        )}
-
-        <Button
-          fullWidth
-          size="xl"
-          className={styles.addBtn}
-          onClick={handlePay}
-          disabled={amountToAdd <= 0 || isLoading}
-        >
-          {isLoading ? "Processing..." : `Add ₹${amountToAdd}`}
-        </Button>
-      </section>
-
       {/* Topup history list */}
-      <SectionHeader title="Wallet History" classes="ml-4" />
+      <SectionHeader title="Wallet History" classes="mt-2 ml-4" />
       {/* History Area */}
       <section className="flex-1 min-h-0 overflow-y-auto scrollbar-hide mx-4 pb-24 flex flex-col gap-2">
         {historyItems.map((item, index) => (

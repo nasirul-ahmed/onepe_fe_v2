@@ -7,17 +7,21 @@ import { X } from "lucide-react";
 import { Typography } from "./Typography";
 import Button from "./Button";
 import { useAppStore, SHEET_TYPES, type SheetType } from "@/store/app-store";
-import { SheetContent } from "./sheets";
+import { SheetContent } from "./sheets/SheetContent";
 
-let sheetRoot: HTMLDivElement | null = null;
+// let sheetRoot: HTMLDivElement | null = null;
 
 const getSheetRoot = () => {
-  if (!sheetRoot) {
-    sheetRoot = document.createElement("div");
-    sheetRoot.id = "bottom-sheet-root";
-    document.body.appendChild(sheetRoot);
+  let root = document.getElementById("bottom-sheet-root");
+
+  if (!root) {
+    root = document.createElement("div");
+    root.id = "bottom-sheet-root";
+
+    document.body.appendChild(root);
   }
-  return sheetRoot;
+
+  return root;
 };
 
 interface BottomSheetProps {
@@ -37,6 +41,8 @@ export function BottomSheet({ className }: BottomSheetProps) {
     switch (activeSheet) {
       case SHEET_TYPES.PLANS_FILTERS:
         return { title: "Filters", height: "50vh" };
+      case SHEET_TYPES.PLAN_DETAILS:
+        return { title: "Plan Details", height: "50vh" };
       default:
         return { title: "", height: "auto" };
     }
@@ -71,70 +77,69 @@ export function BottomSheet({ className }: BottomSheetProps) {
   }, [isOpen, closeSheet]);
 
   // Don't render during SSR
-  if (!mounted) return null;
+  if (!mounted || !isOpen) return null;
 
-  const sheetContent = isOpen
-    ? createPortal(
-        <div className="fixed inset-0 z-50">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-scrim/50 backdrop-blur-sm animate-fade-in transition-all duration-500"
-            onClick={closeSheet}
-            // style={{ animation: "fade-in 200ms ease forwards" }}
-          />
+  const sheetContent = createPortal(
+    <div className="fixed inset-0 z-50">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/60  animate-fade-in"
+        // className="fixed inset-0 bg-scrim/50 backdrop-blur-[1px] animate-fade-in"
+        onClick={closeSheet}
+        // style={{ animation: "fade-in 200ms ease forwards" }}
+      />
 
-          {/* Bottom Sheet */}
-          <div className="absolute inset-x-0 bottom-0 flex items-end justify-center">
-            <div
-              className={cn(
-                "relative w-full bg-surface rounded-t-3xl shadow-elevation-3",
-                "transition-transform animate-slide-up duration-300 ease-standard",
-                className,
-              )}
-              style={{ height: height, maxHeight: "90vh" }}
-            >
-              {/* Drag Handle */}
-              {/* <div className="flex justify-center pt-2 cursor-grab active:cursor-grabbing">
+      {/* Bottom Sheet */}
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-center">
+        <div
+          className={cn(
+            "relative w-full bg-surface rounded-t-3xl shadow-elevation-3",
+            "animate-slide-up duration-300 ease-standard",
+            className,
+          )}
+          style={{ height: height, maxHeight: "100vh" }}
+        >
+          {/* Drag Handle */}
+          {/* <div className="flex justify-center pt-2 cursor-grab active:cursor-grabbing">
                 <div className="w-10 h-1 bg-outline-variant rounded-full" />
               </div> */}
 
-              {/* Header with Title and Close Button */}
-              <div className="flex items-center justify-between px-4 pt-4">
-                {title && (
-                  <Typography
-                    variant="h3"
-                    className="text-lg font-semibold text-on-surface"
-                  >
-                    {title}
-                  </Typography>
-                )}
-                <Button
-                  onClick={closeSheet}
-                  className={cn(
-                    "p-2 rounded-full bg-surface-variant text-on-surface-variant",
-                    "hover:bg-surface-variant/80 active:scale-95 transition-all",
-                    !title && "ml-auto",
-                  )}
-                >
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
-
-              <div className="divider w-full"></div>
-
-              {/* Content - Dynamically loaded based on activeSheet */}
-              <div
-                className="px-4 pb-6 overflow-y-auto"
-                style={{ maxHeight: `calc(${height} - 80px)` }}
+          {/* Header with Title and Close Button */}
+          <div className="flex items-center justify-between px-4 pt-4">
+            {title && (
+              <Typography
+                variant="h3"
+                className="text-lg font-semibold text-on-surface"
               >
-                <SheetContent sheetId={activeSheet} />
-              </div>
-            </div>
+                {title}
+              </Typography>
+            )}
+            <Button
+              onClick={closeSheet}
+              className={cn(
+                "p-2 rounded-full bg-surface-variant text-on-surface-variant",
+                "hover:bg-surface-variant/80 active:scale-95 transition-all",
+                !title && "ml-auto",
+              )}
+            >
+              <X className="w-5 h-5" />
+            </Button>
           </div>
-        </div>,
-        getSheetRoot(),
-      )
-    : null;
+
+          <div className="divider w-full"></div>
+
+          {/* Content - Dynamically loaded based on activeSheet */}
+          <div
+            className="px-4 pb-6 overflow-y-auto"
+            style={{ maxHeight: `calc(${height} - 80px)` }}
+          >
+            <SheetContent sheetId={activeSheet} />
+          </div>
+        </div>
+      </div>
+    </div>,
+    getSheetRoot(),
+  );
 
   return sheetContent;
 }

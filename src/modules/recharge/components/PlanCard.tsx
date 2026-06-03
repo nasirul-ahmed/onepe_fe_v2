@@ -11,7 +11,6 @@ const PlanCard = ({
   plan: MobileRechargePlan;
   onSelect: (id: string) => void;
 }) => {
-  console.log(plan.benefits);
   const talktime = plan?.benefits?.["unlimitedCalls"]
     ? "Unlimited Calls"
     : "NA";
@@ -20,11 +19,11 @@ const PlanCard = ({
     <motion.div
       whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(plan.id)}
-      className={`p-4 h-[90px] rounded-xl border cursor-pointer transition-all relative ${"border-border hover:bg-muted/50"}`}
+      className={`px-4 py-3 rounded-xl border cursor-pointer transition-all relative ${"border-border hover:bg-muted/50"}`}
     >
       <div className="flex justify-between items-start mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-xl font-bold text-on-surface">
+          <span className="text-md font-bold text-on-surface">
             ₹{plan.amount}
           </span>
         </div>

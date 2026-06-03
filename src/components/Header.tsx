@@ -30,10 +30,10 @@ const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       className="sticky top-0 z-50 backdrop-blur-lg shadow-sm"
     >
-      <div className="p-4">
+      <div className="px-4 py-3">
         <div className="flex justify-between items-center">
           {/* Left side */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center">
             {showBackButton ? (
               <>
                 <motion.button
@@ -42,9 +42,9 @@ const Header = () => {
                   className="p-2 rounded-full hover:bg-muted transition-colors"
                   aria-label="Go back"
                 >
-                  <ArrowLeft className="w-5 h-5 text-on-surface" />
+                  <ArrowLeft size={18} className="text-on-surface" />
                 </motion.button>
-                <h1 className="font-semibold text-lg text-on-surface">
+                <h1 className="font-semibold text-lg text-on-surface truncate flex-1 max-w-[160px] xs:max-w-[120px] sm:max-w-xs md:max-w-sm">
                   {RouteUtils.getRouteName(pathname, searchParams)}
                 </h1>
               </>
@@ -71,7 +71,7 @@ const Header = () => {
                     <span className="text-white text-xs font-bold">1P</span>
                   </div>
                 </motion.button>
-                <h1 className="font-semibold text-lg text-on-surface">
+                <h1 className="font-semibold text-lg text-on-surface truncate flex-1 max-w-[160px] xs:max-w-[120px] sm:max-w-xs md:max-w-sm">
                   {RouteUtils.getRouteName(pathname, searchParams)}
                 </h1>
               </div>
@@ -86,7 +86,7 @@ const Header = () => {
               className="p-2 rounded-full bg-muted hover:bg-border text-secondary hover:text-on-surface transition-colors"
               aria-label="Search"
             >
-              <Search size={18} />
+              <Search size={16} />
             </motion.button>
 
             <motion.button
@@ -95,7 +95,7 @@ const Header = () => {
               className="p-2 rounded-full bg-muted hover:bg-border text-secondary hover:text-on-surface transition-colors"
               aria-label="Toggle theme"
             >
-              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
             </motion.button>
 
             <motion.button
@@ -104,7 +104,7 @@ const Header = () => {
               className="p-2 rounded-full bg-muted hover:bg-border text-secondary hover:text-on-surface transition-colors relative"
               aria-label="Notifications"
             >
-              <Bell size={18} />
+              <Bell size={16} />
               <span className="absolute top-1 right-1 w-2 h-2 bg-error rounded-full" />
             </motion.button>
           </div>

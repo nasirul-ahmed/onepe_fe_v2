@@ -13,7 +13,6 @@
 
 .balanceValue {
   display: flex;
-  gap: 0.5rem;
   /* justify-content: center; */
   align-items: center;
 }
@@ -23,9 +22,7 @@
 }
 
 .balanceCard {
-
-  padding: 1rem 2rem;
-  background: linear-gradient(to bottom, #ffffff, #e0f2fe);
+  /* background: linear-gradient(to bottom, #ffffff, #e0f2fe); */
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
   display: flex;
@@ -34,7 +31,7 @@
 }
 
 :global(.dark) .balanceCard {
-  background: linear-gradient(to bottom, #4b4b4b, #080808);
+  /* background: linear-gradient(to bottom, #4b4b4b, #080808); */
 }
 
 .zapIcon {
@@ -44,22 +41,19 @@
 }
 
 .addMoneySection {
-  background: var(--color-secondary);
-  margin: 16px;
-  padding: 20px;
-  border-radius: 16px;
+  background: var(--color-surface-3);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 :global(.dark) .addMoneySection {
-  background: linear-gradient(to bottom, #4b4b4b, #080808);
+  /* background: linear-gradient(to bottom, #4b4b4b, #080808); */
 }
 
 .chipGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  margin: 1rem 0;
+  margin: .4rem 0;
 }
 
 .addBtn {

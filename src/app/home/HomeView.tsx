@@ -19,6 +19,7 @@ import { useAppServices } from "@/hooks/useAppServices";
 import { MODAL_TYPES, useAppStore } from "@/store/app-store";
 import { AppService } from "@/lib/interfaces/services";
 import config from "@/config/config.json";
+import { ServicesCategory } from "@/components/modals/AllServicesModal";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -41,8 +42,6 @@ export default function HomeView() {
   const { navigate } = useNavigation();
   const { data: banners } = useBanners();
   const [isServicesModalOpen, setServicesModalOpen] = useState(false);
-
-  const modalData = useAppStore().modalData;
   const openModal = useAppStore().openModal;
 
   const { data: initialServices } = useAppServices();
@@ -99,12 +98,9 @@ export default function HomeView() {
                   openModal(MODAL_TYPES.SHOW_ALL_SERVICES, {
                     title: "All Services",
                     size: "sm",
-                    childrenProps: {
-                      services: groupByCategory(services) as unknown as Record<
-                        string,
-                        unknown
-                      >,
-                    },
+                    services: groupByCategory(
+                      services,
+                    ) as unknown as ServicesCategory[],
                   })
                 }
                 className="text-sm text-sky-600 font-medium hover:underline"

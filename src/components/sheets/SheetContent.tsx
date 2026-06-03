@@ -2,18 +2,15 @@
 
 import { SHEET_TYPES, useAppStore } from "@/store/app-store";
 import { PlansFilterSheet } from "./RechargeSheets";
-import { lazy } from "react";
 import ContactDetailsOption from "./ContactDetailsOption";
+import RechargeOffers from "./RechargeOffers";
+import PlanDetails from "./PlanDetails";
 
 const sheetComponents = {
-  // "plans-filters": lazy(() =>
-  //   import("./RechargeSheets").then((module) => ({
-  //     default: module.PlansFilterSheet,
-  //   })),
-  // ),
-
   [SHEET_TYPES.PLANS_FILTERS]: PlansFilterSheet,
   [SHEET_TYPES.CONTACT_OPTIONS]: ContactDetailsOption,
+  [SHEET_TYPES.RECHARGE_OFFERS]: RechargeOffers,
+  [SHEET_TYPES.PLAN_DETAILS]: PlanDetails,
 } as const;
 
 interface SheetContentProps {

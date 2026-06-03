@@ -97,6 +97,10 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
     onSelect(planId);
   };
 
+  const openPlanDetailSheet = () => {
+    openSheet(SHEET_TYPES.PLAN_DETAILS, { planDetails: recommendedPlan });
+  };
+
   if (!selectedContact) return null;
 
   return (
@@ -104,10 +108,10 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
       {/* <div className="flex-1 flex flex-col min-h-0 w-full relative"> */}
       {/* Select Number card and basic details  */}
       <div className="flex-none">
-        <div className="bg-on-secondary p-4 m-4 rounded-xl">
+        <div className="bg-on-secondary p-4 mx-4 my-2 rounded-xl">
           <div className="flex justify-between">
             <div className="flex items-center gap-6">
-              <Phone />
+              <Phone size={18} />
               <div className="flex flex-col">
                 {selectedContact?.name && (
                   <Typography variant={"p"}>
@@ -150,7 +154,7 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
               <SectionHeader hideLeadingBar={true} title="Recommended Plan:" />
               <span className="flex justify-between items-center">
                 <div className="flex items-center">
-                  <IndianRupee />
+                  <IndianRupee size={16} />
                   <Typography weight={"bold"} variant={"h5"}>
                     {recommendedPlan.amount}
                   </Typography>
@@ -163,11 +167,15 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
                 </Button>
               </span>
               {/* plan duration */}
-              <div className="flex flex-col gap-2 min-w-0 mt-2">
+              <div className="flex flex-col min-w-0 mt-[4px]">
                 <Typography variant={"p"} className="block truncate">
                   {recommendedPlan?.description || ""}
                 </Typography>
-                <Typography variant={"p"} textColor={"primary"}>
+                <Typography
+                  onClick={openPlanDetailSheet}
+                  variant={"p"}
+                  textColor={"primary"}
+                >
                   Plan Details
                 </Typography>
               </div>
@@ -178,20 +186,17 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
 
         {/* Quick Data Recharges */}
         <div className="mt-2 px-3">
-          {/* <p className="text-sm font-semibold text-on-surface mb-2.5">
-            
-          </p> */}
-          <Typography variant={"p"} weight={"medium"} className="mb-2.5">
+          <Typography variant={"p"} weight={"medium"} className="">
             Quick Recharges
           </Typography>
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide">
             {quickRecharges.map((qr) => (
               <button
                 key={qr.id}
                 onClick={() => onSelect(qr.id)}
                 className="shrink-0 flex items-center gap-1 border border-[var(--color-border)] rounded-full px-4 py-2 text-sm text-on-surface bg-surface active:bg-surface-variant transition-colors"
               >
-                <Typography variant={"p"}>
+                <Typography variant={"p"} className="text-[.7rem]">
                   {qr.data} {" | " + qr.validity}
                 </Typography>
                 <ChevronRight size={14} className="text-on-surface-variant" />
@@ -202,7 +207,7 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
 
         {/* Search plans */}
         <div className="flex items-center w-full">
-          <div className="flex-1 flex items-center gap-2 bg-surface rounded-full px-4 py-2">
+          <div className="flex items-center bg-surface rounded-full pl-2 py-2 pr-1">
             <TextField
               type="text"
               placeholder="Search e.g. 299 or 28 days"
@@ -210,11 +215,11 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
               onChange={(e) => setSearch(e.target.value)}
               startAdornment={
                 <Search
-                  size={16}
-                  className="text-on-surface-variant shrink-0"
+                  size={12}
+                  className="text-on-surface-variant shrink-0 mt-[3px]"
                 />
               }
-              className="bg-transparent text-sm text-on-surface placeholder:text-on-surface-variant outline-none"
+              className="bg-transparent text-xs px-2 py-0 mb-[2px] placeholder:text-xs text-on-surface placeholder:text-on-surface-variant outline-none"
             />
           </div>
           <Button
@@ -257,7 +262,7 @@ function SelectPlanView({ onSelect }: SelectPlanViewProps) {
               key={tab}
               onClick={() => setActiveTab(i)}
               className={[
-                "shrink-0 px-4 py-2.5 text-sm font-semibold transition-colors relative",
+                "shrink-0 px-4 py-2.5 text-xs font-semibold transition-colors relative",
                 activeTab === i ? "text-primary" : "text-on-surface-variant",
               ].join(" ")}
             >

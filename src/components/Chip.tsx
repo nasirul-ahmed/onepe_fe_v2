@@ -9,11 +9,12 @@ interface ChipProps {
   badge?: string;
   onClick?: () => void;
   className?: string;
+  labelClasses?: string;
 }
 
-export const Chip = ({ label, badge, onClick, className }: ChipProps) => (
+export const Chip = ({ label, badge, onClick, className, labelClasses }: ChipProps) => (
   <button className={cn(styles.chip, className)} onClick={onClick}>
     {badge && <span className={styles.badge}>{badge}</span>}
-    <span className={styles.label}>{label}</span>
+    <span className={cn(styles.label, "text-xs", labelClasses)}>{label}</span>
   </button>
 );
