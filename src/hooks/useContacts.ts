@@ -1,49 +1,117 @@
 "use client";
 
+import { Capacitor } from "@capacitor/core";
+import { Contacts } from "@capacitor-community/contacts";
+
 export interface SelectedContact {
   name: string;
   phone: string;
 }
 
 export function useContactPicker() {
-  // Check if API is available (Android Chrome only)
+  const isNative = Capacitor.isNativePlatform();
+
   const isSupported =
-    typeof window !== "undefined" &&
-    "contacts" in navigator &&
-    "ContactsManager" in window;
+    isNative ||
+    (typeof window !== "undefined" &&
+      "contacts" in navigator &&
+      "ContactsManager" in window);
 
-  const pickContact = async (): Promise<SelectedContact | null> => {
-    if (!isSupported) return null;
+  const normalizePhone = (phone: string) => {
+    return phone
+      .replace(/\s+/g, "")
+      .replace(/-/g, "")
+      .replace(/^\+91/, "")
+      .replace(/^91/, "")
+      .replace(/\D/g, "")
+      .slice(-10);
+  };
 
+  const pickNativeContact = async (): Promise<SelectedContact | null> => {
     try {
-      const properties = ["name", "tel"];
-      const options = { multiple: false };
+      // 1. Check existing permission state first
 
-      const contacts = await navigator?.contacts?.select(properties, options);
+      console.log("LOG: Checking permissions...");
+      let permission = await Contacts.checkPermissions();
+      console.log("LOG: Current permission state is:", permission.contacts);
 
-      if (!contacts || contacts.length === 0) return null;
+      // 2. If prompt state is undecided, request it explicitly
+      if (permission.contacts !== "granted") {
+        console.log("LOG: Requesting permissions explicitly...");
+        permission = await Contacts.requestPermissions();
+      }
+
+      // 3. If access was denied previously, don't attempt to open the picker
+      if (permission.contacts === "denied") {
+        console.warn("Contact permissions were denied by the user.");
+        return null;
+      }
+
+      console.log("Proceeding to launch intent...");
+      // 4. Fire the native picker cleanly
+      const result = await Contacts.pickContact({
+        projection: {
+          name: true,
+          phones: true,
+        },
+      });
+
+      if (!result?.contact) {
+        return null;
+      }
+
+      const phone = result.contact.phones?.[0]?.number ?? "";
+      const name =
+        result.contact.name?.display ?? result.contact.name?.given ?? "";
+
+      return {
+        name,
+        phone: normalizePhone(phone),
+      };
+    } catch (error) {
+      console.error("Contact picker failed:", error);
+      return null;
+    }
+  };
+
+  const pickWebContact = async (): Promise<SelectedContact | null> => {
+    if (!navigator.contacts?.select) {
+      return null;
+    }
+    try {
+      const contacts = await navigator.contacts.select(["name", "tel"], {
+        multiple: false,
+      });
+
+      if (!contacts?.length) {
+        return null;
+      }
 
       const contact = contacts[0];
 
-      const rawPhone = contact.tel?.[0] ?? "";
-      const cleaned = rawPhone
-        .replace(/\s+/g, "") // remove spaces
-        .replace(/-/g, "") // remove dashes
-        .replace(/^\+91/, "") // remove India country code
-        .replace(/^91/, "") // remove 91 prefix
-        .slice(-10); // take last 10 digits
-
       return {
         name: contact.name?.[0] ?? "",
-        phone: cleaned,
+        phone: normalizePhone(contact.tel?.[0] ?? ""),
       };
     } catch (err) {
-      // User cancelled — not an error
-      if (err instanceof Error)
-        if ((err as Error).name === "AbortError") return null;
+      if (err instanceof Error && err.name === "AbortError") {
+        return null;
+      }
+
       throw err;
     }
   };
 
-  return { pickContact, isSupported };
+  const pickContact = async (): Promise<SelectedContact | null> => {
+    if (!isSupported) {
+      return null;
+    }
+
+    return isNative ? pickNativeContact() : pickWebContact();
+  };
+
+  return {
+    pickContact,
+    isSupported,
+  };
 }

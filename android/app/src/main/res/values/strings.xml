@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">onepe_fe_v2</string>
+    <string name="title_activity_main">onepe_fe_v2</string>
+    <string name="package_name">com.onepe.app</string>
+    <string name="custom_url_scheme">com.onepe.app</string>
+</resources>

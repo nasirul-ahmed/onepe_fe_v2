@@ -54,10 +54,10 @@ export function useNavigation() {
     isNavigating.current = true;
 
     if (previous) {
-      router.push(previous);
+      router.replace(previous);
     } else {
       // Fallback to parent if history is empty
-      router.push(RouteUtils.getParentPath(pathname));
+      router.replace(RouteUtils.getParentPath(pathname));
     }
   };
 

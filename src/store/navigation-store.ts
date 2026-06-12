@@ -43,7 +43,7 @@ export const useNavigationStore = create<NavigationStore>()(
     }),
     {
       name: "navigation-history",
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
     },
   ),
 );

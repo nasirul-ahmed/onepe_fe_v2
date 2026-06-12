@@ -191,7 +191,25 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
           <>
             {isSupported && (
               <button
-                onClick={handleContactPicker}
+                onMouseDown={(e) => {
+                  // Intercept the click sequence early before the input focus event can fire
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                onClick={async (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  // Dismiss the keyboard instantly
+                  if (document.activeElement instanceof HTMLElement) {
+                    document.activeElement.blur();
+                  }
+
+                  // Small sleep block to let the input focus cycle drop out cleanly
+                  await new Promise((resolve) => setTimeout(resolve, 150));
+
+                  await handleContactPicker();
+                }}
                 className="mt-2 rounded-lg"
                 aria-label="Pick from contacts"
               >
@@ -224,7 +242,7 @@ export const RechargeDetailsView = ({ onNext }: Props) => {
         <div className="w-full mt-4 ">
           {/* <h3 className="text-sm font-semibold mb-3 text-secondary">Recents</h3> */}
           <SectionHeader hideLeadingBar title="Recent Numbers" />
-          <div className="flex flex-col gap-4 mt-2">
+          <div className="flex flex-col gap-2 mt-2">
             {recentNumbers.map((ct, index) => (
               <ContactCard
                 key={index}

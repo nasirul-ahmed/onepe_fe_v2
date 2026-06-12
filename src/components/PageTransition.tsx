@@ -16,10 +16,10 @@ export default function PageTransition({
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.div
           key={pathname}
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -15 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
+          exit={{ opacity: 0, y: -30 }}
+          transition={{ duration: .3, ease: "easeInOut" }}
           // 2. ABSOLUTE POSITIONING: This is the key to stopping layout shifts.
           // The container (relative) defines the space, the children (absolute)
           // animate within it without pushing/pulling the grid.

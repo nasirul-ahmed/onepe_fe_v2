@@ -47,7 +47,7 @@ export default function HomeView() {
   const { data: initialServices } = useAppServices();
 
   const services =
-    initialServices.length > 0
+    initialServices?.length > 0
       ? initialServices
       : (config.appServices satisfies AppService[]);
 

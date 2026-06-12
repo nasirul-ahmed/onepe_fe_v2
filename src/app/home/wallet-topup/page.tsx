@@ -1,3 +1,5 @@
+"use client";
+
 import { loadRazorpay } from "@/lib/payments-gateway/razorpay";
 import WalletTopupView from "./WalletTopupView";
 

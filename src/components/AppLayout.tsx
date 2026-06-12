@@ -12,6 +12,7 @@ import { useNavigation } from "@/hooks/useNavigate";
 import OnepeLiquidLoader from "./OnePeLoader";
 import { BottomSheet } from "./BottomSheet";
 import ModalContainer from "./ModalContainer";
+import { useAndroidBackHandler } from "@/hooks/useAndroindBackHandler";
 
 interface IAppLayoutInputProps {
   children: ReactNode;
@@ -22,7 +23,9 @@ const AppLayout = ({ children }: IAppLayoutInputProps) => {
   const dontShowNavs = config.dontShowNavsOn.includes(pathname);
   const [showSplash, setShowSplash] = React.useState(true);
   const { navigate } = useNavigation();
-
+  
+  useAndroidBackHandler();
+  
   React.useEffect(() => {
     if (sessionStorage.getItem("splash_shown")) {
       setShowSplash(false);
@@ -50,11 +53,11 @@ const AppLayout = ({ children }: IAppLayoutInputProps) => {
       <div className="block lg:hidden">
         <div className={styles.appLayout} data-auth-page={dontShowNavs}>
           {/* <Suspense fallback={<OnepeLiquidLoader />}> */}
-            <Header />
-            <div className={styles.scrollableContent}>{children}</div>
-            {/* Global Bottom Sheet */}
-            <BottomSheet />
-            <ModalContainer />
+          <Header />
+          <div className={styles.scrollableContent}>{children}</div>
+          {/* Global Bottom Sheet */}
+          <BottomSheet />
+          <ModalContainer />
           {/* </Suspense> */}
           <Footer />
         </div>
